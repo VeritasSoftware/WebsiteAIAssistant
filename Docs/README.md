@@ -42,7 +42,7 @@ First column contains the category Label and the other column (Feature) contains
 
 In the example, the training text data is all public information on the website about the various Schemes offered by the website.
 
-ACCU has Label 0 and the training text data contains all the information about ACCU scheme.
+Eg. ACCU Scheme has Label 0 and the training text data contains all the information about ACCU scheme.
 
 You can take a look at the training dataset [**here**](/WebsiteAIAssistant.App/TrainingDataset.tsv)
 
