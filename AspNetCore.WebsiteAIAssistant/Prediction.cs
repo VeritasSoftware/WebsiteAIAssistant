@@ -1,4 +1,4 @@
-﻿namespace WebsiteAIAssistant.PredictionEngine
+﻿namespace AspNetCore.WebsiteAIAssistant
 {
     public class Prediction
     {

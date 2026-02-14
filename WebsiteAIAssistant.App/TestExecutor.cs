@@ -1,4 +1,4 @@
-﻿using WebsiteAIAssistant.PredictionEngine;
+﻿using AspNetCore.WebsiteAIAssistant;
 
 namespace WebsiteAIAssistant.App
 {
@@ -9,7 +9,7 @@ namespace WebsiteAIAssistant.App
             // Path to save model
             string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
 
-            await PredictionEngine.PredictionEngine.CreateModelAsync(modelPath);
+            await PredictionEngine.CreateModelAsync(modelPath);
 
             Console.WriteLine("AI model created successfully...");
         }
@@ -17,7 +17,7 @@ namespace WebsiteAIAssistant.App
 
         public static async Task CreatePredictionEngineAsync()
         {
-            await PredictionEngine.PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
+            await PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
 
             Console.WriteLine("AI Prediction Engine created successfully...");
         }
@@ -26,7 +26,7 @@ namespace WebsiteAIAssistant.App
         {
             var input = new ModelInput { Feature = userInput };
 
-            var prediction = await PredictionEngine.PredictionEngine.PredictAsync(input);
+            var prediction = await PredictionEngine.PredictAsync(input);
 
             Console.WriteLine($"---------------------------------------------------------");
             Console.WriteLine($"Input: {input.Feature}");

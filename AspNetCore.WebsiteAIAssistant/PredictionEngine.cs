@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebsiteAIAssistant.PredictionEngine
+namespace AspNetCore.WebsiteAIAssistant
 {
     public enum DataViewType
     {

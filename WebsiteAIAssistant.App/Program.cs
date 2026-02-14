@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using AspNetCore.WebsiteAIAssistant;
 using WebsiteAIAssistant.App;
-using WebsiteAIAssistant.PredictionEngine;
 
 Console.WriteLine("Hello, AI using ML .NET!");
 
