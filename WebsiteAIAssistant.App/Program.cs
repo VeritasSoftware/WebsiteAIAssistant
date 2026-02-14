@@ -5,7 +5,7 @@ using WebsiteAIAssistant.PredictionEngine;
 Console.WriteLine("Hello, AI using ML .NET!");
 
 PredictionEngine.DataViewType = DataViewType.Text;
-PredictionEngine.DataViewPath = "TrainingDataset.tsv";
+PredictionEngine.DataViewFilePath = "TrainingDataset.tsv";
 
 //Create the model only once as a .zip file is created and can be reused for subsequent predictions
 await TestExecutor.CreateModelAsync();

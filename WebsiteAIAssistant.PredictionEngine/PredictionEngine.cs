@@ -18,7 +18,7 @@ namespace WebsiteAIAssistant.PredictionEngine
         private static PredictionEngine<ModelInput, Prediction> _predictionEngine;
 
         public static DataViewType DataViewType { get; set; } = DataViewType.Text;
-        public static string DataViewPath { get; set; }
+        public static string DataViewFilePath { get; set; }
         public static IEnumerable<ModelInput> DataViewList { get; set; }       
 
         public static async Task CreateModelAsync(string modelPath)
@@ -30,7 +30,7 @@ namespace WebsiteAIAssistant.PredictionEngine
             if (DataViewType == DataViewType.Text)
             {
                 dataView = mlContext.Data.LoadFromTextFile<ModelInput>(
-                path: DataViewPath,
+                path: DataViewFilePath,
                 hasHeader: false,
                 separatorChar: '\t');
             }
