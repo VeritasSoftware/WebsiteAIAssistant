@@ -44,6 +44,15 @@ Please note that the training dataset is very small and is only for demonstratio
 
 **Step 1** :
 
+Set the data view type and path to the training dataset or the List of ModelInput.
+
+```csharp
+PredictionEngine.DataViewType = DataViewType.Text;
+PredictionEngine.DataViewPath = "TrainingDataset.tsv";
+```
+
+**Step 2** :
+
 Create the model only once and save it as a .zip file, and reuse the file for subsequent predictions.
 
 ```csharp
@@ -53,17 +62,17 @@ string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-
 await PredictionEngine.PredictionEngine.CreateModelAsync(modelPath);
 ```
 
-**Step 2** : 
+**Step 3** : 
 
-Load the .zip model file and create the prediction engine
+Load the .zip model file and create the prediction engine.
 
 ```csharp
 await PredictionEngine.PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
 ```
 
-**Step 3** : 
+**Step 4** : 
 
-Test the prediction engine with a sample input
+Test the prediction engine with a sample input.
 
 ```csharp
 var input = new ModelInput { Feature = "What are the requisites for carbon credits?" };
