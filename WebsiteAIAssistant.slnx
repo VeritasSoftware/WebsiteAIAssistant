@@ -4,6 +4,7 @@
     <File Path="Docs/Negative.png" />
     <File Path="Docs/Positive.png" />
     <File Path="Docs/README.md" />
+    <File Path="LICENSE" />
   </Folder>
   <Project Path="WebsiteAIAssistant.App/WebsiteAIAssistant.App.csproj" />
   <Project Path="WebsiteAIAssistant.PredictionEngine/WebsiteAIAssistant.PredictionEngine.csproj" />
