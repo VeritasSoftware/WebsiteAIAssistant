@@ -59,7 +59,7 @@ Create the model only once and save it as a .zip file, and reuse the file for su
 // Path to save model
 string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
 
-await PredictionEngine.PredictionEngine.CreateModelAsync(modelPath);
+await PredictionEngine.CreateModelAsync(modelPath);
 ```
 
 **Step 3** : 
@@ -67,7 +67,7 @@ await PredictionEngine.PredictionEngine.CreateModelAsync(modelPath);
 Load the .zip model file and create the prediction engine.
 
 ```csharp
-await PredictionEngine.PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
+await PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
 ```
 
 **Step 4** : 
@@ -77,5 +77,5 @@ Test the prediction engine with a sample input.
 ```csharp
 var input = new ModelInput { Feature = "What are the requisites for carbon credits?" };
 
-var prediction = await PredictionEngine.PredictionEngine.PredictAsync(input);
+var prediction = await PredictionEngine.PredictAsync(input);
 ```
