@@ -16,7 +16,7 @@ by classifying the **visitor's natural language input** into **one of the catego
 
 You can then provide more information about that category.
 
-Eg. Create a Web API with an endpoint that takes the visitor's input and returns the predicted category and more information about the category from the website's database or other source.
+Eg. Create a Web API with an GET endpoint that takes the visitor's input and returns the predicted category and more information about the category from the website's database or other source.
 
 For eg. [This](https://cer.gov.au/) web site has **Schemes**, which are a types of products or services offered by the website.
 
