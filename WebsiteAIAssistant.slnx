@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Docs/ClassDiagram.png" />
+    <File Path="Docs/Negative.png" />
+    <File Path="Docs/Positive.png" />
+    <File Path="Docs/README.md" />
+  </Folder>
+  <Project Path="WebsiteAIAssistant.App/WebsiteAIAssistant.App.csproj" />
+  <Project Path="WebsiteAIAssistant.PredictionEngine/WebsiteAIAssistant.PredictionEngine.csproj" />
+</Solution>

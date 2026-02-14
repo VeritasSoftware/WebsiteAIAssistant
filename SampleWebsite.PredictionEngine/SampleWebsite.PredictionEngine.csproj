@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="dataset.tsv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="dataset.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebsiteAIAssistant.PredictionEngine\WebsiteAIAssistant.PredictionEngine.csproj" />
+  </ItemGroup>
+
+</Project>
