@@ -40,21 +40,33 @@ You can take a look at the training dataset [**here**](/WebsiteAIAssistant.App/T
 
 Please note that the training dataset is very small and is only for demonstration purposes.
 
-Also, create an entry for -1 Label (with no Feature data) in the training dataset for testing the negative case where the visitor's input does not match any of the categories of products or services offered by the website.
+**Note:-** Create an entry for **-1 Label (with no Feature data)** in the training dataset for testing the negative case where the visitor's input does not match any of the categories of products or services offered by the website.
 
+**Step 1** :
+
+Create the model only once and save it as a .zip file, and reuse the file for subsequent predictions.
 
 ```csharp
-PredictionEngine.DataViewType = DataViewType.Text;
-PredictionEngine.DataViewPath = "TrainingDataset.tsv";
+// Path to save model
+string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
 
-//Create the model only once as a .zip file and reuse the file for subsequent predictions
-await TestExecutor.CreateModelAsync();
+await PredictionEngine.PredictionEngine.CreateModelAsync(modelPath);
+```
 
-//Load the .zip model file and create the prediction engine
-await TestExecutor.CreatePredictionEngineAsync();
+**Step 2** : 
 
-//Test the prediction engine with a sample input
+Load the .zip model file and create the prediction engine
 
-//ACCU is a type of carbon credit scheme, so the expected output is "ACCU"
-await TestExecutor.ExecuteAsync("What are the requisites for carbon credits?");
+```csharp
+await PredictionEngine.PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
+```
+
+**Step 3** : 
+
+Test the prediction engine with a sample input
+
+```csharp
+var input = new ModelInput { Feature = "What are the requisites for carbon credits?" };
+
+var prediction = await PredictionEngine.PredictionEngine.PredictAsync(input);
 ```

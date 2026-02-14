@@ -22,9 +22,9 @@ namespace WebsiteAIAssistant.App
             Console.WriteLine("AI Prediction Engine created successfully...");
         }
 
-        public static async Task ExecuteAsync(string feature)
+        public static async Task ExecuteAsync(string userInput)
         {
-            var input = new ModelInput { Feature = feature };
+            var input = new ModelInput { Feature = userInput };
 
             var prediction = await PredictionEngine.PredictionEngine.PredictAsync(input);
 
