@@ -53,7 +53,7 @@ Set the data view type and path to the training dataset or the List of ModelInpu
 The training dataset is used to train the model and create the .zip file in Step 2.
 
 ```csharp
-PredictionEngine.DataViewType = DataViewType.Text;
+PredictionEngine.DataViewType = DataViewType.File;
 PredictionEngine.DataViewFilePath = "TrainingDataset.tsv";
 ```
 

@@ -9,7 +9,7 @@ namespace WebsiteAIAssistant.PredictionEngine
 {
     public enum DataViewType
     {
-        Text,
+        File,
         List
     }
 
@@ -17,7 +17,7 @@ namespace WebsiteAIAssistant.PredictionEngine
     {
         private static PredictionEngine<ModelInput, Prediction> _predictionEngine;
 
-        public static DataViewType DataViewType { get; set; } = DataViewType.Text;
+        public static DataViewType DataViewType { get; set; } = DataViewType.File;
         public static string DataViewFilePath { get; set; }
         public static IEnumerable<ModelInput> DataViewList { get; set; }       
 
@@ -27,7 +27,7 @@ namespace WebsiteAIAssistant.PredictionEngine
 
             IDataView dataView;
 
-            if (DataViewType == DataViewType.Text)
+            if (DataViewType == DataViewType.File)
             {
                 dataView = mlContext.Data.LoadFromTextFile<ModelInput>(
                 path: DataViewFilePath,
