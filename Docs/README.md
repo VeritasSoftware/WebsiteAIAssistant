@@ -1,6 +1,6 @@
 # Website AI Assistant
 
-AI Assistant built using **ML .NET**, Microsoft's machine learning platform, to help visitors to your website, narrow down which of the offered products or services suits their needs.
+AI Assistant built using **ML .NET**, **Microsoft's machine learning platform**, to help visitors to your website, narrow down which of the offered products or services suits their needs.
 
 ## Overview
 
