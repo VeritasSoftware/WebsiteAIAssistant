@@ -1,5 +1,9 @@
 # Website AI Assistant
 
+AI Assistant built using **ML .NET**, Microsoft's machine learning platform.
+
+## Overview
+
 Websites usually have sections that contain information about the various products or services offered by the website. 
 
 It may contain a list of the different products or services offered, along with descriptions and more information in other pages.
