@@ -108,3 +108,13 @@ var input = new ModelInput { Feature = "What are the requisites for carbon credi
 
 var prediction = await PredictionEngine.PredictAsync(input);
 ```
+
+## Website AI Assistant Minimal API
+
+There is a Minimal API endpoint which you can directly use in your API project.
+
+Read [**more**](/Docs/README_MinimalAPI.md)
+
+GET /ai/{input}
+
+![MinimalAPI endpoint](/Docs/MinimalAPIEndpoint.png)
