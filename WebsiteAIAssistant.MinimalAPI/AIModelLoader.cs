@@ -22,7 +22,7 @@
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await Task.CompletedTask; ;
+            await Task.CompletedTask;
         }
     }
 }
