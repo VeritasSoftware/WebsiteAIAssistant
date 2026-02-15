@@ -12,14 +12,14 @@ namespace WebsiteAIAssistant.MinimalAPI
 
     public static class Extensions
     {
-        public static void AddWebsiteAIAssistant(this IServiceCollection services, Action<WebsiteAIAssistantSettings> options)
+        public static void AddWebsiteAIAssistant(this IServiceCollection services, Action<WebsiteAIAssistantSettings> settings)
         {
-            var assistantOptions = new WebsiteAIAssistantSettings();
-            options(assistantOptions);
+            var assistantSettings = new WebsiteAIAssistantSettings();
+            settings(assistantSettings);
 
             services.AddHostedService<AIModelLoader>();
 
-            services.AddSingleton(assistantOptions);
+            services.AddSingleton(assistantSettings);
         }
     }
 }
