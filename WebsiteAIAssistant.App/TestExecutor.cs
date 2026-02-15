@@ -1,6 +1,4 @@
-﻿using AspNetCore.WebsiteAIAssistant;
-
-namespace WebsiteAIAssistant.App
+﻿namespace WebsiteAIAssistant.App
 {
     public static class TestExecutor
     {

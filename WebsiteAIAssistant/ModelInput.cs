@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace AspNetCore.WebsiteAIAssistant
+namespace WebsiteAIAssistant
 {
     public class ModelInput
     {

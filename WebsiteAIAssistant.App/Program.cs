@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using AspNetCore.WebsiteAIAssistant;
+using WebsiteAIAssistant;
 using WebsiteAIAssistant.App;
 
 Console.WriteLine("Hello, AI using ML .NET!");

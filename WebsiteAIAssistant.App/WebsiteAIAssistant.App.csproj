@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetCore.WebsiteAIAssistant\AspNetCore.WebsiteAIAssistant.csproj" />
+    <ProjectReference Include="..\WebsiteAIAssistant\WebsiteAIAssistant.csproj" />
   </ItemGroup>
 
 </Project>
