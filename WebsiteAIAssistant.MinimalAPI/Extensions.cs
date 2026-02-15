@@ -1,4 +1,7 @@
-﻿namespace WebsiteAIAssistant.MinimalAPI
+﻿
+using Microsoft.Extensions.Caching.Memory;
+
+namespace WebsiteAIAssistant.MinimalAPI
 {
     public class WebsiteAIAssistantOptions
     {
@@ -9,24 +12,14 @@
 
     public static class Extensions
     {
-        public static void AddWebsiteAIAssistant(this IServiceCollection services, Action<WebsiteAIAssistantOptions>? options = null)
+        public static void AddWebsiteAIAssistant(this IServiceCollection services, Action<WebsiteAIAssistantOptions> options)
         {
-            if (options != null)
-            {
-                var assistantOptions = new WebsiteAIAssistantOptions();
-                options(assistantOptions);
+            var assistantOptions = new WebsiteAIAssistantOptions();
+            options(assistantOptions);
 
-                PredictionEngine.NegativeConfidenceThreshold = assistantOptions.NegativeConfidenceThreshold;
-                PredictionEngine.NegativeLabel = assistantOptions.NegativeLabel;
+            services.AddHostedService<AIModelLoader>();
 
-                PredictionEngine.LoadModelAsync(assistantOptions.AIModelFilePath).ConfigureAwait(false).GetAwaiter().GetResult();
-
-                services.AddSingleton(assistantOptions);
-            }
-            else
-            {
-                services.AddSingleton(new WebsiteAIAssistantOptions());
-            }
+            services.AddSingleton(assistantOptions);
         }
     }
 }
