@@ -28,7 +28,7 @@ For example, you can return a `Response` object with database results (for eg.) 
 
 Add a reference to the `WebsiteAIAssistant.MinimalAPI` project in your ASP.NET Core application.
 
-Then, in your `Program.cs`, add the following line to register the minimal API:
+Then, in your `Program.cs`, add the following lines to register the minimal API:
 
 ```csharp
 //Website AI Assistant
@@ -46,7 +46,7 @@ builder.Services.AddWebsiteAIAssistant(options =>
 });
 ```
 
-Then, add the following line to map the minimal API endpoints:
+Then, add the following lines to map the minimal API endpoints:
 
 ```csharp
 //Website AI Assistant
