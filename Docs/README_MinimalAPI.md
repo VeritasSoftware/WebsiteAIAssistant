@@ -20,6 +20,13 @@ But, you can also implement a `Post Prediction Service`, in which you can return
 
 Just implement the `IPostPredictionService` interface and register it in the DI container.
 
+```csharp
+public interface IPostPredictionService
+{
+    Task<object> HandlePredictionAsync(ModelInput input, Prediction prediction);
+}
+```
+
 For example, you can return a `Response` object with database results (for eg.) or just a string message.
 
 ![Post Prediction Service response](/Docs/PostPredictionServiceResponse.png)
