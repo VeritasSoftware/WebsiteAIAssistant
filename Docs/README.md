@@ -79,7 +79,10 @@ await PredictionEngine.CreateModelAsync(modelPath);
 Load the .zip model file and create the prediction engine.
 
 ```csharp
-await PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
+// Path to load model
+string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+
+await PredictionEngine.LoadModelAsync(modelPath);
 ```
 
 **Step 4** : 

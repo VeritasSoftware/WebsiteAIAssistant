@@ -15,7 +15,10 @@
 
         public static async Task CreatePredictionEngineAsync()
         {
-            await PredictionEngine.LoadModelAsync("SampleWebsite-AI-Model.zip");
+            // Path to load model
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+
+            await PredictionEngine.LoadModelAsync(modelPath);
 
             Console.WriteLine("AI Prediction Engine created successfully...");
         }
