@@ -21,9 +21,10 @@ But, you can also implement a `Post Prediction Service`, in which you can return
 Just implement the `IPostPredictionService` interface and register it in the DI container.
 
 ```csharp
+
 public interface IPostPredictionService
 {
-    Task<object> HandlePredictionAsync(ModelInput input, Prediction prediction);
+    Task<object> HandlePredictionAsync(HttpRequest request, ModelInput input, Prediction prediction);
 }
 ```
 

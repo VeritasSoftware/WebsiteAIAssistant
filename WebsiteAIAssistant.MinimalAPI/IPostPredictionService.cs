@@ -3,6 +3,6 @@ namespace WebsiteAIAssistant.MinimalAPI
 {
     public interface IPostPredictionService
     {
-        Task<object> HandlePredictionAsync(ModelInput input, Prediction prediction);
+        Task<object> HandlePredictionAsync(HttpRequest request, ModelInput input, Prediction prediction);
     }
 }

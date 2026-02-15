@@ -32,7 +32,7 @@ namespace WebsiteAIAssistant.MinimalAPI
 
                 logger?.LogInformation("Post-prediction service configured. Processing prediction with post-prediction service.");
 
-                var result = await postPredictionService.HandlePredictionAsync(modelInput, prediction);
+                var result = await postPredictionService.HandlePredictionAsync(request, modelInput, prediction);
 
                 logger?.LogInformation("Post-prediction service processed the prediction. Returning result.");
 
