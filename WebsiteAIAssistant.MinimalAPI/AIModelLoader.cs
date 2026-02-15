@@ -3,11 +3,10 @@
     internal class AIModelLoader : IHostedService
     {
         private readonly WebsiteAIAssistantOptions _options;
-        private readonly IServiceProvider _serviceProvider;
-        public AIModelLoader(WebsiteAIAssistantOptions options, IServiceProvider serviceProvider)
+
+        public AIModelLoader(WebsiteAIAssistantOptions options)
         {
             _options = options;
-            _serviceProvider = serviceProvider;
         }
         private async Task LoadModelAsync()
         {
