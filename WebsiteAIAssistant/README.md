@@ -16,8 +16,6 @@ by classifying the **visitor's natural language input** into **one of the catego
 
 You can then provide more information about that category.
 
-Eg. Create a Web API with an GET endpoint that takes the visitor's input and returns the predicted category and more information about the category from the website's database or other source.
-
 ## Documentation
 
 `.net standard 2.0` class library project. 

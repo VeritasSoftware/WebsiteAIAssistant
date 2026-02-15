@@ -22,4 +22,4 @@ You can then provide more information about that category.
 
 ## Documentation
 
-Read more [**here**](https://github.com/VeritasSoftware/WebsiteAIAssistant)
+Read more [**here**](https://github.com/VeritasSoftware/WebsiteAIAssistant/blob/master/Docs/README_MinimalAPI.md)
