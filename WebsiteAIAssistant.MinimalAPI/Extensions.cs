@@ -17,6 +17,11 @@ namespace WebsiteAIAssistant.MinimalAPI
             var assistantSettings = new WebsiteAIAssistantSettings();
             settings(assistantSettings);
 
+            if (string.IsNullOrEmpty(assistantSettings.AIModelFilePath))
+            {
+                throw new ArgumentException("AIModelFilePath must be provided in the settings.");
+            }
+
             services.AddHostedService<AIModelLoader>();
 
             services.AddSingleton(assistantSettings);
