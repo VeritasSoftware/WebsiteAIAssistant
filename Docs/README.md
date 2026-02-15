@@ -50,7 +50,21 @@ You can take a look at the training dataset [**here**](/WebsiteAIAssistant.App/T
 
 Please note that the training dataset is very small and is only for demonstration purposes.
 
-**Note:-** Create an entry for **-1 Label (with no Feature data)** in the training dataset for testing the negative case where the visitor's input does not match any of the categories of products or services offered by the website.
+**Note:-** Create an entry for `NegativeLabel` (eg. -1 default Label, with no Feature data) in the training dataset for testing the negative case where the visitor's input does not match any of the categories of products or services offered by the website.
+
+You can set the `NegativeLabel`, to determine the Label for negative predictions. Default value is -1.
+
+```csharp
+// Set the negative label (optional)
+PredictionEngine.NegativeLabel = -10;
+```
+
+You can set the `NegativeConfidenceThreshold` to a value between 0 and 1, to determine the minimum confidence score for a negative prediction to be considered valid. Default value is 0.70.
+
+```csharp
+// Set the negative confidence threshold (optional)
+PredictionEngine.NegativeConfidenceThreshold = 0.50f;
+```
 
 **Step 1** :
 

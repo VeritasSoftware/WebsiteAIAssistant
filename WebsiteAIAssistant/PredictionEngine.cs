@@ -19,7 +19,9 @@ namespace WebsiteAIAssistant
 
         public static DataViewType DataViewType { get; set; } = DataViewType.File;
         public static string DataViewFilePath { get; set; }
-        public static IEnumerable<ModelInput> DataViewList { get; set; }       
+        public static IEnumerable<ModelInput> DataViewList { get; set; }
+        public static float NegativeConfidenceThreshold { get; set; } = 0.70f;
+        public static float NegativeLabel { get; set; } = -1f;
 
         public static async Task CreateModelAsync(string modelPath)
         {
@@ -107,9 +109,9 @@ namespace WebsiteAIAssistant
 
             var prediction = _predictionEngine.Predict(input);
 
-            if (prediction.PredictedLabel < 0)
+            if (prediction.PredictedLabel <= NegativeLabel)
             {
-                if (prediction.Score[0] < 0.70)
+                if (prediction.Score[0] < NegativeConfidenceThreshold)
                 {
                     var secondHighestScore = prediction.Score
                                                         .OrderByDescending(s => s)
