@@ -11,7 +11,7 @@ builder.Services.AddOpenApi();
 //Website AI Assistant
 builder.Services.AddRouting();
 //Optional: register a custom post-prediction service to handle the prediction results
-builder.Services.AddScoped<IPostPredictionService, PostPredictionService>();
+//builder.Services.AddScoped<IPostPredictionService, PostPredictionService>();
 builder.Services.AddWebsiteAIAssistant(options =>
 {
     // Path to load model
