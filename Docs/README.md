@@ -113,7 +113,7 @@ var prediction = await PredictionEngine.PredictAsync(input);
 
 There is a Minimal API endpoint which you can directly use in your API project.
 
-You create your model and save it as a .zip file as shown above, and then just provide the path to load the model in the Minimal API configuration.
+You create your model and save it as a .zip file as shown above, and then just provide the path to load the model in the Minimal API settings.
 
 Read [**more**](/Docs/README_MinimalAPI.md)
 

@@ -2,9 +2,9 @@
 {
     internal class AIModelLoader : IHostedService
     {
-        private readonly WebsiteAIAssistantOptions _options;
+        private readonly WebsiteAIAssistantSettings _options;
 
-        public AIModelLoader(WebsiteAIAssistantOptions options)
+        public AIModelLoader(WebsiteAIAssistantSettings options)
         {
             _options = options;
         }

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace WebsiteAIAssistant.MinimalAPI
 {
-    public class WebsiteAIAssistantOptions
+    public class WebsiteAIAssistantSettings
     {
         public float NegativeConfidenceThreshold { get; set; } = 0.70f;
         public float NegativeLabel { get; set; } = -1f;
@@ -12,9 +12,9 @@ namespace WebsiteAIAssistant.MinimalAPI
 
     public static class Extensions
     {
-        public static void AddWebsiteAIAssistant(this IServiceCollection services, Action<WebsiteAIAssistantOptions> options)
+        public static void AddWebsiteAIAssistant(this IServiceCollection services, Action<WebsiteAIAssistantSettings> options)
         {
-            var assistantOptions = new WebsiteAIAssistantOptions();
+            var assistantOptions = new WebsiteAIAssistantSettings();
             options(assistantOptions);
 
             services.AddHostedService<AIModelLoader>();

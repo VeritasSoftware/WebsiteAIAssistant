@@ -34,6 +34,8 @@ For example, you can return a `Response` object with database results (for eg.) 
 
 ## Integration
 
+You create your model and save it as a .zip file, and then just provide the path to load the model in the Minimal API settings.
+
 Add a reference to the `WebsiteAIAssistant.MinimalAPI` project in your ASP.NET Core application.
 
 Then, in your `Program.cs`, add the following lines to register the minimal API:
@@ -43,14 +45,14 @@ Then, in your `Program.cs`, add the following lines to register the minimal API:
 builder.Services.AddRouting();
 //Optional: register a custom post-prediction service to handle the prediction results
 builder.Services.AddScoped<IPostPredictionService, PostPredictionService>();
-builder.Services.AddWebsiteAIAssistant(options =>
+builder.Services.AddWebsiteAIAssistant(settings =>
 {
     // Path to load model
     string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
-    options.AIModelFilePath = modelPath;
+    settings.AIModelFilePath = modelPath;
 
-    options.NegativeConfidenceThreshold = 0.70f;
-    options.NegativeLabel = -1f;
+    settings.NegativeConfidenceThreshold = 0.70f;
+    settings.NegativeLabel = -1f;
 });
 ```
 
