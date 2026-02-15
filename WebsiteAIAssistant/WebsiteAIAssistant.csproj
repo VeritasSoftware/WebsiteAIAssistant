@@ -5,8 +5,8 @@
 	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
 	  <Description>AI Assistant built using ML .NET, Microsoft's machine learning platform, to help visitors to your website, narrow down which of the offered products or services suits their needs.</Description>
-	  <PackageProjectUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/VeritasSoftware/AspNetCore.ApiGateway</RepositoryUrl>
+	  <PackageProjectUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</RepositoryUrl>
 	  <PackageTags></PackageTags>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <IsPackable>true</IsPackable>
