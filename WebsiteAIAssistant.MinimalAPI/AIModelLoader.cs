@@ -2,17 +2,17 @@
 {
     internal class AIModelLoader : IHostedService
     {
-        private readonly WebsiteAIAssistantSettings _options;
+        private readonly WebsiteAIAssistantSettings _settings;
 
-        public AIModelLoader(WebsiteAIAssistantSettings options)
+        public AIModelLoader(WebsiteAIAssistantSettings settings)
         {
-            _options = options;
+            _settings = settings;
         }
         private async Task LoadModelAsync()
         {
-            PredictionEngine.NegativeConfidenceThreshold = _options.NegativeConfidenceThreshold;
-            PredictionEngine.NegativeLabel = _options.NegativeLabel;
-            await PredictionEngine.LoadModelAsync(_options.AIModelFilePath);
+            PredictionEngine.NegativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
+            PredictionEngine.NegativeLabel = _settings.NegativeLabel;
+            await PredictionEngine.LoadModelAsync(_settings.AIModelFilePath);
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)

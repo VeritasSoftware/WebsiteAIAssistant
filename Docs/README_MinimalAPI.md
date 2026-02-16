@@ -32,6 +32,10 @@ For example, you can return a `Response` object with database results (for eg.) 
 
 ![Post Prediction Service response](/Docs/PostPredictionServiceResponse.png)
 
+## Negative
+
+![Negative](/Docs/NegativeMinimal.png)
+
 ## Integration
 
 You create your model and save it as a .zip file, and then just provide the path to load the model in the Minimal API settings.
