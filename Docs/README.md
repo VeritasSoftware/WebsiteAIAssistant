@@ -4,6 +4,11 @@
 
 AI Assistant helps visitors to your website, narrow down which of the offered products or services suits their needs.
 
+|Packages|Version|Downloads|
+|---------------------------|:---:|:---:|
+|*WebsiteAIAssistant*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|
+|*WebsiteAIAssistant.MinimalAPI*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|
+
 ## Overview
 
 Websites usually have sections that contain information about the various products or services offered by the website. 
