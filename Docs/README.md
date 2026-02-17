@@ -71,6 +71,8 @@ You can set the `NegativeConfidenceThreshold` to a value between 0 and 1, to det
 PredictionEngine.NegativeConfidenceThreshold = 0.50f;
 ```
 
+Add the Nuget package or a reference to the `WebsiteAIAssistant` project in your ASP.NET Core application.
+
 **Step 1** :
 
 Set the data view type and path to the training dataset or the List of ModelInput. The List can come from a database or any other source. 
