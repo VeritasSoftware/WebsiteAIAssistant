@@ -23,6 +23,8 @@ The API returns a `Prediction` by default.
 
 But, you can also implement a `Post Prediction Service`, in which you can return any response you want.
 
+Eg. you can return information about the predicted category from database or other source.
+
 Just implement the `IPostPredictionService` interface and register it in the DI container.
 
 ```csharp
