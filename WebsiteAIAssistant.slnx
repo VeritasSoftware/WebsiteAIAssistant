@@ -10,5 +10,6 @@
   <Project Path="SampleWebsite.MinimalAPI/SampleWebsite.MinimalAPI.csproj" Id="ab8c72f3-3290-4830-8bf5-d8f9ee1266c0" />
   <Project Path="WebsiteAIAssistant.App/WebsiteAIAssistant.App.csproj" />
   <Project Path="WebsiteAIAssistant.MinimalAPI/WebsiteAIAssistant.MinimalAPI.csproj" Id="1f1d3828-1153-4ecf-9012-5de7824df2cd" />
+  <Project Path="WebsiteAIAssistant.Tests/WebsiteAIAssistant.Tests.csproj" Id="97ec28f2-4f83-4b63-b8fc-fd503e82e712" />
   <Project Path="WebsiteAIAssistant/WebsiteAIAssistant.csproj" Id="79bd4cb3-99d4-4336-a906-88f2e94dc7e2" />
 </Solution>
