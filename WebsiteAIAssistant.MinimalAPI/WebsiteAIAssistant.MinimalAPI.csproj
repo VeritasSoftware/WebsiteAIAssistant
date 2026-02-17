@@ -16,8 +16,8 @@
 	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	  <Authors>Shantanu</Authors>
 	  <Company>Veritas Software</Company>
-	  <Version>1.0.0</Version>
-	  <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+	  <Version>1.0.1</Version>
+	  <PackageReleaseNotes>Added WebsiteAIAssistant package reference to pull both packages together.</PackageReleaseNotes>
 	  <Title>WebsiteAIAssistant.MinimalAPI</Title>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
@@ -42,8 +42,8 @@
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.24" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\WebsiteAIAssistant\WebsiteAIAssistant.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="WebsiteAIAssistant" Version="1.0.0" />
+	</ItemGroup>
 
 </Project>
