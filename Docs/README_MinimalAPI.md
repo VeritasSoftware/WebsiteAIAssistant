@@ -45,7 +45,7 @@ For example, you can return a `Response` object with database results (for eg.) 
 
 ## Integration
 
-You create your model and save it as a .zip file, and then just provide the path to load the model in the Minimal API settings.
+You [create your model](/Docs/README.md) and save it as a .zip file, and then just provide the path to load the model in the Minimal API settings.
 
 Add the Nuget package or a reference to the `WebsiteAIAssistant.MinimalAPI` project in your ASP.NET Core application.
 

@@ -2,11 +2,6 @@
 {
     public class WebsiteAIAssistantTests
     {
-        public WebsiteAIAssistantTests()
-        {
-            
-        }
-
         [Theory]
         [InlineData("What are the requisites for carbon credits?", 0)]
         [InlineData("What is the colour of a rose?", -1)]

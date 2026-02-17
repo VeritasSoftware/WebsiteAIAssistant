@@ -126,4 +126,4 @@ Read [**more**](/Docs/README_MinimalAPI.md)
 
 GET /ai/{input}
 
-![MinimalAPI endpoint](/Docs/MinimalAPIEndpoint.png)
+[![MinimalAPI endpoint](/Docs/MinimalAPIEndpoint.png)](/Docs/README_MinimalAPI.md)
