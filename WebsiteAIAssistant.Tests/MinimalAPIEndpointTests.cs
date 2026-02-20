@@ -36,12 +36,14 @@ namespace WebsiteAIAssistant.Tests
         [InlineData("What is the colour of a rose?", -1)]
         public async Task ValidatePredictions(string userInput, float expectedResult)
         {
+            // Arrange
             var client = _apiInit.MinimalAPI.CreateClient();
 
-            //Minimal API url with user inputy
-            var gatewayUrl = $"https://localhost:7171/ai/{userInput}";
+            // Minimal API url with user input
+            var apiUrl = $"https://localhost:7171/ai/{userInput}";
 
-            var response = await client.GetAsync(gatewayUrl);
+            // Act
+            var response = await client.GetAsync(apiUrl);
 
             response.EnsureSuccessStatusCode();
 
