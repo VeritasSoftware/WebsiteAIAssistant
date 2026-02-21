@@ -1,34 +1,15 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
-using System.Net;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Text.Json;
 
 namespace WebsiteAIAssistant.Tests
 {
-    public class MinimalAPIInitialize
+    public class MinimalAPIEndpointTests : IClassFixture<WebApplicationFactory<SampleWebsite.MinimalAPI.Startup>>
     {
-        public TestServer MinimalAPI { get; set; }
+        private readonly HttpClient _httpClient;
 
-        public MinimalAPIInitialize()
+        public MinimalAPIEndpointTests(WebApplicationFactory<SampleWebsite.MinimalAPI.Startup> factory)            
         {
-            //Start Gateway API
-            IWebHostBuilder minimalAPI = new WebHostBuilder()
-                                     .UseStartup<SampleWebsite.MinimalAPI.Startup>()
-                                     .UseKestrel(options => options.Listen(IPAddress.Any, 7171, listenOptions => listenOptions.UseHttps(o => o.AllowAnyClientCertificate())));
-
-            TestServer testServer = new TestServer(minimalAPI);
-
-            this.MinimalAPI = testServer;
-        }
-    }
-
-    public class MinimalAPIEndpointTests : IClassFixture<MinimalAPIInitialize>
-    {
-        readonly MinimalAPIInitialize _apiInit;
-
-        public MinimalAPIEndpointTests(MinimalAPIInitialize apiInit)            
-        {
-            _apiInit = apiInit;
+            _httpClient = factory.CreateClient();
         }
 
         [Theory]
@@ -37,13 +18,11 @@ namespace WebsiteAIAssistant.Tests
         public async Task ValidatePredictions(string userInput, float expectedResult)
         {
             // Arrange
-            var client = _apiInit.MinimalAPI.CreateClient();
-
             // Minimal API url with user input
             var apiUrl = $"https://localhost:7171/ai/{userInput}";
 
             // Act
-            var response = await client.GetAsync(apiUrl);
+            var response = await _httpClient.GetAsync(apiUrl);
 
             response.EnsureSuccessStatusCode();
 
