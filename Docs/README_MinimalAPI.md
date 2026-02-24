@@ -67,10 +67,25 @@ builder.Services.AddWebsiteAIAssistant(settings =>
 });
 ```
 
-Then, add the following lines to map the minimal API endpoints:
+Then, add the following lines to map the minimal API endpoint:
 
 ```csharp
 //Website AI Assistant
 app.UseRouting();
 app.MapWebsiteAIAssistant();
 ```
+
+where `app` is `WebApplication`.
+
+Or you can also add below lines to do the same thing:
+
+```csharp
+//Website AI Assistant
+app.UseRouting();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapWebsiteAIAssistant();
+});
+```
+
+where `app` is `IApplicationBuilder`.
