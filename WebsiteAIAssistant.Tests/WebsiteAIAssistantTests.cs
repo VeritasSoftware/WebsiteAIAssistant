@@ -12,6 +12,12 @@
             PredictionEngine.DataViewFilePath = trainingDataPath;
             
             string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-Test.zip");
+
+            if (File.Exists(modelPath))
+            {
+                File.Delete(modelPath);
+            }
+
             // Act
             await PredictionEngine.CreateModelAsync(modelPath);
 
