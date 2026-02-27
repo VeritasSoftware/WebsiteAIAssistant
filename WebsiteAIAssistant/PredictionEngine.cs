@@ -31,6 +31,11 @@ namespace WebsiteAIAssistant
 
             if (DataViewType == DataViewType.File)
             {
+                if (string.IsNullOrEmpty(DataViewFilePath))
+                {
+                    throw new InvalidOperationException("DataViewFilePath is null or empty. Please provide a valid file path to the training data.");
+                }
+
                 dataView = mlContext.Data.LoadFromTextFile<ModelInput>(
                 path: DataViewFilePath,
                 hasHeader: false,
@@ -38,6 +43,11 @@ namespace WebsiteAIAssistant
             }
             else
             {
+                if (DataViewList == null || !DataViewList.Any())
+                {
+                    throw new InvalidOperationException("DataViewList is null or empty. Please provide valid data for training.");
+                }
+
                 dataView = mlContext.Data.LoadFromEnumerable(DataViewList);
             }
 
@@ -75,10 +85,6 @@ namespace WebsiteAIAssistant
 
             // Save model with schema
             mlContext.Model.Save(model, dataView.Schema, modelPath);
-
-            var predictionEngine = mlContext.Model.CreatePredictionEngine<ModelInput, Prediction>(model);
-
-            _predictionEngine = predictionEngine;
 
             await Task.CompletedTask;
         }

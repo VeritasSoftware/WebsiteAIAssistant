@@ -2,6 +2,24 @@
 {
     public class WebsiteAIAssistantTests
     {
+        [Fact]
+        public async Task CreateModel()
+        {
+            // Arrange
+            PredictionEngine.DataViewType = DataViewType.File;
+
+            string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv");
+            PredictionEngine.DataViewFilePath = trainingDataPath;
+            
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-Test.zip");
+            // Act
+            await PredictionEngine.CreateModelAsync(modelPath);
+
+            var modelExists = File.Exists(modelPath);
+            // Assert
+            Assert.True(modelExists);
+        }
+
         [Theory]
         [InlineData("What are the requisites for carbon credits?", 0)]
         [InlineData("What is the colour of a rose?", -1)]
