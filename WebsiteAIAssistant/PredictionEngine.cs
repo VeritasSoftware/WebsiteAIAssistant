@@ -16,11 +16,17 @@ namespace WebsiteAIAssistant
     public static class PredictionEngine
     {
         private static PredictionEngine<ModelInput, Prediction> _predictionEngine;
+        private static float _negativeConfidenceThreshold = 0.70f;
 
         public static DataViewType DataViewType { get; set; } = DataViewType.File;
         public static string DataViewFilePath { get; set; }
         public static IEnumerable<ModelInput> DataViewList { get; set; }
-        public static float NegativeConfidenceThreshold { get; set; } = 0.70f;
+        public static float NegativeConfidenceThreshold 
+        {
+            get => _negativeConfidenceThreshold;
+            set => _negativeConfidenceThreshold = (value >= 0 && value <= 1) ? value 
+                                            : throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), "NegativeConfidenceThreshold must be between 0 and 1.");
+        }
         public static float NegativeLabel { get; set; } = -1f;
 
         public static async Task CreateModelAsync(string modelPath)

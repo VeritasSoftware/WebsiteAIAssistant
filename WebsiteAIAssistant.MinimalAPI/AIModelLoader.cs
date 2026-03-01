@@ -12,6 +12,20 @@
         {
             PredictionEngine.NegativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
             PredictionEngine.NegativeLabel = _settings.NegativeLabel;
+
+            if (string.IsNullOrEmpty(_settings.AIModelFilePath))
+            {
+                throw new InvalidOperationException("AIModelFilePath is null or empty. Please provide a valid file path to the AI model.");
+            }
+            if (!File.Exists(_settings.AIModelFilePath))
+            {
+                throw new FileNotFoundException($"AI model file not found at path: {_settings.AIModelFilePath}");
+            }
+            if (_settings.NegativeConfidenceThreshold < 0 || _settings.NegativeConfidenceThreshold > 1)
+            {
+                throw new InvalidOperationException("NegativeConfidenceThreshold must be between 0 and 1.");
+            }
+
             await PredictionEngine.LoadModelAsync(_settings.AIModelFilePath);
         }
 
