@@ -10,9 +10,6 @@
         }
         private async Task LoadModelAsync()
         {
-            PredictionEngine.NegativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
-            PredictionEngine.NegativeLabel = _settings.NegativeLabel;
-
             if (string.IsNullOrEmpty(_settings.AIModelFilePath))
             {
                 throw new InvalidOperationException("AIModelFilePath is null or empty. Please provide a valid file path to the AI model.");
@@ -25,6 +22,9 @@
             {
                 throw new InvalidOperationException("NegativeConfidenceThreshold must be between 0 and 1.");
             }
+
+            PredictionEngine.NegativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
+            PredictionEngine.NegativeLabel = _settings.NegativeLabel;           
 
             await PredictionEngine.LoadModelAsync(_settings.AIModelFilePath);
         }
