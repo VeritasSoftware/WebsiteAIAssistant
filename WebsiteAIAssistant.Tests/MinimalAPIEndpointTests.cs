@@ -14,6 +14,7 @@ namespace WebsiteAIAssistant.Tests
 
         [Theory]
         [InlineData("What are the requisites for carbon credits?", 0)]
+        [InlineData("how do I calculate net emissions?", 2)]
         [InlineData("What is the colour of a rose?", -1)]
         public async Task ValidatePredictions(string userInput, float expectedResult)
         {
