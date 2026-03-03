@@ -13,10 +13,10 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [Theory]
-        [InlineData("What are the requisites for carbon credits?", 0)]
-        [InlineData("how do I calculate net emissions?", 2)]
-        [InlineData("What is the colour of a rose?", -1)]
-        public async Task ValidatePredictions(string userInput, float expectedResult)
+        [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
+        [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
+        [InlineData("What is the colour of a rose?", Scheme.None)]
+        public async Task ValidatePredictions(string userInput, Scheme expectedResult)
         {
             // Arrange
             // Minimal API url with user input
@@ -36,7 +36,7 @@ namespace WebsiteAIAssistant.Tests
 
             // Assert
             Assert.NotNull(prediction);
-            Assert.Equal(expectedResult, prediction.PredictedLabel);
+            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
     }
 }
