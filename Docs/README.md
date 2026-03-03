@@ -45,19 +45,45 @@ Below is the class diagram of the `core` component.
 
 Below is the class diagram of the `WebsiteAIAssistantCreateModelService` service.
 
+![WebsiteAIAssistant Create Model Service](/Docs/WebsiteAIAssistantCreateModelService.png)
+
 This service (& the `WebsiteAIAssistantCreateModelSettings`) can be wired up for dependency injection as `Singleton`, 
 
 and can be used to create the model and save it as a .zip file.
 
-![WebsiteAIAssistant Create Model Service](/Docs/WebsiteAIAssistantCreateModelService.png)
+```csharp
+var createModelSettings = new WebsiteAIAssistantCreateModelSettings
+{
+    DataViewType = DataViewType.File,
+    DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv"),
+    AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip")
+};
+
+// Register services for dependency injection
+services.AddSingleton(createModelSettings);
+services.AddSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>();
+```
 
 Below is the class diagram of the `WebsiteAIAssistantService` service.
+
+![WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantService.png)
 
 This service (& the `WebsiteAIAssistantSettings`) can be wired up for dependency injection as `Singleton`, 
 
 and can be used to load the model and make predictions.
 
-![WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantService.png)
+```csharp
+var settings = new WebsiteAIAssistantSettings
+{                
+    AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip"),
+    NegativeConfidenceThreshold = 0.70f,
+    NegativeLabel = -1f
+};
+
+// Register services for dependency injection
+services.AddSingleton(settings);
+services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+```
 
 ## Usage
 
