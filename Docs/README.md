@@ -45,7 +45,7 @@ Below is the class diagram of the `core` component.
 
 Below is the class diagram of the `WebsiteAIAssistantCreateModelService` service.
 
-This service (& the `WebsiteAIAssistantCreateModelSettings`) can be wired up for dependency injection as `Singletom`, 
+This service (& the `WebsiteAIAssistantCreateModelSettings`) can be wired up for dependency injection as `Singleton`, 
 
 and can be used to create the model and save it as a .zip file.
 
@@ -53,7 +53,7 @@ and can be used to create the model and save it as a .zip file.
 
 Below is the class diagram of the `WebsiteAIAssistantService` service.
 
-This service (& the `WebsiteAIAssistantSettings`) can be wired up for dependency injection as `Singletom`, 
+This service (& the `WebsiteAIAssistantSettings`) can be wired up for dependency injection as `Singleton`, 
 
 and can be used to load the model and make predictions.
 

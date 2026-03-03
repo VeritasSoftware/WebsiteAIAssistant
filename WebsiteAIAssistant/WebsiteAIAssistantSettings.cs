@@ -19,8 +19,6 @@ namespace WebsiteAIAssistant
 
     public class WebsiteAIAssistantCreateModelSettings
     {
-        private float _negativeConfidenceThreshold = 0.70f;
-
         public DataViewType DataViewType { get; set; } = DataViewType.File;
         public string DataViewFilePath { get; set; }
         public IEnumerable<ModelInput> DataViewList { get; set; }       
