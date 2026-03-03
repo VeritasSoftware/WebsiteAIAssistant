@@ -1,8 +1,4 @@
-﻿
-using Microsoft.Extensions.Caching.Memory;
-using System.Runtime;
-
-namespace WebsiteAIAssistant.MinimalAPI
+﻿namespace WebsiteAIAssistant.MinimalAPI
 {
     public static class Extensions
     {
@@ -26,9 +22,11 @@ namespace WebsiteAIAssistant.MinimalAPI
                 throw new ArgumentOutOfRangeException(nameof(assistantSettings.NegativeConfidenceThreshold), "NegativeConfidenceThreshold must be between 0 and 1.");
             }
 
-            services.AddHostedService<AIModelLoader>();
-
             services.AddSingleton(assistantSettings);
+
+            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+
+            services.AddHostedService<AIModelLoader>();            
         }
     }
 }

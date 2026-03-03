@@ -31,7 +31,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="WebsiteAIAssistant" Version="1.0.0" />
+	  <ProjectReference Include="..\WebsiteAIAssistant\WebsiteAIAssistant.csproj" />
 	</ItemGroup>
 
 </Project>

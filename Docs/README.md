@@ -39,7 +39,25 @@ The visitor's input is classified into a predicted **Scheme**.
 
 ## Implementation
 
+Below is the class diagram of the `core` component.
+
 ![Positive](/Docs/ClassDiagram.png)
+
+Below is the class diagram of the `WebsiteAIAssistantCreateModelService` service.
+
+This service (& the `WebsiteAIAssistantCreateModelSettings`) can be wired up for dependency injection as `Singletom`, 
+
+and can be used to create the model and save it as a .zip file.
+
+![WebsiteAIAssistant Create Model Service](/Docs/WebsiteAIAssistantCreateModelService.png)
+
+Below is the class diagram of the `WebsiteAIAssistantService` service.
+
+This service (& the `WebsiteAIAssistantSettings`) can be wired up for dependency injection as `Singletom`, 
+
+and can be used to load the model and make predictions.
+
+![WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantService.png)
 
 ## Usage
 
