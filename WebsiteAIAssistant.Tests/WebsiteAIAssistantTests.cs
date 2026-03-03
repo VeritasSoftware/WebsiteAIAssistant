@@ -38,7 +38,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [Fact]
-        public async Task CreateModel()
+        public async Task CreateModel_File()
         {
             // Arrange
             PredictionEngine.DataViewType = DataViewType.File;
@@ -46,7 +46,7 @@ namespace WebsiteAIAssistant.Tests
             string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv");
             PredictionEngine.DataViewFilePath = trainingDataPath;
             
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-Test.zip");
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-File-Test.zip");
 
             if (File.Exists(modelPath))
             {
@@ -62,7 +62,51 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [Fact]
-        public async Task CreateModel_Service()
+        public async Task CreateModel_List()
+        {
+            // Arrange
+            PredictionEngine.DataViewType = DataViewType.List;
+
+            string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv");
+
+            using var reader = new StreamReader(trainingDataPath);
+
+            var dataViewList = new List<ModelInput>();
+
+            string? line;
+
+            while ((line = await reader.ReadLineAsync()) is not null)
+            {
+                var parts = line.Split('\t');
+                if (parts.Length == 2 && float.TryParse(parts[0], out float label))
+                {
+                    dataViewList.Add(new ModelInput
+                    {
+                        Label = label,
+                        Feature = parts[1]
+                    });
+                }
+            }
+
+            PredictionEngine.DataViewList = dataViewList;
+
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Test.zip");
+
+            if (File.Exists(modelPath))
+            {
+                File.Delete(modelPath);
+            }
+
+            // Act
+            await PredictionEngine.CreateModelAsync(modelPath);
+
+            var modelExists = File.Exists(modelPath);
+            // Assert
+            Assert.True(modelExists);
+        }
+
+        [Fact]
+        public async Task CreateModel_File_Service()
         {
             // Arrange                       
             var createModelSettings = _createModelServiceProvider.GetRequiredService<WebsiteAIAssistantCreateModelSettings>();
