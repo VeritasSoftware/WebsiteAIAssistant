@@ -154,6 +154,28 @@ namespace WebsiteAIAssistant.Tests
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
+        public async Task Load_Predict_List(string userInput, Scheme expectedResult)
+        {
+            // Arrange
+            // Path to load model created from list
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Test.zip");
+
+            await PredictionEngine.LoadModelAsync(modelPath);
+
+            var input = new ModelInput { Feature = userInput };
+
+            // Act
+            var prediction = await PredictionEngine.PredictAsync(input);
+
+            // Assert
+            Assert.NotNull(prediction);
+            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+        }
+
+        [Theory]
+        [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
+        [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
+        [InlineData("What is the colour of a rose?", Scheme.None)]
         public async Task Load_Predict_Service(string userInput, Scheme expectedResult)
         {
             // Arrange                      

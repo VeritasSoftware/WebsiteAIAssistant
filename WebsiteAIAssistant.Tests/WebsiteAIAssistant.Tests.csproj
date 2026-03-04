@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SampleWebsite-AI-Model-CreateModel-List-Test.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SampleWebsite-AI-Model-CreateModel-List-Test.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SampleWebsite-AI-Model.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
