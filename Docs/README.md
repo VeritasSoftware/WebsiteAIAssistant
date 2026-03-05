@@ -43,6 +43,8 @@ Below is the class diagram of the `core` component.
 
 ![Positive](/Docs/ClassDiagram.png)
 
+## Helper Services
+
 Below is the class diagram of the `WebsiteAIAssistantCreateModelService` service.
 
 ![WebsiteAIAssistant Create Model Service](/Docs/WebsiteAIAssistantCreateModelService.png)

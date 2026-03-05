@@ -2,6 +2,8 @@
 
 This is a minimal API for a website AI assistant. It provides an endpoint for generating responses based on visitor's input.
 
+The response can be a Prediction or your own custom response (eg. data from database or other source) based on the Prediction.
+
 |Packages|Version|Downloads|
 |---------------------------|:---:|:---:|
 |*WebsiteAIAssistant*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|
@@ -25,7 +27,7 @@ But, you can also implement a `Post Prediction Service`, in which you can return
 
 Eg. you can return information about the predicted category from database or other source.
 
-Just implement the `IPostPredictionService` interface and register it in the DI container.
+Just implement the `IPostPredictionService` interface and register it in the DI container as `Scoped`.
 
 ```csharp
 
