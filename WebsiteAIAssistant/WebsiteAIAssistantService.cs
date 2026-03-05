@@ -7,36 +7,50 @@ namespace WebsiteAIAssistant
     public class WebsiteAIAssistantService : IWebsiteAIAssistantService
     {
         private readonly WebsiteAIAssistantSettings _settings;
+        private readonly IWebsiteAIAssistantLogger _logger;
 
-        public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings) 
+        public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, IWebsiteAIAssistantLogger logger = null) 
         { 
             _settings = settings ?? throw new ArgumentNullException(nameof(settings), "Settings cannot be null.");
+            _logger = logger;
         }
 
         public async Task LoadModelAsync()
         {
             if (string.IsNullOrEmpty(_settings.AIModelFilePath))
             {
+                _logger?.LogError("AIModelFilePath is null or empty.");
                 throw new InvalidOperationException("AIModelFilePath is null or empty. Please provide a valid file path to the AI model.");
             }
             if (!File.Exists(_settings.AIModelFilePath))
             {
+                _logger?.LogError($"AI model file not found at path: {_settings.AIModelFilePath}");
                 throw new FileNotFoundException($"AI model file not found at path: {_settings.AIModelFilePath}");
             }
             if (_settings.NegativeConfidenceThreshold < 0 || _settings.NegativeConfidenceThreshold > 1)
             {
+                _logger?.LogError("NegativeConfidenceThreshold must be between 0 and 1.");
                 throw new InvalidOperationException("NegativeConfidenceThreshold must be between 0 and 1.");
             }
 
+            _logger?.LogInformation("Loading AI model from file: " + _settings.AIModelFilePath);
+
             PredictionEngine.NegativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
             PredictionEngine.NegativeLabel = _settings.NegativeLabel;
+            PredictionEngine.Logger = _logger;
 
             await PredictionEngine.LoadModelAsync(_settings.AIModelFilePath);
+
+            _logger?.LogInformation("AI model loaded successfully.");
         }
 
         public async Task<Prediction> PredictAsync(ModelInput modelInput)
         {
-            return await PredictionEngine.PredictAsync(modelInput);
+            _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);
+            var prediction = await PredictionEngine.PredictAsync(modelInput);
+            _logger?.LogInformation($"Prediction made. PredictedLabel: {prediction.PredictedLabel}, Score: {string.Join(", ", prediction.Score)}");
+
+            return prediction;
         }
     }
 }

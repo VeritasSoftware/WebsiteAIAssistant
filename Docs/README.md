@@ -162,6 +162,21 @@ var input = new ModelInput { Feature = "What are the requisites for carbon credi
 var prediction = await PredictionEngine.PredictAsync(input);
 ```
 
+### Logging
+
+If you want to log the model creation, load & predictions, you can implement the `IWebsiteAIAssistantLogger` interface.
+
+Then, pass an instance of your logger implementation to the `PredictionEngine`
+
+```csharp
+PredictionEngine.Logger = new YourLoggerImplementation();
+```
+Or if you are using the helper services, you can register it in the DI container as `Singleton`.
+
+```csharp
+services.AddSingleton<IWebsiteAIAssistantLogger, YourLoggerImplementation>();
+```
+
 ## Website AI Assistant Minimal API
 
 There is a Minimal API endpoint which you can directly use in your API project.
