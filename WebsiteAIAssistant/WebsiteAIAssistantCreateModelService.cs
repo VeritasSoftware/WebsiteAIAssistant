@@ -25,8 +25,8 @@ namespace WebsiteAIAssistant
             {
                 if (string.IsNullOrEmpty(_settings.DataViewFilePath))
                 {
-                    _logger?.LogError("DataViewFilePath is null or empty. Please provide a valid file path to the training data.");
-                    throw new InvalidOperationException("DataViewFilePath is null or empty. Please provide a valid file path to the training data.");
+                    _logger?.LogError($"{nameof(_settings.DataViewFilePath)} is null or empty. Please provide a valid file path to the training data.");
+                    throw new InvalidOperationException($"{nameof(_settings.DataViewFilePath)} is null or empty. Please provide a valid file path to the training data.");
                 }
 
                 PredictionEngine.DataViewFilePath = _settings.DataViewFilePath;
@@ -35,8 +35,8 @@ namespace WebsiteAIAssistant
             {
                 if (_settings.DataViewList == null || !_settings.DataViewList.Any())
                 {
-                    _logger?.LogError("DataViewList is null or empty. Please provide valid data for training.");
-                    throw new InvalidOperationException("DataViewList is null or empty. Please provide valid data for training.");
+                    _logger?.LogError($"{nameof(_settings.DataViewList)} is null or empty. Please provide valid data for training.");
+                    throw new InvalidOperationException($"{nameof(_settings.DataViewList)} is null or empty. Please provide valid data for training.");
                 }
 
                 PredictionEngine.DataViewList = _settings.DataViewList;

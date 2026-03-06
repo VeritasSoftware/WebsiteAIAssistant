@@ -19,8 +19,8 @@ namespace WebsiteAIAssistant
         {
             if (string.IsNullOrEmpty(_settings.AIModelFilePath))
             {
-                _logger?.LogError("AIModelFilePath is null or empty.");
-                throw new InvalidOperationException("AIModelFilePath is null or empty. Please provide a valid file path to the AI model.");
+                _logger?.LogError($"{nameof(_settings.AIModelFilePath)} is null or empty.");
+                throw new InvalidOperationException($"{nameof(_settings.AIModelFilePath)} is null or empty. Please provide a valid file path to the AI model.");
             }
             if (!File.Exists(_settings.AIModelFilePath))
             {
@@ -29,8 +29,8 @@ namespace WebsiteAIAssistant
             }
             if (_settings.NegativeConfidenceThreshold < 0 || _settings.NegativeConfidenceThreshold > 1)
             {
-                _logger?.LogError("NegativeConfidenceThreshold must be between 0 and 1.");
-                throw new InvalidOperationException("NegativeConfidenceThreshold must be between 0 and 1.");
+                _logger?.LogError($"{nameof(_settings.NegativeConfidenceThreshold)} must be between 0 and 1.");
+                throw new InvalidOperationException($"{nameof(_settings.NegativeConfidenceThreshold)} must be between 0 and 1.");
             }
 
             _logger?.LogInformation("Loading AI model from file: " + _settings.AIModelFilePath);

@@ -19,8 +19,24 @@ namespace WebsiteAIAssistant
         public static float NegativeConfidenceThreshold 
         {
             get => _negativeConfidenceThreshold;
-            set => _negativeConfidenceThreshold = (value >= 0 && value <= 1) ? value 
-                                            : throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), "NegativeConfidenceThreshold must be between 0 and 1.");
+            set => _negativeConfidenceThreshold = ValidateThreshold(value);
+        }
+        private static float ValidateThreshold(float threshold)
+        {
+            Logger?.LogInformation($"{nameof(PredictionEngine)}: {threshold}");
+            if (threshold >= 0 && threshold <= 1)
+            {
+                if (threshold < .50f)
+                {
+                    Logger?.LogWarning($"{nameof(NegativeConfidenceThreshold)} : {threshold} too low. Not enough confidence to classify as negative prediction.");
+                }
+                else if (threshold > .90f)
+                {
+                    Logger?.LogWarning($"{nameof(NegativeConfidenceThreshold)} : {threshold} too high. May miss valid negative predictions.");
+                }
+                return threshold;
+            }
+            throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), $"{nameof(NegativeConfidenceThreshold)} must be between 0 and 1.");
         }
         public static float NegativeLabel { get; set; } = -1f;
 
@@ -36,8 +52,8 @@ namespace WebsiteAIAssistant
             {
                 if (string.IsNullOrEmpty(DataViewFilePath))
                 {
-                    Logger?.LogError("DataViewFilePath is null or empty. Cannot load training data.");
-                    throw new InvalidOperationException("DataViewFilePath is null or empty. Please provide a valid file path to the training data.");
+                    Logger?.LogError($"{nameof(DataViewFilePath)} is null or empty. Cannot load training data.");
+                    throw new InvalidOperationException($"{nameof(DataViewFilePath)} is null or empty. Please provide a valid file path to the training data.");
                 }
 
                 Logger?.LogInformation("Loading training data from file: {0}", DataViewFilePath);
@@ -51,9 +67,9 @@ namespace WebsiteAIAssistant
             {
                 if (DataViewList == null || !DataViewList.Any())
                 {
-                    Logger?.LogError("DataViewList is null or empty. Cannot load training data.");
+                    Logger?.LogError($"{nameof(DataViewList)} is null or empty. Cannot load training data.");
 
-                    throw new InvalidOperationException("DataViewList is null or empty. Please provide valid data for training.");
+                    throw new InvalidOperationException($"{nameof(DataViewList)} is null or empty. Please provide valid data for training.");
                 }
 
                 Logger?.LogInformation("Loading training data from in-memory list with {0} records.", DataViewList.Count());
