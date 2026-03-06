@@ -1,4 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
+using WebsiteAIAssistant;
 using WebsiteAIAssistant.MinimalAPI;
 
 namespace SampleWebsite.MinimalAPI
@@ -17,8 +19,10 @@ namespace SampleWebsite.MinimalAPI
         {
             //Website AI Assistant
             services.AddRouting();
+            services.AddLogging(config => config.AddConsole());
             //Optional: register a custom post-prediction service to handle the prediction results
             //builder.Services.AddScoped<IPostPredictionService, PostPredictionService>();
+            services.AddSingleton<IWebsiteAIAssistantLogger, WebsiteAIAssistantLogger>();
             services.AddWebsiteAIAssistant(settings =>
             {
                 // Path to load model

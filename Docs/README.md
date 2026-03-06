@@ -177,6 +177,8 @@ Or if you are using the helper services, you can register it in the DI container
 services.AddSingleton<IWebsiteAIAssistantLogger, YourLoggerImplementation>();
 ```
 
+Your logger implementation can be like shown [**here**](/SampleWebsite.MinimalAPI/WebsiteAIAssistantLogger.cs) for ASP .NET Core.
+
 ## Website AI Assistant Minimal API
 
 There is a Minimal API endpoint which you can directly use in your API project.
