@@ -158,7 +158,7 @@ namespace WebsiteAIAssistant.Tests
         {
             // Arrange
             // Path to load model created from list
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Test.zip");
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List.zip");
 
             await PredictionEngine.LoadModelAsync(modelPath);
 
