@@ -117,9 +117,9 @@ You can set the `NegativeConfidenceThreshold` to a value between 0 and 1, to det
 PredictionEngine.NegativeConfidenceThreshold = 0.50f;
 ```
 
-Under the hood, the `SdcaMaximumEntropyMulticlassTrainer` is used to train the model, which is a linear classifier that optimizes the maximum entropy objective function using stochastic dual coordinate ascent (SDCA) algorithm.
+Under the hood, the [`SdcaMaximumEntropyMulticlassTrainer`](https://learn.microsoft.com/en-us/dotnet/api/microsoft.ml.trainers.sdcamaximumentropymulticlasstrainer?view=ml-dotnet-preview) is used to train the model, which is a linear classifier that optimizes the maximum entropy objective function using stochastic dual coordinate ascent (SDCA) algorithm.
 
-You can set the options for the trainer in the `SdcaMaximumEntropyOptions` property of the `PredictionEngine`.
+You can set the [**options**](https://learn.microsoft.com/en-us/dotnet/api/microsoft.ml.trainers.sdcamaximumentropymulticlasstrainer.options?view=ml-dotnet-preview) for the trainer in the `SdcaMaximumEntropyOptions` property of the `PredictionEngine`.
 
 ```csharp
 // Set the options for the SdcaMaximumEntropyMulticlassTrainer (optional)

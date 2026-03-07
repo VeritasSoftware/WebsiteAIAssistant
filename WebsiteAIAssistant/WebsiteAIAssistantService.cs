@@ -27,7 +27,19 @@ namespace WebsiteAIAssistant
                 _logger?.LogError($"AI model file not found at path: {_settings.AIModelFilePath}");
                 throw new FileNotFoundException($"AI model file not found at path: {_settings.AIModelFilePath}");
             }
-            if (_settings.NegativeConfidenceThreshold < 0 || _settings.NegativeConfidenceThreshold > 1)
+            // Validate NegativeConfidenceThreshold
+            if (_settings.NegativeConfidenceThreshold >= 0 && _settings.NegativeConfidenceThreshold <= 1)
+            {
+                if (_settings.NegativeConfidenceThreshold < .50f)
+                {
+                    _logger?.LogWarning($"{nameof(_settings.NegativeConfidenceThreshold)} : {_settings.NegativeConfidenceThreshold} too low. Not enough confidence to classify as negative prediction.");
+                }
+                else if (_settings.NegativeConfidenceThreshold > .90f)
+                {
+                    _logger?.LogWarning($"{nameof(_settings.NegativeConfidenceThreshold)} : {_settings.NegativeConfidenceThreshold} too high. May miss valid negative predictions.");
+                }
+            }
+            else
             {
                 _logger?.LogError($"{nameof(_settings.NegativeConfidenceThreshold)} must be between 0 and 1.");
                 throw new InvalidOperationException($"{nameof(_settings.NegativeConfidenceThreshold)} must be between 0 and 1.");
