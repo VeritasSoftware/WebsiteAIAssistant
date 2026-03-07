@@ -38,5 +38,33 @@ namespace WebsiteAIAssistant.Tests
             Assert.NotNull(prediction);
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
+
+        [Fact]
+        public async Task EmptyInput_NotFound()
+        {
+            // Arrange
+            // Minimal API url with user input
+            var userInput = "";
+            var apiUrl = $"https://localhost:7171/ai/{userInput}";
+
+            // Act
+            var response = await _httpClient.GetAsync(apiUrl);
+
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task WhitespaceInput_NotFound()
+        {
+            // Arrange
+            // Minimal API url with user input
+            var userInput = " ";
+            var apiUrl = $"https://localhost:7171/ai/{userInput}";
+
+            // Act
+            var response = await _httpClient.GetAsync(apiUrl);
+
+            Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+        }
     }
 }
