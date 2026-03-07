@@ -4,37 +4,16 @@ namespace WebsiteAIAssistant.Tests
 {
     public class WebsiteAIAssistantTests
     {
-        private readonly ServiceProvider _aiAssistantServiceProvider;
-        private readonly ServiceProvider _createModelServiceProvider;
+        private readonly IServiceProvider _aiAssistantServiceProvider;
+        private readonly IServiceProvider _createModelServiceProvider;
 
         public WebsiteAIAssistantTests()
         {
-            // Build DI container for Create Model Service
-            var services = new ServiceCollection();
-            var createModelSettings = new WebsiteAIAssistantCreateModelSettings
-            {
-                DataViewType = DataViewType.File,
-                DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv"),
-                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-Service-Test.zip")
-            };
-
-            services = new ServiceCollection();
-            services.AddSingleton(createModelSettings);
-            services.AddSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>();
-            _createModelServiceProvider = services.BuildServiceProvider();
+            // Build DI container for Create Model Service            
+            _createModelServiceProvider = BuildCreateModelDIContainer();
 
             // Build DI container for AI Assistant Service
-            var settings = new WebsiteAIAssistantSettings
-            {                
-                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip"),
-                NegativeConfidenceThreshold = 0.70f,
-                NegativeLabel = -1f
-            };
-
-            services = new ServiceCollection();
-            services.AddSingleton(settings);
-            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
-            _aiAssistantServiceProvider = services.BuildServiceProvider();            
+            _aiAssistantServiceProvider = BuildLoadPredictDIContainer();
         }
 
         [Fact]
@@ -69,26 +48,7 @@ namespace WebsiteAIAssistant.Tests
 
             string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv");
 
-            using var reader = new StreamReader(trainingDataPath);
-
-            var dataViewList = new List<ModelInput>();
-
-            string? line;
-
-            while ((line = await reader.ReadLineAsync()) is not null)
-            {
-                var parts = line.Split('\t');
-                if (parts.Length == 2 && float.TryParse(parts[0], out float label))
-                {
-                    dataViewList.Add(new ModelInput
-                    {
-                        Label = label,
-                        Feature = parts[1]
-                    });
-                }
-            }
-
-            PredictionEngine.DataViewList = dataViewList;
+            PredictionEngine.DataViewList = LoadListFromFile(trainingDataPath);
 
             string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Test.zip");
 
@@ -109,8 +69,8 @@ namespace WebsiteAIAssistant.Tests
         public async Task CreateModel_File_Service()
         {
             // Arrange                       
-            var createModelSettings = _createModelServiceProvider.GetRequiredService<WebsiteAIAssistantCreateModelSettings>();
-            var createModelService = _createModelServiceProvider.GetRequiredService<IWebsiteAIAssistantCreateModelService>();
+            var createModelSettings = _createModelServiceProvider.GetRequiredKeyedService<WebsiteAIAssistantCreateModelSettings>("FileSettings");
+            var createModelService = _createModelServiceProvider.GetRequiredKeyedService<IWebsiteAIAssistantCreateModelService>("File");
 
             // Delete model file if it already exists to ensure a clean test environment
             if (File.Exists(createModelSettings.AIModelFilePath))
@@ -122,6 +82,29 @@ namespace WebsiteAIAssistant.Tests
             var modelCreated = await createModelService.CreateModelAsync();
 
             var modelExists = File.Exists(createModelSettings.AIModelFilePath);           
+
+            // Assert
+            Assert.True(modelCreated);
+            Assert.True(modelExists);
+        }
+
+        [Fact]
+        public async Task CreateModel_List_Service()
+        {
+            // Arrange                       
+            var createModelSettings = _createModelServiceProvider.GetRequiredKeyedService<WebsiteAIAssistantCreateModelSettings>("ListSettings");
+            var createModelService = _createModelServiceProvider.GetRequiredKeyedService<IWebsiteAIAssistantCreateModelService>("List");
+
+            // Delete model file if it already exists to ensure a clean test environment
+            if (File.Exists(createModelSettings.AIModelFilePath))
+            {
+                File.Delete(createModelSettings.AIModelFilePath);
+            }
+
+            // Act
+            var modelCreated = await createModelService.CreateModelAsync();
+
+            var modelExists = File.Exists(createModelSettings.AIModelFilePath);
 
             // Assert
             Assert.True(modelCreated);
@@ -191,6 +174,68 @@ namespace WebsiteAIAssistant.Tests
             // Assert
             Assert.NotNull(prediction);
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+        }
+
+        private IServiceProvider BuildCreateModelDIContainer()
+        {
+            // Build DI container for Create Model Service
+            var services = new ServiceCollection();
+            var createModelSettingsFile = new WebsiteAIAssistantCreateModelSettings
+            {
+                DataViewType = DataViewType.File,
+                DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv"),
+                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-File-Service-Test.zip")
+            };
+
+            var createModelSettingsList = new WebsiteAIAssistantCreateModelSettings
+            {
+                DataViewType = DataViewType.List,
+                DataViewList = LoadListFromFile(Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv")),
+                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Service-Test.zip")
+            };
+
+            services = new ServiceCollection();
+            services.AddKeyedSingleton("FileSettings", createModelSettingsFile);
+            services.AddKeyedSingleton("ListSettings", createModelSettingsList);
+            services.AddKeyedSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>("File", (sp, x) => new WebsiteAIAssistantCreateModelService(createModelSettingsFile));
+            services.AddKeyedSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>("List", (sp, x) => new WebsiteAIAssistantCreateModelService(createModelSettingsList));
+            return services.BuildServiceProvider();            
+        }
+
+        private IServiceProvider BuildLoadPredictDIContainer()
+        {
+            // Build DI container for AI Assistant Service
+            var settings = new WebsiteAIAssistantSettings
+            {
+                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip"),
+                NegativeConfidenceThreshold = 0.70f,
+                NegativeLabel = -1f
+            };
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settings);
+            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+            return services.BuildServiceProvider();
+        }
+
+        private IEnumerable<ModelInput> LoadListFromFile(string filePath)
+        {
+            var data = new List<ModelInput>();
+            using var reader = new StreamReader(filePath);
+            string? line;
+            while ((line = reader.ReadLine()) is not null)
+            {
+                var parts = line.Split('\t');
+                if (parts.Length == 2 && float.TryParse(parts[0], out float label))
+                {
+                    data.Add(new ModelInput
+                    {
+                        Label = label,
+                        Feature = parts[1]
+                    });
+                }
+            }
+            return data;
         }
     }
 }

@@ -9,7 +9,7 @@
 
             if (string.IsNullOrEmpty(assistantSettings.AIModelFilePath))
             {
-                throw new ArgumentException("AIModelFilePath must be provided in the settings.");
+                throw new ArgumentException($"{nameof(assistantSettings.AIModelFilePath)} must be provided in the settings.");
             }
 
             if (!File.Exists(assistantSettings.AIModelFilePath))
@@ -19,7 +19,7 @@
 
             if (assistantSettings.NegativeConfidenceThreshold < 0 || assistantSettings.NegativeConfidenceThreshold > 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(assistantSettings.NegativeConfidenceThreshold), "NegativeConfidenceThreshold must be between 0 and 1.");
+                throw new ArgumentOutOfRangeException(nameof(assistantSettings.NegativeConfidenceThreshold), $"{nameof(assistantSettings.NegativeConfidenceThreshold)} must be between 0 and 1.");
             }
 
             services.AddSingleton(assistantSettings);

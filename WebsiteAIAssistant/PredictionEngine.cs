@@ -21,6 +21,8 @@ namespace WebsiteAIAssistant
             get => _negativeConfidenceThreshold;
             set => _negativeConfidenceThreshold = ValidateThreshold(value);
         }
+        public static float NegativeLabel { get; set; } = -1f;
+        public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = new SdcaMaximumEntropyOptions();
         private static float ValidateThreshold(float threshold)
         {
             Logger?.LogInformation($"{nameof(PredictionEngine)}: {threshold}");
@@ -37,8 +39,7 @@ namespace WebsiteAIAssistant
                 return threshold;
             }
             throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), $"{nameof(NegativeConfidenceThreshold)} must be between 0 and 1.");
-        }
-        public static float NegativeLabel { get; set; } = -1f;
+        }        
 
         public static async Task CreateModelAsync(string modelPath)
         {
@@ -62,6 +63,8 @@ namespace WebsiteAIAssistant
                 path: DataViewFilePath,
                 hasHeader: false,
                 separatorChar: '\t');
+
+                Logger?.LogInformation("Training data loaded successfully from file with {0} records.", mlContext.Data.CreateEnumerable<ModelInput>(dataView, reuseRowObject: false).Count());
             }
             else
             {
@@ -74,6 +77,7 @@ namespace WebsiteAIAssistant
 
                 Logger?.LogInformation("Loading training data from in-memory list with {0} records.", DataViewList.Count());
                 dataView = mlContext.Data.LoadFromEnumerable(DataViewList);
+                Logger?.LogInformation("Training data loaded successfully from in-memory list.");
             }
 
             string[] stopWords = new[] { "the", "a", "an", "is", "and", "or", "of", "to", "in" };
@@ -94,11 +98,11 @@ namespace WebsiteAIAssistant
             {
                 LabelColumnName = "LabelKey",
                 FeatureColumnName = "Features",
-                MaximumNumberOfIterations = 500,       // More passes for better convergence
-                ConvergenceTolerance = 1e-5f,          // Stricter tolerance
-                L1Regularization = 1e-4f,              // Small L1 penalty
-                L2Regularization = 1e-4f,              // Small L2 penalty
-                Shuffle = true
+                MaximumNumberOfIterations = SdcaMaximumEntropyOptions.MaximumNumberOfIterations,
+                ConvergenceTolerance = SdcaMaximumEntropyOptions.ConvergenceTolerance,          
+                L1Regularization = SdcaMaximumEntropyOptions.L1Regularization,              
+                L2Regularization = SdcaMaximumEntropyOptions.L2Regularization,              
+                Shuffle = SdcaMaximumEntropyOptions.Shuffle
             };
 
             Logger?.LogInformation("Training the model with SdcaMaximumEntropy trainer...");
@@ -165,9 +169,11 @@ namespace WebsiteAIAssistant
 
                     prediction.PredictedLabel = index - 1;
                 }
+                Logger?.LogInformation("Final prediction after confidence check: PredictedLabel={0}", prediction.PredictedLabel);
             }
 
-            Logger?.LogInformation("Final prediction after confidence check: PredictedLabel={0}", prediction.PredictedLabel);
+            Logger?.LogInformation("Prediction process completed for input: {0}", input.Feature);
+
             return await Task.FromResult(prediction);
         }
     }

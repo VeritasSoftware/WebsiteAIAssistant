@@ -13,7 +13,7 @@ namespace WebsiteAIAssistant
             set => _negativeConfidenceThreshold = (value >= 0 && value <= 1) ? value
                                             : throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), "NegativeConfidenceThreshold must be between 0 and 1.");
         }
-        public float NegativeLabel { get; set; } = -1f;
+        public float NegativeLabel { get; set; } = -1f;       
         public string AIModelFilePath { get; set; } = string.Empty;
     }
 
@@ -21,7 +21,8 @@ namespace WebsiteAIAssistant
     {
         public DataViewType DataViewType { get; set; } = DataViewType.File;
         public string DataViewFilePath { get; set; }
-        public IEnumerable<ModelInput> DataViewList { get; set; }       
+        public IEnumerable<ModelInput> DataViewList { get; set; }
+        public SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = new SdcaMaximumEntropyOptions();
         public string AIModelFilePath { get; set; } = string.Empty;
     }
 }

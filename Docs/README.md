@@ -117,11 +117,29 @@ You can set the `NegativeConfidenceThreshold` to a value between 0 and 1, to det
 PredictionEngine.NegativeConfidenceThreshold = 0.50f;
 ```
 
+Under the hood, the `SdcaMaximumEntropyMulticlassTrainer` is used to train the model, which is a linear classifier that optimizes the maximum entropy objective function using stochastic dual coordinate ascent (SDCA) algorithm.
+
+You can set the options for the trainer in the `SdcaMaximumEntropyOptions` property of the `PredictionEngine`.
+
+```csharp
+// Set the options for the SdcaMaximumEntropyMulticlassTrainer (optional)
+PredictionEngine.SdcaMaximumEntropyOptions = new SdcaMaximumEntropyOptions
+{
+    MaximumNumberOfIterations = 100,
+    ConvergenceTolerance = 0.01f,
+    L1Regularization = 0.01f,
+    L2Regularization = 0.01f,        
+    Shuffle = true,
+};
+```
+
+or you can set the options for the trainer in the `WebsiteAIAssistantCreateModelSettings` when using the `WebsiteAIAssistantCreateModelService`.
+
 Add the Nuget package or a reference to the `WebsiteAIAssistant` project in your ASP.NET Core application.
 
 **Step 1** :
 
-Set the data view type and path to the training dataset or the List of ModelInput. The List can come from a database or any other source. 
+Set the data view type and path to your training dataset or the List of ModelInput. The List can come from a database or any other source. 
 
 The training dataset is used to train the model and create the .zip file in Step 2.
 
