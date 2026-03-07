@@ -98,6 +98,8 @@ namespace WebsiteAIAssistant
             {
                 LabelColumnName = "LabelKey",
                 FeatureColumnName = "Features",
+                BiasLearningRate = SdcaMaximumEntropyOptions.BiasLearningRate,
+                ConvergenceCheckFrequency = SdcaMaximumEntropyOptions.ConvergenceCheckFrequency,
                 MaximumNumberOfIterations = SdcaMaximumEntropyOptions.MaximumNumberOfIterations,
                 ConvergenceTolerance = SdcaMaximumEntropyOptions.ConvergenceTolerance,          
                 L1Regularization = SdcaMaximumEntropyOptions.L1Regularization,              

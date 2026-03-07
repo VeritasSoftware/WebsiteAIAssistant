@@ -125,11 +125,13 @@ You can set the options for the trainer in the `SdcaMaximumEntropyOptions` prope
 // Set the options for the SdcaMaximumEntropyMulticlassTrainer (optional)
 PredictionEngine.SdcaMaximumEntropyOptions = new SdcaMaximumEntropyOptions
 {
+    BiasLearningRate = 0.1f,
+    ConvergenceCheckFrequency = 10,
     MaximumNumberOfIterations = 100,
     ConvergenceTolerance = 0.01f,
     L1Regularization = 0.01f,
     L2Regularization = 0.01f,        
-    Shuffle = true,
+    Shuffle = true
 };
 ```
 
