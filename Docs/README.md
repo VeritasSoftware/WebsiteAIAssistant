@@ -74,6 +74,9 @@ This service (& the `WebsiteAIAssistantSettings`) can be wired up for dependency
 
 and can be used to load the model and make predictions.
 
+If you do not explicitly load the model, the service will automatically load the model from the specified path when the first prediction is made.
+
+
 ```csharp
 var settings = new WebsiteAIAssistantSettings
 {                
