@@ -8,24 +8,25 @@ namespace WebsiteAIAssistant
     {
         private readonly WebsiteAIAssistantSettings _settings;
         private readonly IWebsiteAIAssistantLogger _logger;
+        private static bool _isInitialized = false;
 
         public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, IWebsiteAIAssistantLogger logger = null) 
         { 
             _settings = settings ?? throw new ArgumentNullException(nameof(settings), "Settings cannot be null.");
             _logger = logger;
-        }
+        }        
 
         public async Task LoadModelAsync()
         {
-            if (string.IsNullOrEmpty(_settings.AIModelFilePath))
+            if (string.IsNullOrEmpty(_settings.AIModelLoadFilePath))
             {
-                _logger?.LogError($"{nameof(_settings.AIModelFilePath)} is null or empty.");
-                throw new InvalidOperationException($"{nameof(_settings.AIModelFilePath)} is null or empty. Please provide a valid file path to the AI model.");
+                _logger?.LogError($"{nameof(_settings.AIModelLoadFilePath)} is null or empty.");
+                throw new InvalidOperationException($"{nameof(_settings.AIModelLoadFilePath)} is null or empty. Please provide a valid file path to the AI model.");
             }
-            if (!File.Exists(_settings.AIModelFilePath))
+            if (!File.Exists(_settings.AIModelLoadFilePath))
             {
-                _logger?.LogError($"AI model file not found at path: {_settings.AIModelFilePath}");
-                throw new FileNotFoundException($"AI model file not found at path: {_settings.AIModelFilePath}");
+                _logger?.LogError($"AI model file not found at path: {_settings.AIModelLoadFilePath}");
+                throw new FileNotFoundException($"AI model file not found at path: {_settings.AIModelLoadFilePath}");
             }
             // Validate NegativeConfidenceThreshold
             if (_settings.NegativeConfidenceThreshold >= 0 && _settings.NegativeConfidenceThreshold <= 1)
@@ -45,19 +46,26 @@ namespace WebsiteAIAssistant
                 throw new InvalidOperationException($"{nameof(_settings.NegativeConfidenceThreshold)} must be between 0 and 1.");
             }
 
-            _logger?.LogInformation("Loading AI model from file: " + _settings.AIModelFilePath);
+            _logger?.LogInformation("Loading AI model from file: " + _settings.AIModelLoadFilePath);
 
             PredictionEngine.NegativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
             PredictionEngine.NegativeLabel = _settings.NegativeLabel;
+            PredictionEngine.AIModelLoadFilePath = _settings.AIModelLoadFilePath;
             PredictionEngine.Logger = _logger;
 
-            await PredictionEngine.LoadModelAsync(_settings.AIModelFilePath);
+            await PredictionEngine.LoadModelAsync(_settings.AIModelLoadFilePath);
 
             _logger?.LogInformation("AI model loaded successfully.");
         }
 
         public async Task<Prediction> PredictAsync(ModelInput modelInput)
-        {
+        {     
+            if (!_isInitialized)
+            {
+                await LoadModelAsync();
+                _isInitialized = true;
+            }
+
             _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);
             var prediction = await PredictionEngine.PredictAsync(modelInput);
             _logger?.LogInformation($"Prediction made. PredictedLabel: {prediction.PredictedLabel}, Score: {string.Join(", ", prediction.Score)}");

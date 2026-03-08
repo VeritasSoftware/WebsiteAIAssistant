@@ -3,6 +3,8 @@ using Microsoft.ML.Trainers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace WebsiteAIAssistant
@@ -23,6 +25,7 @@ namespace WebsiteAIAssistant
         }
         public static float NegativeLabel { get; set; } = -1f;
         public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = new SdcaMaximumEntropyOptions();
+        public static string AIModelLoadFilePath { get; set; }
         private static float ValidateThreshold(float threshold)
         {
             Logger?.LogInformation($"{nameof(PredictionEngine)}: {threshold}");
@@ -145,12 +148,32 @@ namespace WebsiteAIAssistant
             await Task.CompletedTask;
         }
 
+        public static async Task LoadModelAsync()
+        {
+            if (string.IsNullOrEmpty(AIModelLoadFilePath))
+            {
+                Logger?.LogError($"{nameof(AIModelLoadFilePath)} is null or empty. Cannot load model.");
+                throw new InvalidOperationException($"{nameof(AIModelLoadFilePath)} is null or empty. Please provide a valid file path to the AI model.");
+            }
+
+            await LoadModelAsync(AIModelLoadFilePath);
+        }
+
         public static async Task<Prediction> PredictAsync(ModelInput input)
         {
             if (_predictionEngine == null)
             {
-                Logger?.LogError("Prediction engine is not initialized. Cannot perform prediction.");
-                throw new InvalidOperationException("Prediction engine is not initialized. Please create & load the model first.");
+                if (!string.IsNullOrEmpty(AIModelLoadFilePath))
+                {
+                    Logger?.LogWarning("Prediction engine is not initialized. Attempting to load model from path: {0}", AIModelLoadFilePath);
+                    await LoadModelAsync();
+                    Logger?.LogInformation("Model loaded and prediction engine initialized successfully. Proceeding with prediction.");
+                }
+                else
+                {
+                    Logger?.LogError("Prediction engine is not initialized. Cannot perform prediction.");
+                    throw new InvalidOperationException($"Prediction engine is not initialized. Please create & load the model first or provide the {nameof(AIModelLoadFilePath)}.");
+                }                    
             }
 
             Logger?.LogInformation("Making prediction for input: {0}", input.Feature);

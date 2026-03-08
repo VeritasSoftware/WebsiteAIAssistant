@@ -27,7 +27,7 @@ namespace SampleWebsite.MinimalAPI
             {
                 // Path to load model
                 string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
-                settings.AIModelFilePath = modelPath;
+                settings.AIModelLoadFilePath = modelPath;
 
                 settings.NegativeConfidenceThreshold = 0.70f;
                 settings.NegativeLabel = -1f;

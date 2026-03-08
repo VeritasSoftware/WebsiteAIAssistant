@@ -7,14 +7,14 @@
             var assistantSettings = new WebsiteAIAssistantSettings();
             settings(assistantSettings);
 
-            if (string.IsNullOrEmpty(assistantSettings.AIModelFilePath))
+            if (string.IsNullOrEmpty(assistantSettings.AIModelLoadFilePath))
             {
-                throw new ArgumentException($"{nameof(assistantSettings.AIModelFilePath)} must be provided in the settings.");
+                throw new ArgumentException($"{nameof(assistantSettings.AIModelLoadFilePath)} must be provided in the settings.");
             }
 
-            if (!File.Exists(assistantSettings.AIModelFilePath))
+            if (!File.Exists(assistantSettings.AIModelLoadFilePath))
             {
-                throw new FileNotFoundException($"AI model file not found at path: {assistantSettings.AIModelFilePath}");
+                throw new FileNotFoundException($"AI model file not found at path: {assistantSettings.AIModelLoadFilePath}");
             }
 
             if (assistantSettings.NegativeConfidenceThreshold < 0 || assistantSettings.NegativeConfidenceThreshold > 1)

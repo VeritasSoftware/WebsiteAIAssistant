@@ -137,6 +137,29 @@ namespace WebsiteAIAssistant.Tests
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
+        public async Task AutoLoad_Predict(string userInput, Scheme expectedResult)
+        {
+            // Arrange
+            // Path to load model
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+
+            // Provide the path to the AI model
+            PredictionEngine.AIModelLoadFilePath = modelPath;
+
+            var input = new ModelInput { Feature = userInput };
+           
+            // Act
+            var prediction = await PredictionEngine.PredictAsync(input);
+
+            // Assert
+            Assert.NotNull(prediction);
+            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+        }
+
+        [Theory]
+        [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
+        [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
+        [InlineData("What is the colour of a rose?", Scheme.None)]
         public async Task Load_Predict_List(string userInput, Scheme expectedResult)
         {
             // Arrange
@@ -165,6 +188,25 @@ namespace WebsiteAIAssistant.Tests
             var aiAssistantService = _aiAssistantServiceProvider.GetRequiredService<IWebsiteAIAssistantService>();
 
             await aiAssistantService.LoadModelAsync();
+
+            var input = new ModelInput { Feature = userInput };
+
+            // Act
+            var prediction = await aiAssistantService.PredictAsync(input);
+
+            // Assert
+            Assert.NotNull(prediction);
+            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+        }
+
+        [Theory]
+        [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
+        [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
+        [InlineData("What is the colour of a rose?", Scheme.None)]
+        public async Task AutoLoad_Predict_Service(string userInput, Scheme expectedResult)
+        {
+            // Arrange                      
+            var aiAssistantService = _aiAssistantServiceProvider.GetRequiredService<IWebsiteAIAssistantService>();
 
             var input = new ModelInput { Feature = userInput };
 
@@ -207,7 +249,7 @@ namespace WebsiteAIAssistant.Tests
             // Build DI container for AI Assistant Service
             var settings = new WebsiteAIAssistantSettings
             {
-                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip"),
+                AIModelLoadFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip"),
                 NegativeConfidenceThreshold = 0.70f,
                 NegativeLabel = -1f
             };

@@ -14,7 +14,7 @@ namespace WebsiteAIAssistant
                                             : throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), "NegativeConfidenceThreshold must be between 0 and 1.");
         }
         public float NegativeLabel { get; set; } = -1f;       
-        public string AIModelFilePath { get; set; } = string.Empty;
+        public string AIModelLoadFilePath { get; set; } = string.Empty;
     }
 
     public class WebsiteAIAssistantCreateModelSettings
