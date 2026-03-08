@@ -15,7 +15,7 @@ interface IWebsiteAIAssistantCreateModelService
 
 class WebsiteAIAssistantCreateModelService
 { 
-  + WebsiteAIAssistantCreateModelService(WebsiteAIAssistantCreateModelSettings settings)
+  + WebsiteAIAssistantCreateModelService(WebsiteAIAssistantCreateModelSettings settings, \n \t \t \t \t \t  \t \t \t \t IWebsiteAIAssistantLogger logger = null)
   + CreateModelAsync(): Task<bool>
 }
 
