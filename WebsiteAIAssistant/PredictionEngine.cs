@@ -122,19 +122,19 @@ namespace WebsiteAIAssistant
                 Logger?.LogInformation($"Using provided {nameof(SdcaMaximumEntropyOptions)}. {SdcaMaximumEntropyOptions.ToString()}");
             }
 
-            var usingOptions = defaultOptions ?? SdcaMaximumEntropyOptions;
+            var actualOptions = defaultOptions ?? SdcaMaximumEntropyOptions;
 
             var options = new SdcaMaximumEntropyMulticlassTrainer.Options
             {
                 LabelColumnName = "LabelKey",
                 FeatureColumnName = "Features",
-                BiasLearningRate = usingOptions.BiasLearningRate,
-                ConvergenceCheckFrequency = usingOptions.ConvergenceCheckFrequency,
-                MaximumNumberOfIterations = usingOptions.MaximumNumberOfIterations,
-                ConvergenceTolerance = usingOptions.ConvergenceTolerance,
-                L1Regularization = usingOptions.L1Regularization,
-                L2Regularization = usingOptions.L2Regularization,
-                Shuffle = usingOptions.Shuffle
+                BiasLearningRate = actualOptions.BiasLearningRate,
+                ConvergenceCheckFrequency = actualOptions.ConvergenceCheckFrequency,
+                MaximumNumberOfIterations = actualOptions.MaximumNumberOfIterations,
+                ConvergenceTolerance = actualOptions.ConvergenceTolerance,
+                L1Regularization = actualOptions.L1Regularization,
+                L2Regularization = actualOptions.L2Regularization,
+                Shuffle = actualOptions.Shuffle
             };            
 
             Logger?.LogInformation("Training the model with SdcaMaximumEntropy trainer...");
