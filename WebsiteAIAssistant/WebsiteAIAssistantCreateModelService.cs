@@ -19,7 +19,7 @@ namespace WebsiteAIAssistant
         public async Task<bool> CreateModelAsync()
         {
             _logger?.LogInformation("Starting model creation process...");
-            _logger?.LogInformation($"Setting DataViewType: {_settings.DataViewType}");
+            _logger?.LogInformation($"Setting {nameof(DataViewType)}: {_settings.DataViewType}");
             PredictionEngine.DataViewType = _settings.DataViewType;
 
             if (_settings.DataViewType == DataViewType.File)

@@ -97,44 +97,43 @@ namespace WebsiteAIAssistant
                                 inputColumnName: nameof(ModelInput.Label)))
                             .Append(mlContext.Transforms.DropColumns("Tokens", nameof(ModelInput.Label), nameof(ModelInput.Feature)));
 
-            SdcaMaximumEntropyMulticlassTrainer.Options options;
+            SdcaMaximumEntropyOptions defaultOptions = null;
 
-
-            if (SdcaMaximumEntropyOptions != null)
+            if (SdcaMaximumEntropyOptions == null)
             {
-                Logger?.LogInformation($"Using {nameof(SdcaMaximumEntropyOptions)} provided.");
-
-                options = new SdcaMaximumEntropyMulticlassTrainer.Options
-                {
-                    LabelColumnName = "LabelKey",
-                    FeatureColumnName = "Features",
-                    BiasLearningRate = SdcaMaximumEntropyOptions.BiasLearningRate,
-                    ConvergenceCheckFrequency = SdcaMaximumEntropyOptions.ConvergenceCheckFrequency,
-                    MaximumNumberOfIterations = SdcaMaximumEntropyOptions.MaximumNumberOfIterations,
-                    ConvergenceTolerance = SdcaMaximumEntropyOptions.ConvergenceTolerance,
-                    L1Regularization = SdcaMaximumEntropyOptions.L1Regularization,
-                    L2Regularization = SdcaMaximumEntropyOptions.L2Regularization,
-                    Shuffle = SdcaMaximumEntropyOptions.Shuffle
-                };
-            }
-            else
-            {
-                Logger?.LogInformation($"Using default {nameof(SdcaMaximumEntropyOptions)}.");
+                Logger?.LogWarning($"{nameof(SdcaMaximumEntropyOptions)} not provided.");
                 // Default options if none provided
                 // For best accuracy and convergence
                 // More iterations and stricter tolerance with small regularization to prevent overfitting
                 // Shuffle enabled for better generalization
-                options = new SdcaMaximumEntropyMulticlassTrainer.Options
+                defaultOptions = new SdcaMaximumEntropyOptions
                 {
-                    LabelColumnName = "LabelKey",
-                    FeatureColumnName = "Features",
                     MaximumNumberOfIterations = 500,       // More passes for better convergence
                     ConvergenceTolerance = 1e-5f,          // Stricter tolerance
                     L1Regularization = 1e-4f,              // Small L1 penalty
                     L2Regularization = 1e-4f,              // Small L2 penalty
                     Shuffle = true
                 };
+
+                Logger?.LogInformation($"Using default {nameof(SdcaMaximumEntropyOptions)}. {defaultOptions.ToString()}");
             }
+            else
+            {
+                Logger?.LogInformation($"Using provided {nameof(SdcaMaximumEntropyOptions)}. {SdcaMaximumEntropyOptions.ToString()}");
+            }
+
+            var options = new SdcaMaximumEntropyMulticlassTrainer.Options
+            {
+                LabelColumnName = "LabelKey",
+                FeatureColumnName = "Features",
+                BiasLearningRate = (defaultOptions??SdcaMaximumEntropyOptions).BiasLearningRate,
+                ConvergenceCheckFrequency = (defaultOptions ?? SdcaMaximumEntropyOptions).ConvergenceCheckFrequency,
+                MaximumNumberOfIterations = (defaultOptions ?? SdcaMaximumEntropyOptions).MaximumNumberOfIterations,
+                ConvergenceTolerance = (defaultOptions ?? SdcaMaximumEntropyOptions).ConvergenceTolerance,
+                L1Regularization = (defaultOptions ?? SdcaMaximumEntropyOptions).L1Regularization,
+                L2Regularization = (defaultOptions ?? SdcaMaximumEntropyOptions).L2Regularization,
+                Shuffle = (defaultOptions ?? SdcaMaximumEntropyOptions).Shuffle
+            };            
 
             Logger?.LogInformation("Training the model with SdcaMaximumEntropy trainer...");
             var trainingPipeline = pipeline

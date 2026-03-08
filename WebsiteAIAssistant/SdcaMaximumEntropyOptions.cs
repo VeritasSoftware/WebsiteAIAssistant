@@ -10,5 +10,9 @@
         public float L2Regularization { get; set; }
         public bool Shuffle { get; set; }
 
+        public override string ToString()
+        {
+            return $"{nameof(SdcaMaximumEntropyOptions)}: {nameof(BiasLearningRate)}={BiasLearningRate}, {nameof(ConvergenceCheckFrequency)}={ConvergenceCheckFrequency}, {nameof(MaximumNumberOfIterations)}={MaximumNumberOfIterations}, {nameof(ConvergenceTolerance)}={ConvergenceTolerance}, {nameof(L1Regularization)}={L1Regularization}, {nameof(L2Regularization)}={L2Regularization}, {nameof(Shuffle)}={Shuffle}";
+        }
     }
 }

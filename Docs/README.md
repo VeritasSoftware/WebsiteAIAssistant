@@ -74,7 +74,7 @@ This service (& the `WebsiteAIAssistantSettings`) can be wired up for dependency
 
 and can be used to load the model and make predictions.
 
-If you do not explicitly load the model, the service will automatically load the model from the specified path when the first prediction is made.
+If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
 
 
 ```csharp
@@ -144,7 +144,7 @@ Add the Nuget package or a reference to the `WebsiteAIAssistant` project in your
 
 **Step 1** :
 
-Set the data view type and path to your training dataset or the List of ModelInput. The List can come from a database or any other source. 
+Set the data view type and path to your training dataset or the List of `ModelInput`. The List can come from a database or any other source. 
 
 The training dataset is used to train the model and create the .zip file in Step 2.
 
@@ -153,9 +153,11 @@ PredictionEngine.DataViewType = DataViewType.File;
 PredictionEngine.DataViewFilePath = "TrainingDataset.tsv";
 ```
 
+You can also set `SdcaMaximumEntropyOptions` to fine tune the trainer to your needs (as shown earlier).
+
 **Step 2** :
 
-Create the model only once and save it as a .zip file, and reuse the file for subsequent predictions.
+Create the model only once and save it as a `.zip` file, and reuse the file for subsequent predictions.
 
 ```csharp
 // Path to save model
