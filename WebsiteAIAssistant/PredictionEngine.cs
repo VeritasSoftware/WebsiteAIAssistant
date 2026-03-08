@@ -102,6 +102,8 @@ namespace WebsiteAIAssistant
 
             if (SdcaMaximumEntropyOptions != null)
             {
+                Logger?.LogInformation($"Using {nameof(SdcaMaximumEntropyOptions)} provided.");
+
                 options = new SdcaMaximumEntropyMulticlassTrainer.Options
                 {
                     LabelColumnName = "LabelKey",
@@ -117,6 +119,7 @@ namespace WebsiteAIAssistant
             }
             else
             {
+                Logger?.LogInformation($"Using default {nameof(SdcaMaximumEntropyOptions)}.");
                 // Default options if none provided
                 // For best accuracy and convergence
                 // More iterations and stricter tolerance with small regularization to prevent overfitting
