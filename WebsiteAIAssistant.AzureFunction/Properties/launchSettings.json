@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "WebsiteAIAssistant.AzureFunction": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7203",
+      "launchBrowser": false
+    }
+  }
+}

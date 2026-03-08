@@ -1,27 +1,27 @@
-# Website AI Assistant Minimal API
+# Website AI Assistant Azure Function
 
-This is a minimal API for a website AI assistant. It provides an endpoint for generating responses based on visitor's input.
+This is an Azure Function for a website AI assistant. It provides an endpoint for generating responses based on visitor's input.
 
 The response can be a Prediction or your own custom response (eg. data from database or other source) based on the Prediction.
 
 |Packages|Version|Downloads|
 |---------------------------|:---:|:---:|
 |*WebsiteAIAssistant*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|
-|*WebsiteAIAssistant.MinimalAPI*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|
+|*WebsiteAIAssistant.AzureFunction*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|
 
 ## Endpoint
 
-Out of the box, the Minimal API provides a single endpoint:
+Out of the box, the Function provides a single endpoint:
 
 GET /ai/{input}
 
-![MinimalAPI endpoint](/Docs/MinimalAPIEndpoint.png)
+![Azure Function endpoint](/Docs/AzureFunctionEndpoint.png)
 
 ## Response
 
-The API returns a `Prediction` by default.
+The Function returns a `Prediction` by default.
 
-![Prediction response](/Docs/PredictionResponse.png)
+![Prediction response](/Docs/FunctionPredictionResponse.png)
 
 But, you can also implement a `Post Prediction Service`, in which you can return any response you want.
 
@@ -39,23 +39,22 @@ public interface IPostPredictionService
 
 For example, you can return a `Response` object with database results (for eg.) or just a string message.
 
-![Post Prediction Service response](/Docs/PostPredictionServiceResponse.png)
+![Post Prediction Service response](/Docs/FunctionPostPredictionServiceResponse.png)
 
 ## Negative
 
-![Negative](/Docs/NegativeMinimal.png)
+![Negative](/Docs/NegativeFunction.png)
 
 ## Integration
 
-You [create your model](/Docs/README.md) and save it as a .zip file, and then just provide the path to load the model in the Minimal API settings.
+You [create your model](/Docs/README.md) and save it as a .zip file, and then just provide the path to load the model in the Function settings.
 
-Add the Nuget package or a reference to the `WebsiteAIAssistant.MinimalAPI` project in your ASP.NET Core application.
+Add the Nuget package or a reference to the `WebsiteAIAssistant.AzureFunction` project in your ASP.NET Core application.
 
-Then, in your `Program.cs`, add the following lines to register the minimal API:
+Then, in your `Program.cs`, add the following lines to register the Function:
 
 ```csharp
 //Website AI Assistant
-builder.Services.AddRouting();
 //Optional: register a custom post-prediction service to handle the prediction results
 builder.Services.AddScoped<IPostPredictionService, PostPredictionService>();
 //Optional: register a custom logger to log the assistant's operations
@@ -70,26 +69,3 @@ builder.Services.AddWebsiteAIAssistant(settings =>
     settings.NegativeLabel = -1f;
 });
 ```
-
-Then, add the following lines to map the minimal API endpoint:
-
-```csharp
-//Website AI Assistant
-app.UseRouting();
-app.MapWebsiteAIAssistant();
-```
-
-where `app` is `WebApplication`.
-
-Or you can also add below lines to do the same thing:
-
-```csharp
-//Website AI Assistant
-app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapWebsiteAIAssistant();
-});
-```
-
-where `app` is `IApplicationBuilder`.

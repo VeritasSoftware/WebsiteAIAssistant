@@ -215,3 +215,15 @@ Read [**more**](/Docs/README_MinimalAPI.md)
 GET /ai/{input}
 
 [![MinimalAPI endpoint](/Docs/MinimalAPIEndpoint.png)](/Docs/README_MinimalAPI.md)
+
+## Website AI Assistant Azure Function
+
+There is an Azure Function endpoint which you can directly use in your Functions project.
+
+You create your model and save it as a .zip file as shown above, and then just provide the path to load the model in the Function settings.
+
+Read [**more**](/Docs/README_AzureFunction.md)
+
+GET /ai/{input}
+
+[![Azure Function endpoint](/Docs/AzureFunctionEndpoint.png)](/Docs/README_AzureFunction.md)
