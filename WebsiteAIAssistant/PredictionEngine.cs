@@ -24,7 +24,7 @@ namespace WebsiteAIAssistant
             set => _negativeConfidenceThreshold = ValidateThreshold(value);
         }
         public static float NegativeLabel { get; set; } = -1f;
-        public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = new SdcaMaximumEntropyOptions();
+        public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public static string AIModelLoadFilePath { get; set; }
         private static float ValidateThreshold(float threshold)
         {
@@ -97,18 +97,41 @@ namespace WebsiteAIAssistant
                                 inputColumnName: nameof(ModelInput.Label)))
                             .Append(mlContext.Transforms.DropColumns("Tokens", nameof(ModelInput.Label), nameof(ModelInput.Feature)));
 
-            var options = new SdcaMaximumEntropyMulticlassTrainer.Options
+            SdcaMaximumEntropyMulticlassTrainer.Options options;
+
+
+            if (SdcaMaximumEntropyOptions != null)
             {
-                LabelColumnName = "LabelKey",
-                FeatureColumnName = "Features",
-                BiasLearningRate = SdcaMaximumEntropyOptions.BiasLearningRate,
-                ConvergenceCheckFrequency = SdcaMaximumEntropyOptions.ConvergenceCheckFrequency,
-                MaximumNumberOfIterations = SdcaMaximumEntropyOptions.MaximumNumberOfIterations,
-                ConvergenceTolerance = SdcaMaximumEntropyOptions.ConvergenceTolerance,          
-                L1Regularization = SdcaMaximumEntropyOptions.L1Regularization,              
-                L2Regularization = SdcaMaximumEntropyOptions.L2Regularization,              
-                Shuffle = SdcaMaximumEntropyOptions.Shuffle
-            };
+                options = new SdcaMaximumEntropyMulticlassTrainer.Options
+                {
+                    LabelColumnName = "LabelKey",
+                    FeatureColumnName = "Features",
+                    BiasLearningRate = SdcaMaximumEntropyOptions.BiasLearningRate,
+                    ConvergenceCheckFrequency = SdcaMaximumEntropyOptions.ConvergenceCheckFrequency,
+                    MaximumNumberOfIterations = SdcaMaximumEntropyOptions.MaximumNumberOfIterations,
+                    ConvergenceTolerance = SdcaMaximumEntropyOptions.ConvergenceTolerance,
+                    L1Regularization = SdcaMaximumEntropyOptions.L1Regularization,
+                    L2Regularization = SdcaMaximumEntropyOptions.L2Regularization,
+                    Shuffle = SdcaMaximumEntropyOptions.Shuffle
+                };
+            }
+            else
+            {
+                // Default options if none provided
+                // For best accuracy and convergence
+                // More iterations and stricter tolerance with small regularization to prevent overfitting
+                // Shuffle enabled for better generalization
+                options = new SdcaMaximumEntropyMulticlassTrainer.Options
+                {
+                    LabelColumnName = "LabelKey",
+                    FeatureColumnName = "Features",
+                    MaximumNumberOfIterations = 500,       // More passes for better convergence
+                    ConvergenceTolerance = 1e-5f,          // Stricter tolerance
+                    L1Regularization = 1e-4f,              // Small L1 penalty
+                    L2Regularization = 1e-4f,              // Small L2 penalty
+                    Shuffle = true
+                };
+            }
 
             Logger?.LogInformation("Training the model with SdcaMaximumEntropy trainer...");
             var trainingPipeline = pipeline
