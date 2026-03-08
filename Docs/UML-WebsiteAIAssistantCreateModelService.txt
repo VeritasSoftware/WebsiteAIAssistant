@@ -1,0 +1,23 @@
+@startuml
+class WebsiteAIAssistantCreateModelSettings
+{
+  + DataViewType: DataViewType
+  + DataViewFilePath: string
+  + DataViewList: IEnumerable<ModelInput>
+  + SdcaMaximumEntropyOptions: SdcaMaximumEntropyOptions
+  + AIModelFilePath: string
+}
+
+interface IWebsiteAIAssistantCreateModelService
+{    
+  + CreateModelAsync(): Task<bool>
+}
+
+class WebsiteAIAssistantCreateModelService
+{ 
+  + WebsiteAIAssistantCreateModelService(WebsiteAIAssistantCreateModelSettings settings)
+  + CreateModelAsync(): Task<bool>
+}
+
+WebsiteAIAssistantCreateModelService ..|> IWebsiteAIAssistantCreateModelService
+@enduml

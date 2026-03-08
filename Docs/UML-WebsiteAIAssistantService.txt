@@ -1,0 +1,23 @@
+@startuml
+class WebsiteAIAssistantSettings
+{
+  + AIModelLoadFilePath: string
+  + NegativeConfidenceThreshold: float
+  + NegativeLabel: float 
+}
+
+interface IWebsiteAIAssistantService
+{    
+  + LoadModelAsync(): Task
+  + PredictAsync(ModelInput modelInput): Task<Prediction>
+}
+
+class WebsiteAIAssistantService
+{ 
+  + WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, \n \t \t  \t \t \t \t IWebsiteAIAssistantLogger logger = null)
+  + LoadModelAsync(): Task
+  + PredictAsync(ModelInput modelInput): Task<Prediction>
+}
+
+WebsiteAIAssistantService ..|> IWebsiteAIAssistantService
+@enduml
