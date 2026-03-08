@@ -8,7 +8,7 @@ namespace WebsiteAIAssistant.MinimalAPI
         {
             return app.MapGet("/ai/{input}", async (HttpRequest request, string input, [FromServices] ILogger? logger = null, [FromServices] IPostPredictionService? postPredictionService = null) =>
             {
-                logger?.LogInformation("Received input: {Input}", input);
+                logger?.LogInformation("Received input: {0}", input);
 
                 if (string.IsNullOrWhiteSpace(input))
                 {
@@ -17,7 +17,7 @@ namespace WebsiteAIAssistant.MinimalAPI
                     return Results.BadRequest("Input cannot be empty.");
                 }
 
-                logger?.LogInformation("Processing input: {Input}", input);
+                logger?.LogInformation("Processing input: {0}", input);
 
                 var modelInput = new ModelInput { Feature = input.Trim() };
 

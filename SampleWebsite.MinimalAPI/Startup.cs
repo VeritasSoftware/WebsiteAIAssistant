@@ -21,7 +21,7 @@ namespace SampleWebsite.MinimalAPI
             services.AddRouting();
             services.AddLogging(config => config.AddConsole());
             //Optional: register a custom post-prediction service to handle the prediction results
-            //builder.Services.AddScoped<IPostPredictionService, PostPredictionService>();
+            //services.AddScoped<IPostPredictionService, PostPredictionService>();
             services.AddSingleton<IWebsiteAIAssistantLogger, WebsiteAIAssistantLogger>();
             services.AddWebsiteAIAssistant(settings =>
             {
