@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "SampleWebsite.AWSLambda": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "commandLineArgs": "lambda-test-tool-10.0",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51347;http://localhost:51348"
+    }
+  }
+}
