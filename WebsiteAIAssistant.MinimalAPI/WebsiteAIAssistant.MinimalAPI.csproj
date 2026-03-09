@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-	  <Description>This is a minimal API for a Website AI Assistant. It provides an endpoint for generating responses based on your website visitor's input.</Description>
+	  <Description>This is a Minimal API for a Website AI Assistant. It provides an endpoint for generating responses based on your website visitor's input.</Description>
 	  <PackageProjectUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</RepositoryUrl>
 	  <PackageTags></PackageTags>
