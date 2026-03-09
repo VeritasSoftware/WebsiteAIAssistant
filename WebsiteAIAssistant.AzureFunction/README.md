@@ -1,17 +1,16 @@
-﻿# Website AI Assistant Minimal API
+﻿# Website AI Assistant Azure Function
 
 ## AI model built using ML .NET, Microsoft's machine learning platform
 
-### Supports .NET 8/9/10
+### Supports .NET 8 or higher
 
 |Packages|Version|Downloads|
 |---------------------------|:---:|:---:|
 |*WebsiteAIAssistant*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|
-|*WebsiteAIAssistant.MinimalAPI*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|
 
 AI Assistant helps visitors to your website, narrow down which of the offered products or services suits their needs.
 
-This is a minimal API for the assistant. It provides an endpoint for generating response based on visitor's input.
+This is a Azure Function for the assistant. It provides an endpoint for generating response based on visitor's input.
 
 ## Overview
 
@@ -27,4 +26,4 @@ You can then provide more information about that category.
 
 ## Documentation
 
-Read more [**here**](https://github.com/VeritasSoftware/WebsiteAIAssistant/blob/master/Docs/README_MinimalAPI.md)
+Read more [**here**](https://github.com/VeritasSoftware/WebsiteAIAssistant/blob/master/Docs/README_AzureFunction.md)
