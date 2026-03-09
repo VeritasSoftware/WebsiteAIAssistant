@@ -14,8 +14,8 @@
 	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	  <Authors>Shantanu</Authors>
 	  <Company>Veritas Software</Company>
-	  <Version>1.0.0</Version>
-	  <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+	  <Version>2.0.0</Version>
+	  <PackageReleaseNotes>Added helper services to create model, load and predict, logging, exposing trainer options etc.</PackageReleaseNotes>
 	  <Title>WebsiteAIAssistant</Title>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>	  
   </PropertyGroup>
