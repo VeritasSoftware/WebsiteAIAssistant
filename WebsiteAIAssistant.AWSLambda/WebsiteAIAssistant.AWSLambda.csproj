@@ -20,6 +20,9 @@
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebsiteAIAssistant\WebsiteAIAssistant.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="serverless.template">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

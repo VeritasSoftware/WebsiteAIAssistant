@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SampleWebsite.AWSLambda\SampleWebsite.AWSLambda.csproj" />
     <ProjectReference Include="..\SampleWebsite.AzureFunction\SampleWebsite.AzureFunction.csproj" />
     <ProjectReference Include="..\SampleWebsite.MinimalAPI\SampleWebsite.MinimalAPI.csproj" />
     <ProjectReference Include="..\WebsiteAIAssistant\WebsiteAIAssistant.csproj" />

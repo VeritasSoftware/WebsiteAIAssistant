@@ -9,37 +9,57 @@ namespace WebsiteAIAssistant.AWSLambda
 {
     public class WebsiteAIAssistantFunctions
     {
-        /// <summary>
-        /// Default constructor that Lambda will invoke.
-        /// </summary>
-        public WebsiteAIAssistantFunctions()
+        private readonly ILogger<WebsiteAIAssistantFunctions>? _logger;
+        private readonly IPostPredictionService? _postPredictionService;
+
+        public WebsiteAIAssistantFunctions(IPostPredictionService? postPredictionService = null, 
+                                            ILogger<WebsiteAIAssistantFunctions>? logger = null)
         {
+            _postPredictionService = postPredictionService;
+            _logger = logger;
+        }        
+
+        [LambdaFunction]
+        [RestApi(LambdaHttpMethod.Get, "/ai/{input}")]
+        public async Task<object> Get([FromRoute(Name = "input")]string input, ILambdaContext context)
+        {
+            input = input?.Trim() ?? string.Empty;
+
+            LogInformation(context, string.Format("Received input: {0}", input));
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                LogInformation(context, "Input is empty or whitespace.");
+
+                return "Input cannot be empty.";
+            }
+
+            LogInformation(context, string.Format("Processing input: {0}", input));
+
+            var modelInput = new ModelInput { Feature = input.Trim() };
+
+            var prediction = await PredictionEngine.PredictAsync(modelInput);
+
+            if (_postPredictionService == null)
+            {
+                LogInformation(context, "No post-prediction service configured. Returning raw prediction.");
+
+                return prediction;
+            }
+
+            LogInformation(context, "Post-prediction service configured. Processing prediction with post-prediction service.");
+
+            var result = await _postPredictionService.HandlePredictionAsync(context, modelInput, prediction);
+
+            LogInformation(context, "Post-prediction service processed the prediction. Returning result.");
+
+            return result;
         }
 
-
-        /// <summary>
-        /// A Lambda function to respond to HTTP WebsiteAIAssistantGetPrediction methods from API Gateway
-        /// </summary>
-        /// <remarks>
-        /// This uses the <see href="https://github.com/aws/aws-lambda-dotnet/blob/master/Libraries/src/Amazon.Lambda.Annotations/README.md">Lambda Annotations</see> 
-        /// programming model to bridge the gap between the Lambda programming model and a more idiomatic .NET model.
-        /// 
-        /// This automatically handles reading parameters from an APIGatewayProxyRequest
-        /// as well as syncing the function definitions to serverless.template each time you build.
-        /// 
-        /// If you do not wish to use this model and need to manipulate the API Gateway 
-        /// objects directly, see the accompanying Readme.md for instructions.
-        /// </remarks>
-        /// <param name="context">Information about the invocation, function, and execution environment</param>
-        /// <returns>The response as an implicit <see cref="APIGatewayProxyResponse"/></returns>
-        [LambdaFunction]
-        //[HttpApi(LambdaHttpMethod.Get, "/ai")]
-        [RestApi(LambdaHttpMethod.Get, "/ai")]
-        public IHttpResult Get([FromQuery]string input, ILambdaContext context)
+        private void LogInformation(ILambdaContext context, string message, params object[] args)
         {
-            context.Logger.LogInformation("Handling the 'Get' Request");
-
-            return HttpResults.Ok(input);
+            _logger?.LogInformation(message, args);
+            context.Logger.LogInformation(message, args);
         }
     }
 }

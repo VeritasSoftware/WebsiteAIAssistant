@@ -50,7 +50,7 @@
         }
       },
       "Properties": {
-        "Runtime": "dotnet10",
+        "Runtime": "dotnet6",
         "CodeUri": ".",
         "MemorySize": 512,
         "Timeout": 30,
@@ -63,7 +63,7 @@
           "RootGet": {
             "Type": "Api",
             "Properties": {
-              "Path": "/ai",
+              "Path": "/ai/{input}",
               "Method": "GET"
             }
           }
