@@ -69,3 +69,11 @@ builder.Services.AddWebsiteAIAssistant(settings =>
     settings.NegativeLabel = -1f;
 });
 ```
+
+### Tests
+
+You can browse the [**Tests**](/WebsiteAIAssistant.Tests/AzureFunctionEndpointTests.cs) to see how to call the Function.
+
+### Sample
+
+You can find a sample Function App using the library [**here**](/SampleWebsite.AzureFunction).

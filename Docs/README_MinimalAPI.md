@@ -93,3 +93,11 @@ app.UseEndpoints(endpoints =>
 ```
 
 where `app` is `IApplicationBuilder`.
+
+### Tests
+
+You can browse the [**Tests**](/WebsiteAIAssistant.Tests/MinimalAPIEndpointTests.cs) to see how to call the Minimal API.
+
+### Sample
+
+You can find a sample Minimal API App using the library [**here**](/SampleWebsite.MinimalAPI).

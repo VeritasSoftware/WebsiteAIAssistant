@@ -205,6 +205,14 @@ services.AddSingleton<IWebsiteAIAssistantLogger, YourLoggerImplementation>();
 
 Your logger implementation can be like shown [**here**](/SampleWebsite.MinimalAPI/WebsiteAIAssistantLogger.cs) for ASP .NET Core.
 
+### Tests
+
+You can browse the [**Tests**](/WebsiteAIAssistant.Tests/WebsiteAIAssistantTests.cs) to see how to use the library.
+
+### Sample
+
+You can find a sample Console App using the library [**here**](/WebsiteAIAssistant.App).
+
 ## Website AI Assistant Minimal API
 
 There is a Minimal API endpoint which you can directly use in your API project.
