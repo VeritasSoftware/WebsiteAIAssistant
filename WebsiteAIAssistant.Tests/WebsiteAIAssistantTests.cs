@@ -57,7 +57,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [BuildCreateModelDIContainer(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests), 
-                                    "BuildCreateModelDIContainerReturn", "5bffdd98-b7e9-436d-9a92-beb7b6801975")]
+                                    $"{nameof(BuildCreateModelDIContainerReturn)}", "5bffdd98-b7e9-436d-9a92-beb7b6801975")]
         [Fact]
         public async Task CreateModel_File_Service()
         {
@@ -82,7 +82,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [BuildCreateModelDIContainer(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests),
-                                    "BuildCreateModelDIContainerReturn", "49027756-c399-498c-8c2f-f82e5392882c")]
+                                    $"{nameof(BuildCreateModelDIContainerReturn)}", "49027756-c399-498c-8c2f-f82e5392882c")]
         [Fact]
         public async Task CreateModel_List_Service()
         {
@@ -158,7 +158,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
-                                    "BuildLoadPredictDIContainerReturn", "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4")]
+                                    $"{nameof(BuildLoadPredictDIContainerReturn)}", "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -181,7 +181,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
-                                    "BuildLoadPredictDIContainerReturn", "ec94f239-86b9-4563-8b1d-2e85c65fb9d2")]
+                                    $"{nameof(BuildLoadPredictDIContainerReturn)}", "ec94f239-86b9-4563-8b1d-2e85c65fb9d2")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
