@@ -4,17 +4,8 @@ namespace WebsiteAIAssistant.Tests
 {
     public class WebsiteAIAssistantTests
     {
-        private readonly IServiceProvider _aiAssistantServiceProvider;
-        private readonly IServiceProvider _createModelServiceProvider;
-
-        public WebsiteAIAssistantTests()
-        {
-            // Build DI container for Create Model Service            
-            _createModelServiceProvider = BuildCreateModelDIContainer();
-
-            // Build DI container for AI Assistant Service
-            _aiAssistantServiceProvider = BuildLoadPredictDIContainer();
-        }
+        private static IServiceProvider? _aiAssistantServiceProvider;
+        private static IServiceProvider? _createModelServiceProvider;
 
         [Fact]
         public async Task CreateModel_File()
@@ -24,7 +15,7 @@ namespace WebsiteAIAssistant.Tests
 
             string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv");
             PredictionEngine.DataViewFilePath = trainingDataPath;
-            
+
             string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-File-Test.zip");
 
             if (File.Exists(modelPath))
@@ -65,35 +56,14 @@ namespace WebsiteAIAssistant.Tests
             Assert.True(modelExists);
         }
 
+        [BuildCreateModelDIContainer(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests), 
+                                    "BuildCreateModelDIContainerReturn", "5bffdd98-b7e9-436d-9a92-beb7b6801975")]
         [Fact]
         public async Task CreateModel_File_Service()
         {
             // Arrange                       
-            var createModelSettings = _createModelServiceProvider.GetRequiredKeyedService<WebsiteAIAssistantCreateModelSettings>("FileSettings");
-            var createModelService = _createModelServiceProvider.GetRequiredKeyedService<IWebsiteAIAssistantCreateModelService>("File");
-
-            // Delete model file if it already exists to ensure a clean test environment
-            if (File.Exists(createModelSettings.AIModelFilePath))
-            {
-                File.Delete(createModelSettings.AIModelFilePath);
-            }
-
-            // Act
-            var modelCreated = await createModelService.CreateModelAsync();
-
-            var modelExists = File.Exists(createModelSettings.AIModelFilePath);           
-
-            // Assert
-            Assert.True(modelCreated);
-            Assert.True(modelExists);
-        }
-
-        [Fact]
-        public async Task CreateModel_List_Service()
-        {
-            // Arrange                       
-            var createModelSettings = _createModelServiceProvider.GetRequiredKeyedService<WebsiteAIAssistantCreateModelSettings>("ListSettings");
-            var createModelService = _createModelServiceProvider.GetRequiredKeyedService<IWebsiteAIAssistantCreateModelService>("List");
+            var createModelSettings = _createModelServiceProvider!.GetRequiredKeyedService<WebsiteAIAssistantCreateModelSettings>("FileSettings");
+            var createModelService = _createModelServiceProvider!.GetRequiredKeyedService<IWebsiteAIAssistantCreateModelService>("File");
 
             // Delete model file if it already exists to ensure a clean test environment
             if (File.Exists(createModelSettings.AIModelFilePath))
@@ -111,43 +81,57 @@ namespace WebsiteAIAssistant.Tests
             Assert.True(modelExists);
         }
 
+        [BuildCreateModelDIContainer(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests),
+                                    "BuildCreateModelDIContainerReturn", "49027756-c399-498c-8c2f-f82e5392882c")]
+        [Fact]
+        public async Task CreateModel_List_Service()
+        {
+            // Arrange                       
+            var createModelSettings = _createModelServiceProvider!.GetRequiredKeyedService<WebsiteAIAssistantCreateModelSettings>("ListSettings");
+            var createModelService = _createModelServiceProvider!.GetRequiredKeyedService<IWebsiteAIAssistantCreateModelService>("List");
+
+            // Delete model file if it already exists to ensure a clean test environment
+            if (File.Exists(createModelSettings.AIModelFilePath))
+            {
+                File.Delete(createModelSettings.AIModelFilePath);
+            }
+
+            // Act
+            var modelCreated = await createModelService.CreateModelAsync();
+
+            var modelExists = File.Exists(createModelSettings.AIModelFilePath);
+
+            // Assert
+            Assert.True(modelCreated);
+            Assert.True(modelExists);
+        }
+
+        [LoadModelBeforeTest(typeof(LoadAIModel), "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
         public async Task Load_Predict(string userInput, Scheme expectedResult)
         {
-            // Arrange
-            // Path to load model
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
-
-            await PredictionEngine.LoadModelAsync(modelPath);
-
             var input = new ModelInput { Feature = userInput };
 
             // Act
-            var prediction = await PredictionEngine.PredictAsync(input);            
+            var prediction = await PredictionEngine.PredictAsync(input);
 
             // Assert
             Assert.NotNull(prediction);
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
+        [SetModelPathBeforeTest(typeof(SetAIModelPath), "d54e2920-ad42-4acc-a6e2-37aad8e9ac3f")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
         public async Task AutoLoad_Predict(string userInput, Scheme expectedResult)
         {
-            // Arrange
-            // Path to load model
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
-
-            // Provide the path to the AI model
-            PredictionEngine.AIModelLoadFilePath = modelPath;
-
             var input = new ModelInput { Feature = userInput };
-           
+
             // Act
             var prediction = await PredictionEngine.PredictAsync(input);
 
@@ -156,18 +140,13 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
+        [LoadModelBeforeTest(typeof(LoadAIListModel), "1761b894-e972-4c2f-ab01-1c07b4867bd1")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
         public async Task Load_Predict_List(string userInput, Scheme expectedResult)
         {
-            // Arrange
-            // Path to load model created from list
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List.zip");
-
-            await PredictionEngine.LoadModelAsync(modelPath);
-
             var input = new ModelInput { Feature = userInput };
 
             // Act
@@ -178,6 +157,8 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
+        [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
+                                    "BuildLoadPredictDIContainerReturn", "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -185,7 +166,7 @@ namespace WebsiteAIAssistant.Tests
         public async Task Load_Predict_Service(string userInput, Scheme expectedResult)
         {
             // Arrange                      
-            var aiAssistantService = _aiAssistantServiceProvider.GetRequiredService<IWebsiteAIAssistantService>();
+            var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
 
             await aiAssistantService.LoadModelAsync();
 
@@ -199,6 +180,8 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
+        [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
+                                    "BuildLoadPredictDIContainerReturn", "ec94f239-86b9-4563-8b1d-2e85c65fb9d2")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -206,7 +189,7 @@ namespace WebsiteAIAssistant.Tests
         public async Task AutoLoad_Predict_Service(string userInput, Scheme expectedResult)
         {
             // Arrange                      
-            var aiAssistantService = _aiAssistantServiceProvider.GetRequiredService<IWebsiteAIAssistantService>();
+            var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
 
             var input = new ModelInput { Feature = userInput };
 
@@ -218,49 +201,17 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        private IServiceProvider BuildCreateModelDIContainer()
+        private static void BuildLoadPredictDIContainerReturn(object o)
         {
-            // Build DI container for Create Model Service
-            var services = new ServiceCollection();
-            var createModelSettingsFile = new WebsiteAIAssistantCreateModelSettings
-            {
-                DataViewType = DataViewType.File,
-                DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv"),
-                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-File-Service-Test.zip")
-            };
-
-            var createModelSettingsList = new WebsiteAIAssistantCreateModelSettings
-            {
-                DataViewType = DataViewType.List,
-                DataViewList = LoadListFromFile(Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv")),
-                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Service-Test.zip")
-            };
-
-            services = new ServiceCollection();
-            services.AddKeyedSingleton("FileSettings", createModelSettingsFile);
-            services.AddKeyedSingleton("ListSettings", createModelSettingsList);
-            services.AddKeyedSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>("File", (sp, x) => new WebsiteAIAssistantCreateModelService(createModelSettingsFile));
-            services.AddKeyedSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>("List", (sp, x) => new WebsiteAIAssistantCreateModelService(createModelSettingsList));
-            return services.BuildServiceProvider();            
+            _aiAssistantServiceProvider = (IServiceProvider)o;
         }
 
-        private IServiceProvider BuildLoadPredictDIContainer()
+        private static void BuildCreateModelDIContainerReturn(object o)
         {
-            // Build DI container for AI Assistant Service
-            var settings = new WebsiteAIAssistantSettings
-            {
-                AIModelLoadFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip"),
-                NegativeConfidenceThreshold = 0.70f,
-                NegativeLabel = -1f
-            };
-
-            var services = new ServiceCollection();
-            services.AddSingleton(settings);
-            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
-            return services.BuildServiceProvider();
+            _createModelServiceProvider = (IServiceProvider)o;
         }
 
-        private IEnumerable<ModelInput> LoadListFromFile(string filePath)
+        private static IEnumerable<ModelInput> LoadListFromFile(string filePath)
         {
             var data = new List<ModelInput>();
             using var reader = new StreamReader(filePath);
