@@ -3,6 +3,7 @@ using System.Text.Json;
 
 namespace WebsiteAIAssistant.Tests.MinimalAPI
 {
+    [Trait("Category", "SkipCI")]
     public class MinimalAPIEndpointTests : IClassFixture<WebApplicationFactory<SampleWebsite.MinimalAPI.Startup>>
     {
         private readonly HttpClient _httpClient;

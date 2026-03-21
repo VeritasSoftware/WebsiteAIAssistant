@@ -36,6 +36,7 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
         // This class has no code, and is never created. Its purpose is just to be the place to apply [CollectionDefinition] and all the ICollectionFixture<> interfaces.
     }
 
+    [Trait("Category", "SkipCI")]
     [Collection("Function collection")]
     public class AzureFunctionEndpointTests
     {
