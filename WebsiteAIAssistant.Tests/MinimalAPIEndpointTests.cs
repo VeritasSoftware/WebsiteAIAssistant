@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Text.Json;
 
-namespace WebsiteAIAssistant.Tests
+namespace WebsiteAIAssistant.Tests.MinimalAPI
 {
     public class MinimalAPIEndpointTests : IClassFixture<WebApplicationFactory<SampleWebsite.MinimalAPI.Startup>>
     {
