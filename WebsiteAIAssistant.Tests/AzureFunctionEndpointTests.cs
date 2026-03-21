@@ -1,11 +1,10 @@
 ﻿using Microsoft.Learn.AzureFunctionsTesting;
 using System.Text.Json;
-using WebsiteAIAssistant.Tests;
-using WebsiteAIAssistant.Tests.AzureFunctions;
+using WebsiteAIAssistant.Tests.AzureFunction;
 
 [assembly: TestFramework("Microsoft.Learn.AzureFunctionsTesting.TestFramework", "Microsoft.Learn.AzureFunctionsTesting")]
 [assembly: AssemblyFixture(typeof(FunctionFixture<FunctionStartup>))]
-namespace WebsiteAIAssistant.Tests.AzureFunctions
+namespace WebsiteAIAssistant.Tests.AzureFunction
 {    
     public class FunctionStartup : IFunctionTestStartup
     {
