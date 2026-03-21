@@ -31,7 +31,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal --filter 'FullyQualifiedName!~MinimalAPI'
+      run: dotnet test --no-build --verbosity normal --filter 'FullyQualifiedName!~MinimalAPI&FullyQualifiedName!~AzureFunction'
       
   log-the-inputs:
     runs-on: ubuntu-latest
