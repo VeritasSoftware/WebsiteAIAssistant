@@ -12,7 +12,7 @@ namespace WebsiteAIAssistant.Tests
         {
             var solutionDirectoryPath = TryGetSolutionDirectoryInfo(Environment.CurrentDirectory);
 
-            var path = Path.Combine(solutionDirectoryPath!.FullName, @"SampleWebsite.AzureFunction\bin\Debug\net8.0");
+            var path = Path.Combine(solutionDirectoryPath!.FullName, @"SampleWebsite.AzureFunction/bin/Debug/net8.0");
 
             builder.SetFunctionAppPath(path);
         }
