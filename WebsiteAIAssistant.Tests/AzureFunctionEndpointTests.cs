@@ -10,8 +10,22 @@ namespace WebsiteAIAssistant.Tests
     {
         public void Configure(FunctionTestConfigurationBuilder builder)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\SampleWebsite.AzureFunction\bin\Debug\net8.0");
+            var solutionDirectoryPath = TryGetSolutionDirectoryInfo(Environment.CurrentDirectory);
+
+            var path = Path.Combine(solutionDirectoryPath!.FullName, @"SampleWebsite.AzureFunction\bin\Debug\net8.0");
+
             builder.SetFunctionAppPath(path);
+        }
+
+        public static DirectoryInfo? TryGetSolutionDirectoryInfo(string? currentPath = null)
+        {
+            DirectoryInfo? directory = new(
+                currentPath ?? Directory.GetCurrentDirectory());
+            while (directory != null && !directory.GetFiles("*.slnx").Any())
+            {
+                directory = directory.Parent;
+            }
+            return directory;
         }
     }
     
