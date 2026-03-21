@@ -31,8 +31,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" \
-                                      /p:ExcludeByFile="**/MinimalAPIEndpointTests.cs;"
+      run: dotnet test --no-build --verbosity normal --filter WebsiteAIAssistant.Tests.MinimalAPI
       
   log-the-inputs:
     runs-on: ubuntu-latest
