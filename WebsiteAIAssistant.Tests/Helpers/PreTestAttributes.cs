@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace WebsiteAIAssistant.Tests
+namespace WebsiteAIAssistant.Tests.Helpers
 {
-    public class LoadModelBeforeTestAttribute : BeforeAsyncAfterSyncTestAttribute
+    public class LoadModelBeforeTestAttribute : BeforeAfterAsyncTestAttribute
     {
         public LoadModelBeforeTestAttribute(Type specificAttributeType, string stamp) : base(specificAttributeType, stamp)
         {
@@ -14,7 +14,7 @@ namespace WebsiteAIAssistant.Tests
         }
     }
 
-    public class SetModelPathBeforeTestAttribute : BeforeAsyncAfterSyncTestAttribute
+    public class SetModelPathBeforeTestAttribute : BeforeAfterAsyncTestAttribute
     {
         public SetModelPathBeforeTestAttribute(Type specificAttributeType, string stamp) : base(specificAttributeType, stamp)
         {
@@ -26,7 +26,7 @@ namespace WebsiteAIAssistant.Tests
         }
     }
 
-    public class BuildLoadPredictDIContainerAttribute : BeforeAsyncAfterSyncTestAttribute
+    public class BuildLoadPredictDIContainerAttribute : BeforeAfterAsyncTestAttribute
     {
         public BuildLoadPredictDIContainerAttribute(Type specificAttribute, Type returnFunctionClassType,
                                                     string returnFunctionName, string stamp)
@@ -40,7 +40,7 @@ namespace WebsiteAIAssistant.Tests
         }
     }
 
-    public class BuildCreateModelDIContainerAttribute : BeforeAsyncAfterSyncTestAttribute
+    public class BuildCreateModelDIContainerAttribute : BeforeAfterAsyncTestAttribute
     {
         public BuildCreateModelDIContainerAttribute(Type specificAttribute, Type returnFunctionClassType,
                                                     string returnFunctionName, string stamp)

@@ -186,6 +186,15 @@ namespace WebsiteAIAssistant
             await LoadModelAsync(AIModelLoadFilePath);
         }
 
+        public static async Task UnloadModelAsync()
+        {
+            Logger?.LogInformation("Unloading model and clearing prediction engine...");
+            _predictionEngine = null;
+            Logger?.LogInformation("Model unloaded and prediction engine cleared successfully.");
+            await Task.CompletedTask;
+        }
+
+
         public static async Task<Prediction> PredictAsync(ModelInput input)
         {
             if (_predictionEngine == null)

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace WebsiteAIAssistant.Tests
+namespace WebsiteAIAssistant.Tests.Helpers
 {
-    public class LoadAIModel : IRunBeforeTest
+    public class LoadAIModel : IRunBeforeAsync, IRunAfterAsync
     {
-        public Action Run => async () =>
+        public Action RunBefore => async () =>
         {
             // Arrange
             // Path to load model
@@ -12,11 +12,17 @@ namespace WebsiteAIAssistant.Tests
 
             await PredictionEngine.LoadModelAsync(modelPath);
         };
+
+        public Action RunAfter => async () =>
+        {
+            // Clean up resources after the test, if necessary
+             await PredictionEngine.UnloadModelAsync();
+        };
     }
 
-    public class LoadAIListModel : IRunBeforeTest
+    public class LoadAIListModel : IRunBeforeAsync, IRunAfterAsync
     {
-        public Action Run => async () =>
+        public Action RunBefore => async () =>
         {
             // Arrange
             // Path to load model
@@ -24,11 +30,17 @@ namespace WebsiteAIAssistant.Tests
 
             await PredictionEngine.LoadModelAsync(modelPath);
         };
+
+        public Action RunAfter => async () =>
+        {
+            // Clean up resources after the test, if necessary
+            await PredictionEngine.UnloadModelAsync();
+        };
     }
 
-    public class SetAIModelPath : IRunBeforeTest
+    public class SetAIModelPath : IRunBeforeAsync, IRunAfterAsync
     {
-        public Action Run => async () =>
+        public Action RunBefore => async () =>
         {
             // Arrange
             // Path to load model
@@ -36,11 +48,17 @@ namespace WebsiteAIAssistant.Tests
             // Provide the path to the AI model
             PredictionEngine.AIModelLoadFilePath = modelPath;
         };
+
+        public Action RunAfter => async () =>
+        {
+            // Clean up resources after the test, if necessary
+            await PredictionEngine.UnloadModelAsync();
+        };
     }
 
-    public class BuildCreateModelContainer : IRunBeforeTestReturn
+    public class BuildCreateModelContainer : IRunBeforeAsyncWithReturn
     {
-        public Action Run => async () =>
+        public Action RunBefore => async () =>
         {
             var sp = await BuildContainerAsync();
 
@@ -99,9 +117,9 @@ namespace WebsiteAIAssistant.Tests
     }
 
 
-    public class BuildLoadPredictContainer : IRunBeforeTestReturn
+    public class BuildLoadPredictContainer : IRunBeforeAsyncWithReturn
     {
-        public Action Run => async () =>
+        public Action RunBefore => async () =>
         {
             var sp = await BuildContainerAsync();
 

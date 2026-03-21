@@ -55,7 +55,24 @@ namespace WebsiteAIAssistant
 
             await PredictionEngine.LoadModelAsync(_settings.AIModelLoadFilePath);
 
+            _isInitialized = true;
+
             _logger?.LogInformation("AI model loaded successfully.");
+        }
+
+        public async Task UnloadModelAsync()
+        {
+            if (_isInitialized)
+            {
+                _logger?.LogInformation("Unloading AI model.");
+                await PredictionEngine.UnloadModelAsync();
+                _isInitialized = false;
+                _logger?.LogInformation("AI model unloaded successfully.");
+            }
+            else
+            {
+                _logger?.LogWarning("Attempted to unload model, but it was not initialized.");
+            }
         }
 
         public async Task<Prediction> PredictAsync(ModelInput modelInput)
@@ -63,7 +80,6 @@ namespace WebsiteAIAssistant
             if (!_isInitialized)
             {
                 await LoadModelAsync();
-                _isInitialized = true;
             }
 
             _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);

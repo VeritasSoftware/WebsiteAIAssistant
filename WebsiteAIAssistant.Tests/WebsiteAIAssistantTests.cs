@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using WebsiteAIAssistant.Tests.Helpers;
 
 namespace WebsiteAIAssistant.Tests
 {
@@ -167,8 +168,6 @@ namespace WebsiteAIAssistant.Tests
         {
             // Arrange                      
             var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
-
-            await aiAssistantService.LoadModelAsync();
 
             var input = new ModelInput { Feature = userInput };
 
