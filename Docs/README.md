@@ -10,7 +10,7 @@ AI Assistant helps visitors to your website, narrow down which of the offered pr
 |*WebsiteAIAssistant.MinimalAPI*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|
 |*WebsiteAIAssistant.AzureFunction*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|
 
-[![.NET](https://github.com/VeritasSoftware/WebsiteAIAssistant/actions/workflows/dotnet.yml/badge.svg)](https://github.com/VeritasSoftware/WebsiteAIAssistant/actions/workflows/dotnet.yml)
+[![Build & Test](https://github.com/VeritasSoftware/WebsiteAIAssistant/actions/workflows/dotnet.yml/badge.svg)](https://github.com/VeritasSoftware/WebsiteAIAssistant/actions/workflows/dotnet.yml)
 
 ## Overview
 
