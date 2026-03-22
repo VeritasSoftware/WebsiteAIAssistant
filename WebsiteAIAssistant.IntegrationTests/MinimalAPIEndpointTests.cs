@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Text.Json;
-using WebsiteAIAssistant.Tests.Helpers;
 
-namespace WebsiteAIAssistant.Tests.MinimalAPI
+namespace WebsiteAIAssistant.IntegrationTests.MinimalAPI
 {
     public class MinimalAPIEndpointTests : IClassFixture<WebApplicationFactory<SampleWebsite.MinimalAPI.Startup>>
     {
@@ -13,7 +12,7 @@ namespace WebsiteAIAssistant.Tests.MinimalAPI
             _httpClient = factory.CreateClient();
         }
 
-        [Theory_IgnoreTestOnGithub]
+        [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
@@ -40,7 +39,7 @@ namespace WebsiteAIAssistant.Tests.MinimalAPI
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        [Fact_IgnoreTestOnGithub]
+        [Fact]
         public async Task EmptyInput_NotFound()
         {
             // Arrange
@@ -54,7 +53,7 @@ namespace WebsiteAIAssistant.Tests.MinimalAPI
             Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
         }
 
-        [Fact_IgnoreTestOnGithub]
+        [Fact]
         public async Task WhitespaceInput_NotFound()
         {
             // Arrange

@@ -1,11 +1,10 @@
 ﻿using Microsoft.Learn.AzureFunctionsTesting;
 using System.Text.Json;
-using WebsiteAIAssistant.Tests.AzureFunction;
-using WebsiteAIAssistant.Tests.Helpers;
+using WebsiteAIAssistant.IntegrationTests.AzureFunction;
 
 [assembly: TestFramework("Microsoft.Learn.AzureFunctionsTesting.TestFramework", "Microsoft.Learn.AzureFunctionsTesting")]
 [assembly: AssemblyFixture(typeof(FunctionFixture<FunctionStartup>))]
-namespace WebsiteAIAssistant.Tests.AzureFunction
+namespace WebsiteAIAssistant.IntegrationTests.AzureFunction
 {
     public class FunctionStartup : IFunctionTestStartup
     {
@@ -47,7 +46,7 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
             _httpClient = fixture.Client;
         }
 
-        [Theory_IgnoreTestOnGithub]
+        [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
@@ -74,7 +73,7 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        [Fact_IgnoreTestOnGithub]
+        [Fact]
         public async Task EmptyInput_NotFound()
         {
             // Arrange
@@ -89,7 +88,7 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
             Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
         }
 
-        [Fact_IgnoreTestOnGithub]
+        [Fact]
         public async Task WhitespaceInput_NotFound()
         {
             // Arrange
