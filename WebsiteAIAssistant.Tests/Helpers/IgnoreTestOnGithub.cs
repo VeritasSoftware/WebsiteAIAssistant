@@ -17,7 +17,7 @@
             => Environment.GetEnvironmentVariable("GITHUB_ACTION") != null;
     }
 
-    public sealed class Theory_IgnoreTestOnGithub : FactAttribute
+    public sealed class Theory_IgnoreTestOnGithub : TheoryAttribute
     {
         public Theory_IgnoreTestOnGithub()
         {
