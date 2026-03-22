@@ -1,11 +1,12 @@
 ﻿using Microsoft.Learn.AzureFunctionsTesting;
 using System.Text.Json;
 using WebsiteAIAssistant.Tests.AzureFunction;
+using WebsiteAIAssistant.Tests.Helpers;
 
 [assembly: TestFramework("Microsoft.Learn.AzureFunctionsTesting.TestFramework", "Microsoft.Learn.AzureFunctionsTesting")]
 [assembly: AssemblyFixture(typeof(FunctionFixture<FunctionStartup>))]
 namespace WebsiteAIAssistant.Tests.AzureFunction
-{    
+{
     public class FunctionStartup : IFunctionTestStartup
     {
         public void Configure(FunctionTestConfigurationBuilder builder)
@@ -36,7 +37,6 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
         // This class has no code, and is never created. Its purpose is just to be the place to apply [CollectionDefinition] and all the ICollectionFixture<> interfaces.
     }
 
-    [Trait("Category", "SkipCI")]
     [Collection("Function collection")]
     public class AzureFunctionEndpointTests
     {
@@ -47,7 +47,7 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
             _httpClient = fixture.Client;
         }
 
-        [Theory]
+        [Theory_IgnoreTestOnGithub]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
@@ -74,7 +74,7 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        [Fact]
+        [Fact_IgnoreTestOnGithub]
         public async Task EmptyInput_NotFound()
         {
             // Arrange
@@ -89,7 +89,7 @@ namespace WebsiteAIAssistant.Tests.AzureFunction
             Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
         }
 
-        [Fact]
+        [Fact_IgnoreTestOnGithub]
         public async Task WhitespaceInput_NotFound()
         {
             // Arrange
