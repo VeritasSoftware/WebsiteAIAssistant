@@ -200,6 +200,33 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
+        [Fact]
+        public async Task UnloadModel()
+        {
+            // Arrange
+            // Path to load model
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+
+            await PredictionEngine.LoadModelAsync(modelPath);
+
+            var unloaded = await PredictionEngine.UnloadModelAsync();
+
+            // Assert
+            Assert.True(unloaded);
+        }
+
+        [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
+                                    $"{nameof(BuildLoadPredictDIContainerReturn)}", "ea1d6f3b-6fc2-462e-af85-eb90014414e8")]
+        [Fact]
+        public async Task UnloadModel_Service()
+        {
+            var service = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
+
+            var unloaded = await service.UnloadModelAsync();
+            // Assert
+            Assert.True(unloaded);
+        }
+
         private static void BuildLoadPredictDIContainerReturn(object o)
         {
             _aiAssistantServiceProvider = (IServiceProvider)o;

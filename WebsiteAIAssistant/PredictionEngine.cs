@@ -155,7 +155,7 @@ namespace WebsiteAIAssistant
             await Task.CompletedTask;
         }
 
-        public static async Task LoadModelAsync(string modelPath)
+        public static async Task<bool> LoadModelAsync(string modelPath)
         {
             Logger?.LogInformation("Loading model from path: {0}", modelPath);
             //Define DataViewSchema for data preparation pipeline and trained model
@@ -172,10 +172,10 @@ namespace WebsiteAIAssistant
             _predictionEngine = predictionEngine;
 
             Logger?.LogInformation("Prediction engine created successfully and ready for predictions.");
-            await Task.CompletedTask;
+            return await Task.FromResult(true);
         }
 
-        public static async Task LoadModelAsync()
+        public static async Task<bool> LoadModelAsync()
         {
             if (string.IsNullOrEmpty(AIModelLoadFilePath))
             {
@@ -184,14 +184,16 @@ namespace WebsiteAIAssistant
             }
 
             await LoadModelAsync(AIModelLoadFilePath);
+
+            return true;
         }
 
-        public static async Task UnloadModelAsync()
+        public static async Task<bool> UnloadModelAsync()
         {
             Logger?.LogInformation("Unloading model and clearing prediction engine...");
             _predictionEngine = null;
             Logger?.LogInformation("Model unloaded and prediction engine cleared successfully.");
-            await Task.CompletedTask;
+            return await Task.FromResult(true);
         }
 
 
