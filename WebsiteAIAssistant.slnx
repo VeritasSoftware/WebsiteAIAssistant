@@ -13,6 +13,7 @@
     <File Path="LICENSE" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="WebsiteAIAssistant.AWSLambda/WebsiteAIAssistant.AWSLambda.csproj" />
     <Project Path="WebsiteAIAssistant.AzureFunction/WebsiteAIAssistant.AzureFunction.csproj" Id="0ef50f19-19e1-4ac8-a79d-eb8a9fd5d9ad" />
     <Project Path="WebsiteAIAssistant.MinimalAPI/WebsiteAIAssistant.MinimalAPI.csproj" Id="1f1d3828-1153-4ecf-9012-5de7824df2cd" />
     <Project Path="WebsiteAIAssistant/WebsiteAIAssistant.csproj" Id="79bd4cb3-99d4-4336-a906-88f2e94dc7e2" />
@@ -21,6 +22,5 @@
   <Project Path="SampleWebsite.AzureFunction/SampleWebsite.AzureFunction.csproj" Id="6d5fdf74-889f-451b-9a5e-f67cf4e21c80" />
   <Project Path="SampleWebsite.MinimalAPI/SampleWebsite.MinimalAPI.csproj" Id="ab8c72f3-3290-4830-8bf5-d8f9ee1266c0" />
   <Project Path="WebsiteAIAssistant.App/WebsiteAIAssistant.App.csproj" />
-  <Project Path="WebsiteAIAssistant.AWSLambda/WebsiteAIAssistant.AWSLambda.csproj" />
   <Project Path="WebsiteAIAssistant.Tests/WebsiteAIAssistant.Tests.csproj" Id="97ec28f2-4f83-4b63-b8fc-fd503e82e712" />
 </Solution>
