@@ -4,6 +4,7 @@
     <File Path="Docs/Negative.png" />
     <File Path="Docs/Positive.png" />
     <File Path="Docs/README.md" />
+    <File Path="Docs/README_AWSLambda.md" />
     <File Path="Docs/README_AzureFunction.md" />
     <File Path="Docs/README_MinimalAPI.md" />
     <File Path="Docs/UML-Core.txt" />

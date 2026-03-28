@@ -8,17 +8,17 @@ using Microsoft.Extensions.Logging;
 
 namespace WebsiteAIAssistant.AWSLambda;
 
-public class Function
+public class PredictionLambda
 {
-    private readonly ILogger<Function>? _logger;
+    private readonly ILogger<PredictionLambda>? _logger;
     private readonly IPostPredictionService? _postPredictionService;
 
-    public Function()
+    public PredictionLambda()
     {
     }
 
-    public Function(IPostPredictionService? postPredictionService = null,
-                                        ILogger<Function>? logger = null)
+    public PredictionLambda(IPostPredictionService? postPredictionService = null,
+                                        ILogger<PredictionLambda>? logger = null)
     {
         _postPredictionService = postPredictionService;
         _logger = logger;
@@ -34,9 +34,9 @@ public class Function
     [HttpApi(LambdaHttpMethod.Get, "/ai/{input}")]
     public async Task<object> GetHandler(string input, ILambdaContext context)
     {
-        input = input?.Trim() ?? string.Empty;
-
         LogInformation(context, string.Format("Received input: {0}", input));
+
+        input = input?.Trim() ?? string.Empty;        
 
         if (string.IsNullOrWhiteSpace(input))
         {
