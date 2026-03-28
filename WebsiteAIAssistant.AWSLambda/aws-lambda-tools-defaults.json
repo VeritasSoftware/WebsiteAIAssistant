@@ -8,9 +8,9 @@
   "profile": "",
   "region": "",
   "configuration": "Release",
-  "s3-prefix": "WebsiteAIAssistant.AWSLambda/",
-  "template": "serverless.template",
-  "function-handler": "WebsiteAIAssistant.AWSLambda::WebsiteAIAssistant.AWSLambda.WebsiteAIAssistantFunctions::Get",
-  "function-name": "Get",
-  "template-parameters": ""
+  "function-architecture": "x86_64",
+  "function-runtime": "dotnet10",
+  "function-memory-size": 512,
+  "function-timeout": 30,
+  "function-handler": "WebsiteAIAssistant.AWSLambda::WebsiteAIAssistant.AWSLambda.Function::GetHandler"
 }

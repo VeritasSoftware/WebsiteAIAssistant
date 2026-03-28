@@ -14,8 +14,8 @@ namespace SampleWebsite.AWSLambda
         private Task? _backgroundTask;
 
         private readonly static TestLambdaContext testContext = new TestLambdaContext();
-        private readonly static WebsiteAIAssistantFunctions aiAssistant = new WebsiteAIAssistantFunctions();
-        private readonly static Func<string, ILambdaContext, Task<object>> aiAssistantLambdaHandler = aiAssistant.Get;
+        private readonly static Function aiAssistant = new Function();
+        private readonly static Func<string, ILambdaContext, Task<object>> aiAssistantLambdaHandler = aiAssistant.GetHandler;
 
         public TestExecutor(IHostApplicationLifetime appLifetime, ILogger<TestExecutor>? logger = null)
         {

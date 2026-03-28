@@ -1,4 +1,6 @@
-﻿namespace WebsiteAIAssistant.AWSLambda
+﻿using Microsoft.Extensions.Hosting;
+
+namespace WebsiteAIAssistant.AWSLambda
 {
     internal class AIModelLoader : IHostedService
     {

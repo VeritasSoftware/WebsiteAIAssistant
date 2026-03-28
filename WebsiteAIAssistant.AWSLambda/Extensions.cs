@@ -1,4 +1,6 @@
-﻿namespace WebsiteAIAssistant.AWSLambda
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace WebsiteAIAssistant.AWSLambda
 {
     public static class Extensions
     {
