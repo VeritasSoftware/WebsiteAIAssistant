@@ -4,7 +4,8 @@ namespace WebsiteAIAssistant
 {
     public interface IWebsiteAIAssistantService
     {
-        Task LoadModelAsync();
+        Task<bool> LoadModelAsync();
+        Task<bool> UnloadModelAsync();
         Task<Prediction> PredictAsync(ModelInput modelInput);
     }
 }

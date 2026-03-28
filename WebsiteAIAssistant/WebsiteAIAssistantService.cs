@@ -16,7 +16,7 @@ namespace WebsiteAIAssistant
             _logger = logger;
         }        
 
-        public async Task LoadModelAsync()
+        public async Task<bool> LoadModelAsync()
         {
             if (string.IsNullOrEmpty(_settings.AIModelLoadFilePath))
             {
@@ -55,7 +55,21 @@ namespace WebsiteAIAssistant
 
             await PredictionEngine.LoadModelAsync(_settings.AIModelLoadFilePath);
 
+            _isInitialized = true;
+
             _logger?.LogInformation("AI model loaded successfully.");
+
+            return _isInitialized;
+        }
+
+        public async Task<bool> UnloadModelAsync()
+        {
+            _logger?.LogInformation("Unloading AI model.");
+            await PredictionEngine.UnloadModelAsync();
+            _isInitialized = false;
+            _logger?.LogInformation("AI model unloaded successfully.");
+
+            return true;
         }
 
         public async Task<Prediction> PredictAsync(ModelInput modelInput)
@@ -63,7 +77,6 @@ namespace WebsiteAIAssistant
             if (!_isInitialized)
             {
                 await LoadModelAsync();
-                _isInitialized = true;
             }
 
             _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);

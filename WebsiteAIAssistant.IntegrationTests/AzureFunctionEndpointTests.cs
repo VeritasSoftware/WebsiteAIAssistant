@@ -1,17 +1,31 @@
 ﻿using Microsoft.Learn.AzureFunctionsTesting;
 using System.Text.Json;
-using WebsiteAIAssistant.Tests;
+using WebsiteAIAssistant.IntegrationTests.AzureFunction;
 
 [assembly: TestFramework("Microsoft.Learn.AzureFunctionsTesting.TestFramework", "Microsoft.Learn.AzureFunctionsTesting")]
 [assembly: AssemblyFixture(typeof(FunctionFixture<FunctionStartup>))]
-namespace WebsiteAIAssistant.Tests
-{    
+namespace WebsiteAIAssistant.IntegrationTests.AzureFunction
+{
     public class FunctionStartup : IFunctionTestStartup
     {
         public void Configure(FunctionTestConfigurationBuilder builder)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\SampleWebsite.AzureFunction\bin\Debug\net8.0");
+            var solutionDirectoryPath = TryGetSolutionDirectoryInfo(Environment.CurrentDirectory);
+
+            var path = Path.Combine(solutionDirectoryPath!.FullName, @"SampleWebsite.AzureFunction/bin/Debug/net8.0");
+
             builder.SetFunctionAppPath(path);
+        }
+
+        public static DirectoryInfo? TryGetSolutionDirectoryInfo(string? currentPath = null)
+        {
+            DirectoryInfo? directory = new(
+                currentPath ?? Directory.GetCurrentDirectory());
+            while (directory != null && !directory.GetFiles("*.slnx").Any())
+            {
+                directory = directory.Parent;
+            }
+            return directory;
         }
     }
     
