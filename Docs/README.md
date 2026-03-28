@@ -231,10 +231,22 @@ GET /ai/{input}
 
 There is an Azure Function endpoint which you can directly use in your Functions project.
 
-You create your model and save it as a .zip file as shown above, and then just provide the path to load the model in the Function settings.
+You create your model and save it as a .zip file as shown above, and then just provide the path to load the model in the settings.
 
 Read [**more**](/Docs/README_AzureFunction.md)
 
 GET /ai/{input}
 
 [![Azure Function endpoint](/Docs/AzureFunctionEndpoint.png)](/Docs/README_AzureFunction.md)
+
+## Website AI Assistant AWS Lambda
+
+There is an AWS Lambda endpoint which you can directly use in your Lambda project.
+
+You create your model and save it as a .zip file as shown above, and then just provide the path to load the model in the settings.
+
+Read [**more**](/Docs/README_AWSLambda.md)
+
+GET /ai/{input}
+
+[![AWS Lambda endpoint](/Docs/AWSLambdaEndpoint.png)](/Docs/README_AWSLambda.md)
