@@ -11,7 +11,7 @@ namespace WebsiteAIAssistant.Tests
         private readonly static PredictionLambda aiAssistant = new PredictionLambda();
         private readonly static Func<string, ILambdaContext, Task<object>> aiAssistantLambdaHandler = aiAssistant.GetHandler;
 
-        [SetModelPathBeforeTest(typeof(SetAIModelPath), "d5c5cc84-3d9e-4d95-84aa-0e6662537e49")]
+        [LoadModelBeforeTest(typeof(SetAIModelPath), "d5c5cc84-3d9e-4d95-84aa-0e6662537e49")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
