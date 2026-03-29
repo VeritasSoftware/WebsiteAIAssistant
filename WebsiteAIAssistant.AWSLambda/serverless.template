@@ -18,7 +18,7 @@
         }
       },
       "Properties": {
-        "Runtime": "dotnet10",
+        "Runtime": "dotnet8",
         "CodeUri": ".",
         "MemorySize": 512,
         "Timeout": 30,

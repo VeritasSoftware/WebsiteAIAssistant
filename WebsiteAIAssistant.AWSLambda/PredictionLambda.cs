@@ -24,12 +24,6 @@ public class PredictionLambda
         _logger = logger;
     }
 
-    /// <summary>
-    /// A simple function that takes a string and does a ToUpper
-    /// </summary>
-    /// <param name="input">The event for the Lambda function handler to process.</param>
-    /// <param name="context">The ILambdaContext that provides methods for logging and describing the Lambda environment.</param>
-    /// <returns></returns>
     [LambdaFunction]
     [HttpApi(LambdaHttpMethod.Get, "/ai/{input}")]
     public async Task<object> GetHandler(string input, ILambdaContext context)
