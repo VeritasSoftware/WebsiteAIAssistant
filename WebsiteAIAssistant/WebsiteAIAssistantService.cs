@@ -14,7 +14,9 @@ namespace WebsiteAIAssistant
         { 
             _settings = settings ?? throw new ArgumentNullException(nameof(settings), "Settings cannot be null.");
             _logger = logger;
-        }        
+        }
+
+        public bool IsPredictionEngineInitialized => _isInitialized;
 
         public async Task<bool> LoadModelAsync()
         {

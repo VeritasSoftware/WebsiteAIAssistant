@@ -1,6 +1,7 @@
 ﻿using Amazon.Lambda.Core;
 using Amazon.Lambda.TestUtilities;
 using WebsiteAIAssistant.AWSLambda;
+using WebsiteAIAssistant.Tests.Helpers;
 
 namespace WebsiteAIAssistant.Tests
 {
@@ -10,19 +11,13 @@ namespace WebsiteAIAssistant.Tests
         private readonly static PredictionLambda aiAssistant = new PredictionLambda();
         private readonly static Func<string, ILambdaContext, Task<object>> aiAssistantLambdaHandler = aiAssistant.GetHandler;
 
+        [SetModelPathBeforeTest(typeof(SetAIModelPath), "d5c5cc84-3d9e-4d95-84aa-0e6662537e49")]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
         public async Task AutoLoad_Predict(string userInput, Scheme expectedResult)
         {
-            // Arrange
-            // Path to load model
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
-
-            // Provide the path to the AI model
-            PredictionEngine.AIModelLoadFilePath = modelPath;                        
-
             // Act
             var response = await aiAssistantLambdaHandler(userInput, testContext);
             var prediction = response as Prediction;

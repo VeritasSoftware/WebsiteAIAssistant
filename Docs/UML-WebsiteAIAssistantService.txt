@@ -7,15 +7,19 @@ class WebsiteAIAssistantSettings
 }
 
 interface IWebsiteAIAssistantService
-{    
-  + LoadModelAsync(): Task
+{  
+  + IsPredictionEngineInitialized: bool
+  + LoadModelAsync(): Task<bool>
+  + UnloadModelAsync(): Task<bool>
   + PredictAsync(ModelInput modelInput): Task<Prediction>
 }
 
 class WebsiteAIAssistantService
 { 
+  + IsPredictionEngineInitialized: bool
   + WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, \n \t \t  \t \t \t \t IWebsiteAIAssistantLogger logger = null)
-  + LoadModelAsync(): Task
+  + LoadModelAsync(): Task<bool>
+  + UnloadModelAsync(): Task<bool>
   + PredictAsync(ModelInput modelInput): Task<Prediction>
 }
 

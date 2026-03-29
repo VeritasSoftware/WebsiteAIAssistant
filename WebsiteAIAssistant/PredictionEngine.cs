@@ -3,8 +3,6 @@ using Microsoft.ML.Trainers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace WebsiteAIAssistant
@@ -13,6 +11,7 @@ namespace WebsiteAIAssistant
     {
         private static PredictionEngine<ModelInput, Prediction> _predictionEngine;
         private static float _negativeConfidenceThreshold = 0.70f;
+        private static readonly object ModelLock = new object();
 
         public static DataViewType DataViewType { get; set; } = DataViewType.File;
         public static string DataViewFilePath { get; set; }
@@ -26,6 +25,7 @@ namespace WebsiteAIAssistant
         public static float NegativeLabel { get; set; } = -1f;
         public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public static string AIModelLoadFilePath { get; set; }
+        public static bool IsPredictionEngineInitialized => _predictionEngine != null;
         private static float ValidateThreshold(float threshold)
         {
             Logger?.LogInformation($"{nameof(PredictionEngine)}: {threshold}");
@@ -157,21 +157,24 @@ namespace WebsiteAIAssistant
 
         public static async Task<bool> LoadModelAsync(string modelPath)
         {
-            Logger?.LogInformation("Loading model from path: {0}", modelPath);
-            //Define DataViewSchema for data preparation pipeline and trained model
-            DataViewSchema modelSchema;
+            lock (ModelLock)
+            {
+                Logger?.LogInformation("Loading model from path: {0}", modelPath);
+                //Define DataViewSchema for data preparation pipeline and trained model
+                DataViewSchema modelSchema;
 
-            var mlContext = new MLContext();
+                var mlContext = new MLContext();
 
-            // Load trained model
-            ITransformer trainedModel = mlContext.Model.Load(modelPath, out modelSchema);
+                // Load trained model
+                ITransformer trainedModel = mlContext.Model.Load(modelPath, out modelSchema);
 
-            Logger?.LogInformation("Model loaded successfully. Creating prediction engine...");
-            var predictionEngine = mlContext.Model.CreatePredictionEngine<ModelInput, Prediction>(trainedModel);
+                Logger?.LogInformation("Model loaded successfully. Creating prediction engine...");
+                var predictionEngine = mlContext.Model.CreatePredictionEngine<ModelInput, Prediction>(trainedModel);
 
-            _predictionEngine = predictionEngine;
+                _predictionEngine = predictionEngine;
 
-            Logger?.LogInformation("Prediction engine created successfully and ready for predictions.");
+                Logger?.LogInformation("Prediction engine created successfully and ready for predictions.");                
+            }
             return await Task.FromResult(true);
         }
 

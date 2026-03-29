@@ -40,10 +40,12 @@ class PredictionEngine
   + NegativeLabel: float
   + SdcaMaximumEntropyOptions: SdcaMaximumEntropyOptions
   + AIModelLoadFilePath: string
+  + IsPredictionEngineInitialized: bool
   + Logger: IWebsiteAIAssistantLogger
   + CreateModelAsync(string modelPath): Task
-  + LoadModelAsync(string modelPath): Task
-  + LoadModelAsync(): Task
+  + LoadModelAsync(string modelPath): Task<bool>
+  + LoadModelAsync(): Task<bool>
+  + UnloadModelAsync(): Task<bool>
   + PredictAsync(ModelInput input): Task<Prediction>
 }
 
