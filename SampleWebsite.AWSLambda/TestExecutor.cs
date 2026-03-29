@@ -9,7 +9,6 @@ namespace SampleWebsite.AWSLambda
     {
         private readonly IHostApplicationLifetime _appLifetime;
         private readonly ILogger<TestExecutor>? _logger;
-        private bool _started = false;
         private CancellationTokenSource? _cts;
         private Task? _backgroundTask;
 

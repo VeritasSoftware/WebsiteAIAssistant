@@ -57,7 +57,7 @@ namespace WebsiteAIAssistant.Tests
             Assert.True(modelExists);
         }
 
-        [BuildCreateModelDIContainer(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests), 
+        [MyBeforeAfterAsyncTest(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests), 
                                     $"{nameof(BuildCreateModelDIContainerReturn)}", "5bffdd98-b7e9-436d-9a92-beb7b6801975")]
         [Fact]
         public async Task CreateModel_File_Service()
@@ -82,7 +82,7 @@ namespace WebsiteAIAssistant.Tests
             Assert.True(modelExists);
         }
 
-        [BuildCreateModelDIContainer(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests),
+        [MyBeforeAfterAsyncTest(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests),
                                     $"{nameof(BuildCreateModelDIContainerReturn)}", "49027756-c399-498c-8c2f-f82e5392882c")]
         [Fact]
         public async Task CreateModel_List_Service()
@@ -107,7 +107,7 @@ namespace WebsiteAIAssistant.Tests
             Assert.True(modelExists);
         }
 
-        [LoadModelBeforeTest(typeof(LoadAIModel), "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4")]
+        [MyBeforeAfterAsyncTest(typeof(LoadAIModel), "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4", 3)]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -124,7 +124,7 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        [LoadModelBeforeTest(typeof(SetAIModelPath), "d54e2920-ad42-4acc-a6e2-37aad8e9ac3f")]
+        [MyBeforeAfterAsyncTest(typeof(SetAIModelPath), "d54e2920-ad42-4acc-a6e2-37aad8e9ac3f", 3)]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -141,7 +141,7 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        [LoadModelBeforeTest(typeof(LoadAIListModel), "1761b894-e972-4c2f-ab01-1c07b4867bd1")]
+        [MyBeforeAfterAsyncTest(typeof(LoadAIListModel), "1761b894-e972-4c2f-ab01-1c07b4867bd1", 3)]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -158,8 +158,8 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
-                                    $"{nameof(BuildLoadPredictDIContainerReturn)}", "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4")]
+        [MyBeforeAfterAsyncTest(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
+                                    $"{nameof(BuildLoadPredictDIContainerReturn)}", "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4", 3)]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -179,8 +179,8 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
         }
 
-        [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
-                                    $"{nameof(BuildLoadPredictDIContainerReturn)}", "ec94f239-86b9-4563-8b1d-2e85c65fb9d2")]
+        [MyBeforeAfterAsyncTest(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
+                                    $"{nameof(BuildLoadPredictDIContainerReturn)}", "ec94f239-86b9-4563-8b1d-2e85c65fb9d2", 3)]
         [Theory]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
@@ -215,7 +215,7 @@ namespace WebsiteAIAssistant.Tests
             Assert.True(unloaded);
         }
 
-        [BuildLoadPredictDIContainer(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
+        [MyBeforeAfterAsyncTest(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
                                     $"{nameof(BuildLoadPredictDIContainerReturn)}", "ea1d6f3b-6fc2-462e-af85-eb90014414e8")]
         [Fact]
         public async Task UnloadModel_Service()
