@@ -26,6 +26,13 @@
 	  <Title>WebsiteAIAssistant.AWSLambda</Title>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+	<ItemGroup>
+		<Content Include="README.md">
+			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Pack>True</Pack>
+		</Content>
+	</ItemGroup>
   <ItemGroup>
     <None Remove="aws-lambda-tools-defaults.json" />
     <None Remove="serverless.template" />
