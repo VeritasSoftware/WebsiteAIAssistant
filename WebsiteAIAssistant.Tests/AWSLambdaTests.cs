@@ -2,6 +2,7 @@
 using Amazon.Lambda.TestUtilities;
 using WebsiteAIAssistant.AWSLambda;
 using WebsiteAIAssistant.Tests.Helpers;
+using xUnitAddons;
 
 namespace WebsiteAIAssistant.Tests
 {

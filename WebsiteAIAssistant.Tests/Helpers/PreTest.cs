@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using xUnitAddons;
 
 namespace WebsiteAIAssistant.Tests.Helpers
 {
