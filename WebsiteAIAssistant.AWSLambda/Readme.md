@@ -1,49 +1,31 @@
-# AWS Lambda Empty Function Project
+# Website AI Assistant AWS Lambda
 
-This starter project consists of:
-* Function.cs - class file containing a class with a single function handler method
-* aws-lambda-tools-defaults.json - default argument settings for use with Visual Studio and command line deployment tools for AWS
+## AI model built using ML .NET, Microsoft's machine learning platform
 
-You may also have a test project depending on the options selected.
+### Supports .NET 8 or higher
 
-The generated function handler is a simple method accepting a string argument that returns the uppercase equivalent of the input string. Replace the body of this method, and parameters, to suit your needs. 
+|Packages|Version|Downloads|
+|---------------------------|:---:|:---:|
+|*WebsiteAIAssistant*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|
+|*WebsiteAIAssistant.MinimalAPI*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|
+|*WebsiteAIAssistant.AzureFunction*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|
 
-## Here are some steps to follow from Visual Studio:
+AI Assistant helps visitors to your website, narrow down which of the offered products or services suits their needs.
 
-To deploy your function to AWS Lambda, right click the project in Solution Explorer and select *Publish to AWS Lambda*.
+This is a AWS Lambda for the assistant. It provides an endpoint for generating response based on visitor's input.
 
-To view your deployed function open its Function View window by double-clicking the function name shown beneath the AWS Lambda node in the AWS Explorer tree.
+## Overview
 
-To perform testing against your deployed function use the Test Invoke tab in the opened Function View window.
+Websites usually have sections that contain information about the various products or services offered by the website. 
 
-To configure event sources for your deployed function, for example to have your function invoked when an object is created in an Amazon S3 bucket, use the Event Sources tab in the opened Function View window.
+It may contain a list of the different products or services offered, along with descriptions and more information in other pages.
 
-To update the runtime configuration of your deployed function use the Configuration tab in the opened Function View window.
+This AI Assistant can help visitors narrow down which of the website's products or services suits their needs,
 
-To view execution logs of invocations of your function use the Logs tab in the opened Function View window.
+by classifying the **visitor's natural language input** into **one of the categories** of products or services offered by the website, 
 
-## Here are some steps to follow to get started from the command line:
+You can then provide more information about that category.
 
-Once you have edited your template and code you can deploy your application using the [Amazon.Lambda.Tools Global Tool](https://github.com/aws/aws-extensions-for-dotnet-cli#aws-lambda-amazonlambdatools) from the command line.
+## Documentation
 
-Install Amazon.Lambda.Tools Global Tools if not already installed.
-```
-    dotnet tool install -g Amazon.Lambda.Tools
-```
-
-If already installed check if new version is available.
-```
-    dotnet tool update -g Amazon.Lambda.Tools
-```
-
-Execute unit tests
-```
-    cd "WebsiteAIAssistant.AWSLambda/test/WebsiteAIAssistant.AWSLambda.Tests"
-    dotnet test
-```
-
-Deploy function to AWS Lambda
-```
-    cd "WebsiteAIAssistant.AWSLambda/src/WebsiteAIAssistant.AWSLambda"
-    dotnet lambda deploy-function
-```
+Read more [**here**](https://github.com/VeritasSoftware/WebsiteAIAssistant/blob/master/Docs/README_AWSLambda.md)
