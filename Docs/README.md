@@ -82,7 +82,7 @@ The `WebsiteAIAssistantService` service can be used to load the model and make p
 
 **Note:-** If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
 
-**Note:-** The `WebsiteAIAssistantService` service uses the `PredictionEnginePool` to manage the prediction engine instances, 
+**Note:-** The `WebsiteAIAssistantService` service uses the [`PredictionEnginePool`](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.ml.predictionenginepool-2.-ctor?view=ml-dotnet-preview) to manage the prediction engine instances, 
 
 which allows for better performance and scalability by reusing the prediction engine instances across multiple predictions.
 
