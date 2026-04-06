@@ -13,6 +13,7 @@ namespace WebsiteAIAssistant
         public readonly PredictionEnginePool<ModelInput, Prediction> _predictionEngine;
         private readonly IWebsiteAIAssistantLogger _logger;
         private static bool _isInitialized = false;
+        private static string _modelKey = $"{nameof(ModelInput)}";
 
         public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, PredictionEnginePool<ModelInput, Prediction> predictionEnginePool, IWebsiteAIAssistantLogger logger = null) 
         { 
@@ -60,7 +61,7 @@ namespace WebsiteAIAssistant
             PredictionEngine.AIModelLoadFilePath = _settings.AIModelLoadFilePath;
             PredictionEngine.Logger = _logger;
 
-            _isInitialized = _predictionEngine.GetPredictionEngine($"{nameof(ModelInput)}") != null;
+            _isInitialized = _predictionEngine.GetPredictionEngine(_modelKey) != null;
 
             _logger?.LogInformation("AI model loaded successfully.");
 
@@ -70,7 +71,7 @@ namespace WebsiteAIAssistant
         public async Task<bool> UnloadModelAsync()
         {
             _logger?.LogInformation("Unloading AI model.");
-            _predictionEngine.GetPredictionEngine($"{nameof(ModelInput)}").Dispose();
+            _predictionEngine.GetPredictionEngine(_modelKey).Dispose();
             _isInitialized = false;
             _logger?.LogInformation("AI model unloaded successfully.");
 
@@ -85,7 +86,7 @@ namespace WebsiteAIAssistant
             }
 
             _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);
-            var prediction = _predictionEngine.Predict($"{nameof(ModelInput)}", modelInput);
+            var prediction = _predictionEngine.Predict(_modelKey, modelInput);
 
             if (prediction.PredictedLabel <= _settings.NegativeLabel)
             {
