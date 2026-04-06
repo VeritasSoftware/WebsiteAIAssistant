@@ -49,6 +49,8 @@ Below is the class diagram of the `core` component.
 
 ## Helper Services
 
+### WebsiteAIAssistantCreateModelService
+
 Below is the class diagram of the `WebsiteAIAssistantCreateModelService` service.
 
 ![WebsiteAIAssistant Create Model Service](/Docs/WebsiteAIAssistantCreateModelService.png)
@@ -70,16 +72,23 @@ services.AddSingleton(createModelSettings);
 services.AddSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>();
 ```
 
+### WebsiteAIAssistantService
+
 Below is the class diagram of the `WebsiteAIAssistantService` service.
 
 ![WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantService.png)
 
-This service (& the `WebsiteAIAssistantSettings`) can be wired up for dependency injection as `Singleton`, 
+The `WebsiteAIAssistantService` service can be used to load the model and make predictions.
 
-and can be used to load the model and make predictions.
+**Note:-** If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
 
-If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
+**Note:-** The `WebsiteAIAssistantService` service uses the `PredictionEnginePool` to manage the prediction engine instances, 
 
+which allows for better performance and scalability by reusing the prediction engine instances across multiple predictions.
+
+It is also thread-safe, so it can be used in a multi-threaded environment without any issues.
+
+The `WebsiteAIAssistantService` service & the `WebsiteAIAssistantSettings` have to be wired up for dependency injection as shown below.
 
 ```csharp
 var settings = new WebsiteAIAssistantSettings
@@ -209,14 +218,6 @@ await createModelService.CreateModelAsync();
 **Step 3** : 
 
 Test the prediction engine with a sample input.
-
-Note:- If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
-
-Note:- The `IWebsiteAIAssistantService` service uses the `PredictionEnginePool` to manage the prediction engine instances, 
-
-which allows for better performance and scalability by reusing the prediction engine instances across multiple predictions.
-
-It is also thread-safe, so it can be used in a multi-threaded environment without any issues.
 
 ```csharp
 var aiAssistantService = _serviceProvider.GetRequiredService<IWebsiteAIAssistantService>();
