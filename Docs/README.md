@@ -90,8 +90,7 @@ var settings = new WebsiteAIAssistantSettings
 };
 
 // Register services for dependency injection
-services.AddSingleton(settings);
-services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+services.AddWebsiteAIAssistantCore(settings);
 ```
 
 ## Usage
@@ -109,6 +108,8 @@ You can take a look at the training dataset [**here**](/WebsiteAIAssistant.App/T
 Please note that the training dataset is very small and is only for demonstration purposes.
 
 **Note:-** Create an entry for `NegativeLabel` (eg. -1 default Label, with no Feature data) in the training dataset for testing the negative case where the visitor's input does not match any of the categories of products or services offered by the website.
+
+## Using the Prediction Engine
 
 You can set the `NegativeLabel`, to determine the Label for negative predictions. Default value is -1.
 
@@ -189,6 +190,40 @@ Test the prediction engine with a sample input.
 var input = new ModelInput { Feature = "What are the requisites for carbon credits?" };
 
 var prediction = await PredictionEngine.PredictAsync(input);
+```
+
+### Using the Helper Services
+
+First wire up the services for dependency injection as shown in the previous section.
+
+**Step 2** :
+
+Create the model only once and save it as a `.zip` file, and reuse the file for subsequent predictions.
+
+```csharp
+var createModelService = _serviceProvider.GetRequiredService<IWebsiteAIAssistantCreateModelService>();
+
+await createModelService.CreateModelAsync();
+```
+
+**Step 3** : 
+
+Test the prediction engine with a sample input.
+
+Note:- If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
+
+Note:- The `IWebsiteAIAssistantService` service uses the `PredictionEnginePool` to manage the prediction engine instances, 
+
+which allows for better performance and scalability by reusing the prediction engine instances across multiple predictions.
+
+It is also thread-safe, so it can be used in a multi-threaded environment without any issues.
+
+```csharp
+var aiAssistantService = _serviceProvider.GetRequiredService<IWebsiteAIAssistantService>();
+
+var input = new ModelInput { Feature = "What are the requisites for carbon credits?" };
+
+var prediction = await aiAssistantService.PredictAsync(input);
 ```
 
 ### Logging

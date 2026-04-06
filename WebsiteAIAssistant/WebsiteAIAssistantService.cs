@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.ML;
+using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebsiteAIAssistant
@@ -7,12 +10,14 @@ namespace WebsiteAIAssistant
     public class WebsiteAIAssistantService : IWebsiteAIAssistantService
     {
         private readonly WebsiteAIAssistantSettings _settings;
+        public readonly PredictionEnginePool<ModelInput, Prediction> _predictionEngine;
         private readonly IWebsiteAIAssistantLogger _logger;
         private static bool _isInitialized = false;
 
-        public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, IWebsiteAIAssistantLogger logger = null) 
+        public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, PredictionEnginePool<ModelInput, Prediction> predictionEnginePool, IWebsiteAIAssistantLogger logger = null) 
         { 
             _settings = settings ?? throw new ArgumentNullException(nameof(settings), "Settings cannot be null.");
+            _predictionEngine = predictionEnginePool ?? throw new ArgumentNullException(nameof(predictionEnginePool), "PredictionEnginePool cannot be null.");  
             _logger = logger;
         }
 
@@ -55,23 +60,21 @@ namespace WebsiteAIAssistant
             PredictionEngine.AIModelLoadFilePath = _settings.AIModelLoadFilePath;
             PredictionEngine.Logger = _logger;
 
-            await PredictionEngine.LoadModelAsync(_settings.AIModelLoadFilePath);
-
-            _isInitialized = true;
+            _isInitialized = _predictionEngine.GetPredictionEngine($"{nameof(ModelInput)}") != null;
 
             _logger?.LogInformation("AI model loaded successfully.");
 
             return _isInitialized;
         }
-
+        
         public async Task<bool> UnloadModelAsync()
         {
             _logger?.LogInformation("Unloading AI model.");
-            await PredictionEngine.UnloadModelAsync();
+            _predictionEngine.GetPredictionEngine($"{nameof(ModelInput)}").Dispose();
             _isInitialized = false;
             _logger?.LogInformation("AI model unloaded successfully.");
 
-            return true;
+            return await Task.FromResult(true);
         }
 
         public async Task<Prediction> PredictAsync(ModelInput modelInput)
@@ -82,10 +85,28 @@ namespace WebsiteAIAssistant
             }
 
             _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);
-            var prediction = await PredictionEngine.PredictAsync(modelInput);
+            var prediction = _predictionEngine.Predict($"{nameof(ModelInput)}", modelInput);
+
+            if (prediction.PredictedLabel <= _settings.NegativeLabel)
+            {
+                _logger?.LogInformation("Negative prediction detected (PredictedLabel={0}). Checking confidence score...", prediction.PredictedLabel);
+                if (prediction.Score[0] < _settings.NegativeConfidenceThreshold)
+                {
+                    _logger?.LogInformation("Negative prediction with low confidence (Score[0]={0}). Checking for second highest score...", prediction.Score[0]);
+                    var secondHighestScore = prediction.Score
+                                                        .OrderByDescending(s => s)
+                                                        .Skip(1)
+                                                        .First();
+                    var index = Array.IndexOf(prediction.Score, secondHighestScore);
+
+                    prediction.PredictedLabel = index - 1;
+                }
+                _logger?.LogInformation("Final prediction after confidence check: PredictedLabel={0}", prediction.PredictedLabel);
+            }
+
             _logger?.LogInformation($"Prediction made. PredictedLabel: {prediction.PredictedLabel}, Score: {string.Join(", ", prediction.Score)}");
 
-            return prediction;
+            return await Task.FromResult(prediction);
         }
     }
 }
