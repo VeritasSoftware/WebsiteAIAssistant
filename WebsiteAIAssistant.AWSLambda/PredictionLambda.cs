@@ -10,6 +10,7 @@ namespace WebsiteAIAssistant.AWSLambda;
 
 public class PredictionLambda
 {
+    private readonly IWebsiteAIAssistantService? _aIAssistantService;
     private readonly ILogger<PredictionLambda>? _logger;
     private readonly IPostPredictionService? _postPredictionService;
 
@@ -17,9 +18,10 @@ public class PredictionLambda
     {
     }
 
-    public PredictionLambda(IPostPredictionService? postPredictionService = null,
+    public PredictionLambda(IWebsiteAIAssistantService aIAssistantService, IPostPredictionService? postPredictionService = null,
                                         ILogger<PredictionLambda>? logger = null)
     {
+        _aIAssistantService = aIAssistantService;
         _postPredictionService = postPredictionService;
         _logger = logger;
     }
@@ -43,7 +45,7 @@ public class PredictionLambda
 
         var modelInput = new ModelInput { Feature = input.Trim() };
 
-        var prediction = await PredictionEngine.PredictAsync(modelInput);
+        var prediction = await _aIAssistantService!.PredictAsync(modelInput);
 
         if (_postPredictionService == null)
         {

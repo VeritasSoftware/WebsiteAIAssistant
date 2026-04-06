@@ -6,7 +6,8 @@ namespace WebsiteAIAssistant.MinimalAPI
     {
         public static RouteHandlerBuilder MapWebsiteAIAssistant(this IEndpointRouteBuilder app)
         {
-            return app.MapGet("/ai/{input}", async (HttpRequest request, string input, [FromServices] ILogger? logger = null, [FromServices] IPostPredictionService? postPredictionService = null) =>
+            return app.MapGet("/ai/{input}", async (HttpRequest request, string input, [FromServices] IWebsiteAIAssistantService aiAssistantService,
+                                                        [FromServices] ILogger? logger = null, [FromServices] IPostPredictionService? postPredictionService = null) =>
             {
                 logger?.LogInformation("Received input: {0}", input);
 
@@ -21,7 +22,7 @@ namespace WebsiteAIAssistant.MinimalAPI
 
                 var modelInput = new ModelInput { Feature = input.Trim() };
 
-                var prediction = await PredictionEngine.PredictAsync(modelInput);
+                var prediction = await aiAssistantService.PredictAsync(modelInput);
 
                 if (postPredictionService == null)
                 {

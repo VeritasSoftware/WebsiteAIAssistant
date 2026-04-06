@@ -9,11 +9,13 @@ namespace WebsiteAIAssistant.AzureFunction
 {
     public class WebsiteAIAssistantFunction
     {
+        private readonly IWebsiteAIAssistantService _aIAssistantService;
         private readonly ILogger<WebsiteAIAssistantFunction>? _logger;
         private readonly IPostPredictionService? _postPredictionService;
 
-        public WebsiteAIAssistantFunction(IPostPredictionService? postPredictionService = null, ILogger<WebsiteAIAssistantFunction>? logger = null)
+        public WebsiteAIAssistantFunction(IWebsiteAIAssistantService aIAssistantService, IPostPredictionService? postPredictionService = null, ILogger<WebsiteAIAssistantFunction>? logger = null)
         {
+            _aIAssistantService = aIAssistantService;
             _postPredictionService = postPredictionService;
             _logger = logger;
         }
@@ -36,7 +38,7 @@ namespace WebsiteAIAssistant.AzureFunction
 
             var modelInput = new ModelInput { Feature = input.Trim() };
 
-            var prediction = await PredictionEngine.PredictAsync(modelInput);
+            var prediction = await _aIAssistantService.PredictAsync(modelInput);
 
             if (_postPredictionService == null)
             {
