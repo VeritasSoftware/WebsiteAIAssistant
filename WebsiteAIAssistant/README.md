@@ -6,9 +6,9 @@ AI Assistant helps visitors to your website, narrow down which of the offered pr
 
 |Packages|Version|Downloads|
 |---------------------------|:---:|:---:|
-|*WebsiteAIAssistant*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant)](https://www.nuget.org/packages/WebsiteAIAssistant)|
 |*WebsiteAIAssistant.MinimalAPI*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.MinimalAPI)](https://www.nuget.org/packages/WebsiteAIAssistant.MinimalAPI)|
 |*WebsiteAIAssistant.AzureFunction*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.AzureFunction)](https://www.nuget.org/packages/WebsiteAIAssistant.AzureFunction)|
+|*WebsiteAIAssistant.AWSLambda*|[![Nuget Version](https://img.shields.io/nuget/v/WebsiteAIAssistant.AWSLambda)](https://www.nuget.org/packages/WebsiteAIAssistant.AWSLambda)|[![Downloads count](https://img.shields.io/nuget/dt/WebsiteAIAssistant.AWSLambda)](https://www.nuget.org/packages/WebsiteAIAssistant.AWSLambda)|
 
 ## Overview
 
