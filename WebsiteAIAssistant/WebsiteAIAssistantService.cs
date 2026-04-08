@@ -13,7 +13,7 @@ namespace WebsiteAIAssistant
         public readonly PredictionEnginePool<ModelInput, Prediction> _predictionEngine;
         private readonly IWebsiteAIAssistantLogger _logger;
         private static bool _isInitialized = false;
-        private static string _modelKey = $"{nameof(ModelInput)}";
+        private readonly string _modelKey = $"{nameof(ModelInput)}";
 
         public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, PredictionEnginePool<ModelInput, Prediction> predictionEnginePool, IWebsiteAIAssistantLogger logger = null) 
         { 
