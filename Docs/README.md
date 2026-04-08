@@ -91,15 +91,12 @@ It is also thread-safe, so it can be used in a multi-threaded environment withou
 The `WebsiteAIAssistantService` service & the `WebsiteAIAssistantSettings` have to be wired up for dependency injection as shown below.
 
 ```csharp
-var settings = new WebsiteAIAssistantSettings
-{                
-    AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip"),
-    NegativeConfidenceThreshold = 0.70f,
-    NegativeLabel = -1f
-};
-
-// Register services for dependency injection
-services.AddWebsiteAIAssistantCore(settings);
+services.AddWebsiteAIAssistantCore(settings =>
+{
+    settings.AIModelLoadFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+    settings.NegativeConfidenceThreshold = 0.70f;
+    settings.NegativeLabel = -1f;
+});
 ```
 
 ## Usage
