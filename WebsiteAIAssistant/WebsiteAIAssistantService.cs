@@ -14,16 +14,21 @@ namespace WebsiteAIAssistant
         private readonly IWebsiteAIAssistantLogger _logger;
         private static bool _isInitialized = false;
         private readonly string _modelKey = $"{nameof(ModelInput)}";
+        private readonly float _negativeConfidenceThreshold;
+        private readonly float _negativeLabel;
 
         public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, PredictionEnginePool<ModelInput, Prediction> predictionEnginePool, IWebsiteAIAssistantLogger logger = null) 
         { 
             _settings = settings ?? throw new ArgumentNullException(nameof(settings), "Settings cannot be null.");
             _predictionEngine = predictionEnginePool ?? throw new ArgumentNullException(nameof(predictionEnginePool), "PredictionEnginePool cannot be null.");  
             _logger = logger;
+            _negativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
+            _negativeLabel = _settings.NegativeLabel;
         }
 
-        public bool IsPredictionEngineInitialized => _isInitialized;
+        public bool IsPredictionEngineInitialized => _predictionEngine.GetPredictionEngine(_modelKey) != null;
 
+        [Obsolete("LoadModelAsync is obsolete. The model is now loaded automatically when the PredictionEnginePool is accessed. It will be removed in a future version.")]
         public async Task<bool> LoadModelAsync()
         {
             if (string.IsNullOrEmpty(_settings.AIModelLoadFilePath))
@@ -55,7 +60,6 @@ namespace WebsiteAIAssistant
             }
 
             _logger?.LogInformation("Loading AI model from file: " + _settings.AIModelLoadFilePath);
-
             PredictionEngine.NegativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
             PredictionEngine.NegativeLabel = _settings.NegativeLabel;
             PredictionEngine.AIModelLoadFilePath = _settings.AIModelLoadFilePath;
@@ -80,18 +84,13 @@ namespace WebsiteAIAssistant
 
         public async Task<Prediction> PredictAsync(ModelInput modelInput)
         {     
-            if (!_isInitialized)
-            {
-                await LoadModelAsync();
-            }
-
             _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);
             var prediction = _predictionEngine.Predict(_modelKey, modelInput);
 
-            if (prediction.PredictedLabel <= _settings.NegativeLabel)
+            if (prediction.PredictedLabel <= _negativeLabel)
             {
                 _logger?.LogInformation("Negative prediction detected (PredictedLabel={0}). Checking confidence score...", prediction.PredictedLabel);
-                if (prediction.Score[0] < _settings.NegativeConfidenceThreshold)
+                if (prediction.Score[0] < _negativeConfidenceThreshold)
                 {
                     _logger?.LogInformation("Negative prediction with low confidence (Score[0]={0}). Checking for second highest score...", prediction.Score[0]);
                     var secondHighestScore = prediction.Score

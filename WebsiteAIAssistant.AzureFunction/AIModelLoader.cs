@@ -13,7 +13,7 @@ namespace WebsiteAIAssistant.AzureFunction
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await _aiAssistantService.LoadModelAsync();
+            await Task.CompletedTask;
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
