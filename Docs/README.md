@@ -247,7 +247,23 @@ You can browse the [**Tests**](/WebsiteAIAssistant.Tests/WebsiteAIAssistantTests
 
 ### Sample
 
-You can find a sample Console App using the library [**here**](/WebsiteAIAssistant.App).
+You can find 
+
+* the training dataset used in the samples [**here**](/WebsiteAIAssistant.Tests/Data/TrainingDataset.tsv).
+
+* a sample Console App using the library [**here**](/WebsiteAIAssistant.App).
+
+* a sample ASP .NET Core Minimal API using the library [**here**](/SampleWebsite.MinimalAPI).
+
+* a sample Azure Function using the library [**here**](/SampleWebsite.AzureFunction).
+
+* a sample AWS Lambda using the library [**here**](/SampleWebsite.AWSLambda).
+
+#### Car Category Classification Model
+
+You can find the tests of a sample car category classification model created using the library [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
+
+The training dataset used for this model [**here**](/WebsiteAIAssistant.Tests/Data/TrainingDataset-CarCategory.tsv).
 
 ## Website AI Assistant Minimal API
 

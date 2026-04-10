@@ -1,0 +1,21 @@
+-1	
+0	2 door
+0	1 engine
+0	hatchback price 20000
+0	sedan price 25000
+0	truck price 30000
+1	2 door
+1	2 engine
+1	hatchback price 40000
+1	sedan price 45000
+1	truck price 50000
+2	4 door
+2	1 engine
+2	hatchback price 60000
+2	sedan price 65000
+2	truck price 70000
+3	4 door
+3	2 engine
+3	hatchback price 80000
+3	sedan price 85000
+3	truck price 90000

@@ -9,7 +9,7 @@ namespace WebsiteAIAssistant.Tests.Helpers
         {
             // Arrange
             // Path to load model
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model.zip");
 
             await PredictionEngine.LoadModelAsync(modelPath);
         };
@@ -21,13 +21,33 @@ namespace WebsiteAIAssistant.Tests.Helpers
         };
     }
 
+    public class LoadCarCategoryAIModel : IRunBeforeAsyncWithReturn
+    {
+        public Action RunBefore => async () =>
+        {
+            var sp = await BuildContainerAsync();
+
+            this.ReturnValue = sp;
+        };
+
+        public object? ReturnValue { get; set; }
+
+        private async Task<IServiceProvider> BuildContainerAsync()
+        {
+            // Build DI container for AI Assistant Service
+            var sp = Helpers.BuildCarCategoryContainer();
+
+            return await Task.FromResult(sp);
+        }
+    }
+
     public class LoadAIListModel : IRunBeforeAsync, IRunAfterAsync
     {
         public Action RunBefore => async () =>
         {
             // Arrange
             // Path to load model
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List.zip");
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-List.zip");
 
             await PredictionEngine.LoadModelAsync(modelPath);
         };
@@ -45,7 +65,7 @@ namespace WebsiteAIAssistant.Tests.Helpers
         {
             // Arrange
             // Path to load model
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model.zip");
             // Provide the path to the AI model
             PredictionEngine.AIModelLoadFilePath = modelPath;
         };
@@ -75,15 +95,15 @@ namespace WebsiteAIAssistant.Tests.Helpers
             var createModelSettingsFile = new WebsiteAIAssistantCreateModelSettings
             {
                 DataViewType = DataViewType.File,
-                DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv"),
-                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-File-Service-Test.zip")
+                DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset.tsv"),
+                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-File-Service-Test.zip")
             };
 
             var createModelSettingsList = new WebsiteAIAssistantCreateModelSettings
             {
                 DataViewType = DataViewType.List,
-                DataViewList = LoadListFromFile(Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv")),
-                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Service-Test.zip")
+                DataViewList = LoadListFromFile(Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset.tsv")),
+                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-List-Service-Test.zip")
             };
 
             services = new ServiceCollection();
@@ -132,14 +152,7 @@ namespace WebsiteAIAssistant.Tests.Helpers
         private async Task<IServiceProvider> BuildContainerAsync()
         {
             // Build DI container for AI Assistant Service
-            var services = new ServiceCollection();
-            services.AddWebsiteAIAssistantCore(settings =>
-            {
-                settings.AIModelLoadFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
-                settings.NegativeConfidenceThreshold = 0.70f;
-                settings.NegativeLabel = -1f;
-            });
-            var sp = services.BuildServiceProvider();
+            var sp = Helpers.BuildContainer();
 
             return await Task.FromResult(sp);
         }

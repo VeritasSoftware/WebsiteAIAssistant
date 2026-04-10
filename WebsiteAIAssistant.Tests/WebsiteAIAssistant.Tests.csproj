@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Helpers\Helpers.cs" />
     <Compile Remove="Helpers\PreTestAttributes.cs" />
     <Compile Remove="Helpers\xUnitAddons.cs" />
   </ItemGroup>
@@ -19,13 +18,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="SampleWebsite-AI-Model-CreateModel-List.zip">
+    <Content Include="Data\SampleWebsite-AI-Model-CreateModel-List.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SampleWebsite-AI-Model.zip">
+    <Content Include="Data\SampleWebsite-AI-Model-CarCategory.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TrainingDataset.tsv">
+    <Content Include="Data\SampleWebsite-AI-Model.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\TrainingDataset-CarCategory.tsv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\TrainingDataset.tsv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

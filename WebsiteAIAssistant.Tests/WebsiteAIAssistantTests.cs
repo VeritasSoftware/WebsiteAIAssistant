@@ -15,10 +15,10 @@ namespace WebsiteAIAssistant.Tests
             // Arrange
             PredictionEngine.DataViewType = DataViewType.File;
 
-            string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv");
+            string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset.tsv");
             PredictionEngine.DataViewFilePath = trainingDataPath;
 
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-File-Test.zip");
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-File-Test.zip");
 
             if (File.Exists(modelPath))
             {
@@ -39,12 +39,11 @@ namespace WebsiteAIAssistant.Tests
             // Arrange
             PredictionEngine.DataViewType = DataViewType.List;
 
-            string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "TrainingDataset.tsv");
+            string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset.tsv");
 
             PredictionEngine.DataViewList = LoadListFromFile(trainingDataPath);
 
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model-CreateModel-List-Test.zip");
-
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-List-Test.zip");
             if (File.Exists(modelPath))
             {
                 File.Delete(modelPath);
