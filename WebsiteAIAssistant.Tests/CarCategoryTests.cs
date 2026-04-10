@@ -35,10 +35,10 @@ namespace WebsiteAIAssistant.Tests
         [MyBeforeAfterAsyncTest(typeof(LoadCarCategoryAIModel), typeof(CarCategoryTests),
                             $"{nameof(BuildLoadPredictDIContainerReturn)}", "b9f2641b-d770-47d7-9565-77a64b3df2a4", 4)]
         [Theory]
-        [InlineData("price 42000", CarCategory.TwoDoorTwoEngine)]
-        [InlineData("4 door price 67000", CarCategory.FourDoorOneEngine)]
-        [InlineData("luxury 88000", CarCategory.FourDoorTwoEngine)]
-        [InlineData("2 door 29000", CarCategory.TwoDoorOneEngine)]
+        [InlineData("price 42000", CarCategory.TwoDoorLuxury)]
+        [InlineData("4 door price 67000", CarCategory.FourDoorBasic)]
+        [InlineData("luxury 88000", CarCategory.FourDoorLuxury)]
+        [InlineData("2 door 29000", CarCategory.TwoDoorBasic)]
         [InlineData("What is the colour of a rose?", CarCategory.None)]
         public async Task Load_Predict_Service_CarCategory(string userInput, CarCategory expectedResult)
         {
