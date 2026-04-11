@@ -17,7 +17,7 @@ namespace WebsiteAIAssistant.Tests
             string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset-CarCategory.tsv");
             PredictionEngine.DataViewFilePath = trainingDataPath;
 
-            string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CarCategory.zip");
+            string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CarCategory-CreateModel-Test.zip");
 
             if (File.Exists(modelPath))
             {
