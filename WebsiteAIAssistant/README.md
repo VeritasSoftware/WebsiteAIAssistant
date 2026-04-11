@@ -18,7 +18,7 @@ It may contain a list of the different products or services offered, along with 
 
 This AI Assistant can help visitors narrow down which of the website's products or services suits their needs,
 
-by classifying the **visitor's natural language input** into **one of the categories** of products or services offered by the website, 
+by classifying the **visitor's natural language** and/or **numeric based** input into **one of the categories** of products or services offered by the website. 
 
 You can then provide more information about that category.
 

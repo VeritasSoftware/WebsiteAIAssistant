@@ -21,13 +21,15 @@ It may contain a list of the different products or services offered, along with 
 
 This AI Assistant can help visitors narrow down which of the website's products or services suits their needs,
 
-by classifying the **visitor's natural language input** into **one of the categories** of products or services offered by the website, 
+by classifying the **visitor's natural language** and/or **numeric based** input into **one of the categories** of products or services offered by the website.
 
 You can then provide more information about that category.
 
 You can create a Web API with an GET endpoint that takes the visitor's input and returns the predicted category and more information about the category from the website's database or other source.
 
 ## Example
+
+This example is a scenario involving classifying user's natural language input to a predicted category.
 
 Let us say a web site has **Schemes**, which are a types of products or services offered by the website.
 
@@ -261,7 +263,7 @@ You can find
 
 #### Car Category Classification Model
 
-In this scenario, the classification into a category is done based on numeric data too.
+In this scenario, the classification into a category is done based on **numeric training data** too.
 
 You can find the tests of a sample car category classification model created using the library [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
 
