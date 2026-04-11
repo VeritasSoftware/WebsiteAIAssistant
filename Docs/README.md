@@ -261,7 +261,11 @@ You can find
 
 #### Car Category Classification Model
 
+In this scenario, the classification into a category is done based on numeric data too.
+
 You can find the tests of a sample car category classification model created using the library [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
+
+In the tests, you can see the inputs to the model along with the predicted category.
 
 The training dataset used for this model [**here**](/WebsiteAIAssistant.Tests/Data/TrainingDataset-CarCategory.tsv).
 
