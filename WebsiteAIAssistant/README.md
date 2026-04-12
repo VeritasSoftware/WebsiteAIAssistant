@@ -2,7 +2,7 @@
 
 ## Library built using ML .NET, Microsoft's machine learning platform
 
-## Create and your own bespoke AI model and make predictions using the library
+## Create and your own bespoke AI model and make predictions
 
 AI Assistant helps visitors to your website, narrow down which of the offered products or services suits their needs.
 
