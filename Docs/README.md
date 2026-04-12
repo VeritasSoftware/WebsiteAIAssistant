@@ -27,7 +27,7 @@ by classifying the **visitor's natural language** and/or **numeric based** input
 
 You can then provide more information about that category.
 
-The API provided by the library let you `create your bespoke AI model` based on `your training data`, 
+The API provided by the library let you `create your bespoke AI model` based on `your training data` 
 
 and then `load your model` and `make predictions`.
 
