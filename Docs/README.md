@@ -269,9 +269,75 @@ You can find
 
 In this scenario, the classification into a category is done based on **numeric training data** too.
 
-You can find the tests of a sample car category classification model created using the library [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
+##### The Car categories:
 
-In the tests, you can see the inputs to the model along with the predicted category.
+```csharp
+public enum CarCategory
+{
+    None = -1,
+    TwoDoorBasic = 0,
+    TwoDoorLuxury = 1,               
+    FourDoorBasic = 2,
+    FourDoorLuxury = 3
+}
+```
+
+##### The training data:
+
+```
+-1	
+0	2 door
+0	basic
+0	hatchback price 20000
+0	sedan price 25000
+0	truck price 30000
+1	2 door
+1	luxury
+1	hatchback price 40000
+1	sedan price 45000
+1	truck price 50000
+2	4 door
+2	basic
+2	hatchback price 60000
+2	sedan price 65000
+2	truck price 70000
+3	4 door
+3	luxury
+3	hatchback price 80000
+3	sedan price 85000
+3	truck price 90000
+```
+
+##### The Unit tests on the model:
+
+You can see the inputs to the model along with the predicted category.
+
+```csharp
+[Theory]
+[InlineData("price 42000", CarCategory.TwoDoorLuxury)]
+[InlineData("price 39000", CarCategory.TwoDoorBasic)]
+[InlineData("4 door price 67000", CarCategory.FourDoorBasic)]
+[InlineData("luxury 88000", CarCategory.FourDoorLuxury)]
+[InlineData("luxury 62000", CarCategory.TwoDoorLuxury)]
+[InlineData("2 door 29000", CarCategory.TwoDoorBasic)]
+[InlineData("What is the colour of a rose?", CarCategory.None)]
+public async Task Load_Predict_Service_CarCategory(string userInput, CarCategory expectedResult)
+{
+    // Arrange                      
+    var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
+
+    var input = new ModelInput { Feature = userInput };
+
+    // Act
+    var prediction = await aiAssistantService.PredictAsync(input);
+
+    // Assert
+    Assert.NotNull(prediction);
+    Assert.Equal(expectedResult, (CarCategory)prediction.PredictedLabel);
+}
+```
+
+You can find the tests of a sample car category classification model created using the library [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
 
 The training dataset used for this model [**here**](/WebsiteAIAssistant.Tests/Data/TrainingDataset-CarCategory.tsv).
 
