@@ -1,6 +1,8 @@
 ﻿# Website AI Assistant
 
-## AI model built using ML .NET, Microsoft's machine learning platform
+## Library built using ML .NET, Microsoft's machine learning platform
+
+## Create and your own bespoke AI model and make predictions using the library
 
 AI Assistant helps visitors to your website, narrow down which of the offered products or services suits their needs.
 
@@ -21,6 +23,10 @@ This AI Assistant can help visitors narrow down which of the website's products 
 by classifying the **visitor's natural language** and/or **numeric based** input into **one of the categories** of products or services offered by the website. 
 
 You can then provide more information about that category.
+
+The API provided by the library let you `create your bespoke AI model` based on `your training data`. 
+
+Then, you `load your model` and `make predictions`.
 
 ## Documentation
 
