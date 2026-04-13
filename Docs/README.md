@@ -288,24 +288,24 @@ public enum CarCategory
 -1	
 0	2 door
 0	basic
-0	hatchback price 20000
-0	sedan price 25000
-0	truck price 30000
+0	low price $ 20,000
+0	mid price $ 25,000
+0	high price $ 30,000
 1	2 door
 1	luxury
-1	hatchback price 40000
-1	sedan price 45000
-1	truck price 50000
+1	low price $ 40,000
+1	mid price $ 45,000
+1	high price $ 50,000
 2	4 door
 2	basic
-2	hatchback price 60000
-2	sedan price 65000
-2	truck price 70000
+2	low price $ 60,000
+2	mid price $ 65,000
+2	high price $ 70,000
 3	4 door
 3	luxury
-3	hatchback price 80000
-3	sedan price 85000
-3	truck price 90000
+3	low price $ 80,000
+3	mid price $ 85,000
+3	high price $ 90,000
 ```
 
 ##### The Unit tests on the model:
@@ -314,12 +314,13 @@ You can see the inputs to the model along with the predicted category.
 
 ```csharp
 [Theory]
-[InlineData("price 42000", CarCategory.TwoDoorLuxury)]
-[InlineData("price 39000", CarCategory.TwoDoorBasic)]
-[InlineData("4 door price 67000", CarCategory.FourDoorBasic)]
-[InlineData("luxury 88000", CarCategory.FourDoorLuxury)]
-[InlineData("luxury 62000", CarCategory.TwoDoorLuxury)]
-[InlineData("2 door 29000", CarCategory.TwoDoorBasic)]
+[InlineData("price $ 42,000", CarCategory.TwoDoorLuxury)]
+[InlineData("price $ 39,000", CarCategory.TwoDoorBasic)]
+[InlineData("price $ 53,000", CarCategory.TwoDoorLuxury)]
+[InlineData("4 door price $ 67,000", CarCategory.FourDoorBasic)]
+[InlineData("luxury price $ 88,000", CarCategory.FourDoorLuxury)]
+[InlineData("luxury price $ 62,000", CarCategory.TwoDoorLuxury)]
+[InlineData("2 door price $ 29,000", CarCategory.TwoDoorBasic)]
 [InlineData("What is the colour of a rose?", CarCategory.None)]
 public async Task Load_Predict_Service_CarCategory(string userInput, CarCategory expectedResult)
 {

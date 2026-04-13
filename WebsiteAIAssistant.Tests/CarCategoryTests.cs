@@ -14,6 +14,22 @@ namespace WebsiteAIAssistant.Tests
             // Arrange
             PredictionEngine.DataViewType = DataViewType.File;
 
+            PredictionEngine.TextFeaturizingEstimatorOptions = new TextFeaturizingEstimatorOptions
+            {
+                CharFeatureExtractor = new WordBagEstimatorOptions
+                {
+                    NgramLength = 3, // Only 3-char sequences
+                    UseAllLengths = false, // Do not include shorter n-grams  
+                    Weighting = WordBagWeightingCriteria.TfIdf
+                },
+                WordFeatureExtractor = new WordBagEstimatorOptions
+                {
+                    NgramLength = 3, // Only 3-char sequences
+                    UseAllLengths = false, // Do not include shorter n-grams  
+                    Weighting = WordBagWeightingCriteria.TfIdf
+                }
+            };
+
             string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset-CarCategory.tsv");
             PredictionEngine.DataViewFilePath = trainingDataPath;
 
@@ -35,12 +51,13 @@ namespace WebsiteAIAssistant.Tests
         [MyBeforeAfterAsyncTest(typeof(LoadCarCategoryAIModel), typeof(CarCategoryTests),
                             $"{nameof(BuildLoadPredictDIContainerReturn)}", "b9f2641b-d770-47d7-9565-77a64b3df2a4", 4)]
         [Theory]
-        [InlineData("price 42000", CarCategory.TwoDoorLuxury)]
-        [InlineData("price 39000", CarCategory.TwoDoorBasic)]
-        [InlineData("4 door price 67000", CarCategory.FourDoorBasic)]
-        [InlineData("luxury 88000", CarCategory.FourDoorLuxury)]
-        [InlineData("luxury 62000", CarCategory.TwoDoorLuxury)]
-        [InlineData("2 door 29000", CarCategory.TwoDoorBasic)]
+        [InlineData("price $ 42,000", CarCategory.TwoDoorLuxury)]
+        [InlineData("price $ 39,000", CarCategory.TwoDoorBasic)]
+        [InlineData("price $ 53,000", CarCategory.TwoDoorLuxury)]
+        [InlineData("4 door price $ 67,000", CarCategory.FourDoorBasic)]
+        [InlineData("luxury price $ 88,000", CarCategory.FourDoorLuxury)]
+        [InlineData("luxury price $ 62,000", CarCategory.TwoDoorLuxury)]
+        [InlineData("2 door price $ 29,000", CarCategory.TwoDoorBasic)]
         [InlineData("What is the colour of a rose?", CarCategory.None)]
         public async Task Load_Predict_Service_CarCategory(string userInput, CarCategory expectedResult)
         {

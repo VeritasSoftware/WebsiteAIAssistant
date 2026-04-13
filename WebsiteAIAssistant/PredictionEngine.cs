@@ -1,5 +1,6 @@
 ﻿using Microsoft.ML;
 using Microsoft.ML.Trainers;
+using Microsoft.ML.Transforms.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace WebsiteAIAssistant
             set => _negativeConfidenceThreshold = ValidateThreshold(value);
         }
         public static float NegativeLabel { get; set; } = -1f;
+        public static TextFeaturizingEstimatorOptions TextFeaturizingEstimatorOptions { get; set; } = null;
         public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public static string AIModelLoadFilePath { get; set; }
         public static bool IsPredictionEngineInitialized => _predictionEngine != null;
@@ -85,13 +87,34 @@ namespace WebsiteAIAssistant
 
             string[] stopWords = new[] { "the", "a", "an", "is", "and", "or", "of", "to", "in" };
 
+            TextFeaturizingEstimator.Options textOptions = null;
+
+            if (TextFeaturizingEstimatorOptions != null)
+            {
+                textOptions = new TextFeaturizingEstimator.Options
+                {
+                    CaseMode = (TextNormalizingEstimator.CaseMode)TextFeaturizingEstimatorOptions.CaseMode,
+                    KeepDiacritics = TextFeaturizingEstimatorOptions.KeepDiacritics,
+                    KeepNumbers = TextFeaturizingEstimatorOptions.KeepNumbers,
+                    KeepPunctuations = TextFeaturizingEstimatorOptions.KeepPunctuations
+                };
+
+                if (TextFeaturizingEstimatorOptions.CharFeatureExtractor != null)
+                {                    
+                    textOptions.CharFeatureExtractor = GetWordBagEstimatorOptions(TextFeaturizingEstimatorOptions.CharFeatureExtractor);
+                }
+
+                if (TextFeaturizingEstimatorOptions.WordFeatureExtractor != null)
+                {
+                    textOptions.WordFeatureExtractor = GetWordBagEstimatorOptions(TextFeaturizingEstimatorOptions.WordFeatureExtractor);
+                }
+            }
+
             Logger?.LogInformation("Building data processing and training pipeline...");
             var pipeline = mlContext.Transforms.Text.TokenizeIntoWords("Tokens", nameof(ModelInput.Feature))
                             .Append(mlContext.Transforms.Text.RemoveDefaultStopWords("Tokens", "Tokens")) // Built-in stopwords
                             .Append(mlContext.Transforms.Text.RemoveStopWords("Tokens", stopwords: stopWords)) // Custom stopwords
-                            .Append(mlContext.Transforms.Text.FeaturizeText(
-                                outputColumnName: "Features",
-                                inputColumnName: "Tokens"))                           
+                            .Append(mlContext.Transforms.Text.FeaturizeText("Features", textOptions, "Tokens"))                           
                             .Append(mlContext.Transforms.Conversion.MapValueToKey(
                                 outputColumnName: "LabelKey",
                                 inputColumnName: nameof(ModelInput.Label)))
@@ -134,8 +157,9 @@ namespace WebsiteAIAssistant
                 ConvergenceTolerance = actualOptions.ConvergenceTolerance,
                 L1Regularization = actualOptions.L1Regularization,
                 L2Regularization = actualOptions.L2Regularization,
-                Shuffle = actualOptions.Shuffle
-            };            
+                Shuffle = actualOptions.Shuffle,
+                NumberOfThreads = actualOptions.NumberOfThreads
+            };
 
             Logger?.LogInformation("Training the model with SdcaMaximumEntropy trainer...");
             var trainingPipeline = pipeline
@@ -153,7 +177,7 @@ namespace WebsiteAIAssistant
 
             Logger?.LogInformation("Model creation and saving process completed successfully.");
             await Task.CompletedTask;
-        }
+        }        
 
         public static async Task<bool> LoadModelAsync(string modelPath)
         {
@@ -241,6 +265,24 @@ namespace WebsiteAIAssistant
             Logger?.LogInformation("Prediction process completed for input: {0}", input.Feature);
 
             return await Task.FromResult(prediction);
+        }
+
+        private static WordBagEstimator.Options GetWordBagEstimatorOptions(WordBagEstimatorOptions options)
+        {
+            var wbOptions = new Microsoft.ML.Transforms.Text.WordBagEstimator.Options
+            {
+                NgramLength = options.NgramLength,
+                UseAllLengths = options.UseAllLengths,
+                Weighting = (Microsoft.ML.Transforms.Text.NgramExtractingEstimator.WeightingCriteria)options.Weighting
+            };
+
+            if (options.MaximumNgramsCount != null && options.MaximumNgramsCount.Length > 0)
+                wbOptions.MaximumNgramsCount = options.MaximumNgramsCount;
+
+            if (options.SkipLength != 0)
+                wbOptions.SkipLength = options.SkipLength;
+
+            return wbOptions;
         }
     }
 }
