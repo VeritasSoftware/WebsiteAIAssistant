@@ -24,6 +24,7 @@ namespace WebsiteAIAssistant
             set => _negativeConfidenceThreshold = ValidateThreshold(value);
         }
         public static float NegativeLabel { get; set; } = -1f;
+        public static string[] StopWords { get; set; } = null;
         public static TextFeaturizingEstimatorOptions TextFeaturizingEstimatorOptions { get; set; } = null;
         public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public static string AIModelLoadFilePath { get; set; }
@@ -85,7 +86,11 @@ namespace WebsiteAIAssistant
                 Logger?.LogInformation("Training data loaded successfully from in-memory list.");
             }
 
-            string[] stopWords = new[] { "the", "a", "an", "is", "and", "or", "of", "to", "in" };
+
+            string[] stopWords = StopWords;
+
+            if (stopWords == null)
+                stopWords = new[] { "the", "a", "an", "is", "and", "or", "of", "to", "in" };
 
             TextFeaturizingEstimator.Options textOptions = null;
 

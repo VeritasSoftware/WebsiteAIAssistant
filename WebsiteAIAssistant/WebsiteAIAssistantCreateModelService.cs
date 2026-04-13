@@ -52,6 +52,8 @@ namespace WebsiteAIAssistant
             }
 
             PredictionEngine.Logger = _logger;
+            PredictionEngine.StopWords = _settings.StopWords;
+            PredictionEngine.TextFeaturizingEstimatorOptions = _settings.TextFeaturizingEstimatorOptions;
             PredictionEngine.SdcaMaximumEntropyOptions = _settings.SdcaMaximumEntropyOptions;
 
             _logger?.LogInformation("Creating model...");
