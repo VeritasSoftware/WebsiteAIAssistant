@@ -269,7 +269,7 @@ You can find
 
 In this scenario, the classification into a category is done based on **numeric training data** too.
 
-##### The Car categories:
+##### The Car categories
 
 ```csharp
 public enum CarCategory
@@ -282,7 +282,7 @@ public enum CarCategory
 }
 ```
 
-##### The training data:
+##### The training data
 
 ```
 -1	
@@ -308,7 +308,7 @@ public enum CarCategory
 3	high price $ 90,000
 ```
 
-##### The Unit tests on the model:
+##### The Unit tests on the model
 
 You can see the inputs to the model along with the predicted category.
 
