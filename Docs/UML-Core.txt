@@ -58,11 +58,12 @@ class SdcaMaximumEntropyOptions
 {
   + BiasLearningRate: float
   + ConvergenceCheckFrequency: int?
-  + MaximumNumberOfIterations: int
+  + MaximumNumberOfIterations: int?
   + ConvergenceTolerance: float
-  + L1Regularization: float
-  + L2Regularization: float
+  + L1Regularization: float?
+  + L2Regularization: float?
   + Shuffle: bool
+  + NumberOfThreads: int?
 }
 
 class PredictionEngine
