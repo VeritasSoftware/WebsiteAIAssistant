@@ -4,6 +4,8 @@ class WebsiteAIAssistantCreateModelSettings
   + DataViewType: DataViewType
   + DataViewFilePath: string
   + DataViewList: IEnumerable<ModelInput>
+  + StopWords: string[]
+  + TextFeaturizingEstimatorOptions: TextFeaturizingEstimatorOptions
   + SdcaMaximumEntropyOptions: SdcaMaximumEntropyOptions
   + AIModelFilePath: string
 }

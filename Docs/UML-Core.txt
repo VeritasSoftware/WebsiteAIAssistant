@@ -21,6 +21,39 @@ interface IWebsiteAIAssistantLogger
   LogError(string message, params object[] args): void
 }
 
+class TextFeaturizingEstimatorOptions
+{
+  + CaseMode: TextFeaturizingEstimatorCaseMode
+  + KeepDiacritics: bool
+  + KeepPunctuations: bool
+  + KeepNumbers: bool
+  + CharFeatureExtractor: WordBagEstimatorOptions
+  + WordFeatureExtractor: WordBagEstimatorOptions
+}
+
+class WordBagEstimatorOptions
+{
+  + NgramLength: int
+  + UseAllLengths: bool
+  + MaximumNgramsCount: int[]
+  + SkipLength: int
+  + Weighting: WordBagWeightingCriteria
+}
+
+enum WordBagWeightingCriteria
+{
+  Tf
+  Idf
+  TfIdf
+}
+
+enum TextFeaturizingEstimatorCaseMode
+{
+  Lower
+  Upper
+  None
+}
+
 class SdcaMaximumEntropyOptions
 {
   + BiasLearningRate: float
@@ -31,6 +64,7 @@ class SdcaMaximumEntropyOptions
   + L2Regularization: float
   + Shuffle: bool
 }
+
 class PredictionEngine
 {
   + DataViewType: DataViewType
@@ -38,6 +72,8 @@ class PredictionEngine
   + DataViewList: IEnumerable<ModelInput>
   + NegativeConfidenceThreshold: float
   + NegativeLabel: float
+  + StopWords: string[]
+  + TextFeaturizingEstimatorOptions: TextFeaturizingEstimatorOptions
   + SdcaMaximumEntropyOptions: SdcaMaximumEntropyOptions
   + AIModelLoadFilePath: string
   + IsPredictionEngineInitialized: bool
@@ -49,9 +85,13 @@ class PredictionEngine
   + PredictAsync(ModelInput input): Task<Prediction>
 }
 
-ModelInput -[hidden]> Prediction
-Prediction -[hidden]> DataViewType
-DataViewType -[hidden]> IWebsiteAIAssistantLogger
+ModelInput -right[hidden]-> Prediction
+Prediction -right[hidden]-> DataViewType
+DataViewType -right[hidden]-> IWebsiteAIAssistantLogger
 ModelInput -down[hidden]-> SdcaMaximumEntropyOptions
 SdcaMaximumEntropyOptions -right[hidden]-> PredictionEngine
+SdcaMaximumEntropyOptions -down[hidden]-> TextFeaturizingEstimatorOptions
+TextFeaturizingEstimatorOptions -right[hidden]-> WordBagEstimatorOptions
+WordBagEstimatorOptions -right[hidden]-> WordBagWeightingCriteria
+WordBagWeightingCriteria -right[hidden]-> TextFeaturizingEstimatorCaseMode
 @enduml
