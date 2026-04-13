@@ -16,8 +16,8 @@
 	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	  <Authors>Shantanu</Authors>
 	  <Company>Veritas Software</Company>
-	  <Version>3.0.0</Version>
-	  <PackageReleaseNotes>Using core version 3.0.</PackageReleaseNotes>
+	  <Version>3.1.0</Version>
+	  <PackageReleaseNotes>Using core version 3.1.</PackageReleaseNotes>
 	  <Title>WebsiteAIAssistant.MinimalAPI</Title>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

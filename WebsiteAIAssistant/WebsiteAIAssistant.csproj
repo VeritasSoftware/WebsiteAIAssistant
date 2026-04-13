@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
 	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-	  <Description>AI Assistant built using ML .NET, Microsoft's machine learning platform, to help visitors to your website, narrow down which of the offered products or services suits their needs.</Description>
+	  <Description>AI Assistant built using ML .NET, Microsoft's machine learning platform. Create and your own bespoke AI model and make predictions.</Description>
 	  <PackageProjectUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</RepositoryUrl>
 	  <PackageTags></PackageTags>
@@ -14,12 +14,18 @@
 	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	  <Authors>Shantanu</Authors>
 	  <Company>Veritas Software</Company>
-	  <Version>3.0.0</Version>
-	  <PackageReleaseNotes>built better performance, scalability and thread-safe into websiteaiassistant service.</PackageReleaseNotes>
+	  <Version>3.1.0</Version>
+	  <PackageReleaseNotes></PackageReleaseNotes>
 	  <Title>WebsiteAIAssistant</Title>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>	  
   </PropertyGroup>
 
+	<Target Name="InjectPackageReleaseNotesFromFile" BeforeTargets="GenerateNuspec" Condition="Exists('CHANGELOG.md')">
+		<PropertyGroup>
+			<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/CHANGELOG.md"))</PackageReleaseNotes>
+		</PropertyGroup>
+	</Target>
+	
   <ItemGroup>
     <Content Include="README.md">
       <PackagePath>\</PackagePath>
