@@ -22,6 +22,7 @@ namespace WebsiteAIAssistant
         public DataViewType DataViewType { get; set; } = DataViewType.File;
         public string DataViewFilePath { get; set; }
         public IEnumerable<ModelInput> DataViewList { get; set; }
+        public TextFeaturizingEstimatorOptions TextFeaturizingEstimatorOptions { get; set; } = null;
         public SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public string AIModelFilePath { get; set; } = string.Empty;
     }
