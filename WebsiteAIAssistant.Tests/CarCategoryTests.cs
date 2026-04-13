@@ -58,6 +58,8 @@ namespace WebsiteAIAssistant.Tests
         [InlineData("luxury price $ 88,000", CarCategory.FourDoorLuxury)]
         [InlineData("luxury price $ 62,000", CarCategory.TwoDoorLuxury)]
         [InlineData("2 door price $ 29,000", CarCategory.TwoDoorBasic)]
+        [InlineData("low price $ 55,000", CarCategory.TwoDoorLuxury)]
+        [InlineData("high price $ 34,000", CarCategory.TwoDoorBasic)]
         [InlineData("What is the colour of a rose?", CarCategory.None)]
         public async Task Load_Predict_Service_CarCategory(string userInput, CarCategory expectedResult)
         {
