@@ -29,12 +29,24 @@ namespace WebsiteAIAssistant
 
             services.AddSingleton(assistantSettings);
 
-            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
-
-            // Register PredictionEnginePool with a pre-trained model
-            services.AddPredictionEnginePool<ModelInput, Prediction>()
-                .FromFile(modelName: $"{nameof(ModelInput)}", filePath: assistantSettings.AIModelLoadFilePath, watchForChanges: true);
-
+            switch (assistantSettings.ModelType)
+            {
+                case ModelType.Classification:
+                    services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+                    // Register PredictionEnginePool with a pre-trained model
+                    services.AddPredictionEnginePool<ModelInput, Prediction>()
+                            .FromFile(modelName: $"{nameof(ModelInput)}", filePath: assistantSettings.AIModelLoadFilePath, watchForChanges: true);
+                    break;
+                case ModelType.Forecasting:
+                    services.AddSingleton<IWebsiteAIAssistantForecastingService, WebsiteAIAssistantForecastingService>();
+                    // Register PredictionEnginePool with a pre-trained model
+                    services.AddPredictionEnginePool<ModelInput, ForecastingPrediction>()
+                        .FromFile(modelName: $"{nameof(ModelInput)}", filePath: assistantSettings.AIModelLoadFilePath, watchForChanges: true);
+                    break;
+                default:
+                    break;
+            }
+                                    
             return services;
         }
     }

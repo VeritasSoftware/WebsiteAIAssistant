@@ -49,7 +49,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [MyBeforeAfterAsyncTest(typeof(LoadCarCategoryAIModel), typeof(CarCategoryTests),
-                            $"{nameof(BuildLoadPredictDIContainerReturn)}", "b9f2641b-d770-47d7-9565-77a64b3df2a4", 4)]
+                            $"{nameof(BuildLoadPredictDIContainerReturn)}", "b9f2641b-d770-47d7-9565-77a64b3df2a4", 10)]
         [Theory]
         [InlineData("price $ 42,000", CarCategory.TwoDoorLuxury)]
         [InlineData("price $ 39,000", CarCategory.TwoDoorBasic)]
@@ -73,7 +73,7 @@ namespace WebsiteAIAssistant.Tests
 
             // Assert
             Assert.NotNull(prediction);
-            Assert.Equal(expectedResult, (CarCategory)prediction.PredictedLabel);
+            Assert.Equal(expectedResult, (CarCategory)float.Parse(prediction.PredictedLabel));
         }
 
         private static void BuildLoadPredictDIContainerReturn(object o)

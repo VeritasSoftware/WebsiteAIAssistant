@@ -33,7 +33,7 @@ namespace SampleWebsite.AzureFunction
                 settings.AIModelLoadFilePath = modelPath;
 
                 settings.NegativeConfidenceThreshold = 0.70f;
-                settings.NegativeLabel = -1f;
+                settings.NegativeLabel = "-1";
             });         
         }
 

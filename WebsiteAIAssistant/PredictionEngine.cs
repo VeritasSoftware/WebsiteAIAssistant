@@ -1,13 +1,21 @@
 ﻿using Microsoft.ML;
+using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
 using Microsoft.ML.Transforms.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace WebsiteAIAssistant
 {   
+    public enum ModelType
+    {
+        Classification = 0,
+        Forecasting = 1
+    }
+
     public static class PredictionEngine
     {
         private static PredictionEngine<ModelInput, Prediction> _predictionEngine;
@@ -23,10 +31,11 @@ namespace WebsiteAIAssistant
             get => _negativeConfidenceThreshold;
             set => _negativeConfidenceThreshold = ValidateThreshold(value);
         }
-        public static float NegativeLabel { get; set; } = -1f;
+        public static string NegativeLabel { get; set; } = "-1";
         public static string[] StopWords { get; set; } = null;
         public static TextFeaturizingEstimatorOptions TextFeaturizingEstimatorOptions { get; set; } = null;
         public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
+        public static ModelType ModelType { get; set; }
         public static string AIModelLoadFilePath { get; set; }
         public static bool IsPredictionEngineInitialized => _predictionEngine != null;
         private static float ValidateThreshold(float threshold)
@@ -123,62 +132,99 @@ namespace WebsiteAIAssistant
                             .Append(mlContext.Transforms.Conversion.MapValueToKey(
                                 outputColumnName: "LabelKey",
                                 inputColumnName: nameof(ModelInput.Label)))
-                            .Append(mlContext.Transforms.DropColumns("Tokens", nameof(ModelInput.Label), nameof(ModelInput.Feature)));
+                            .Append(mlContext.Transforms.DropColumns("Tokens", nameof(ModelInput.Feature)));
 
-            SdcaMaximumEntropyOptions defaultOptions = null;
-
-            if (SdcaMaximumEntropyOptions == null)
+            switch (ModelType)
             {
-                Logger?.LogWarning($"{nameof(SdcaMaximumEntropyOptions)} not provided.");
-                // Default options if none provided
-                // For best accuracy and convergence
-                // More iterations and stricter tolerance with small regularization to prevent overfitting
-                // Shuffle enabled for better generalization
-                defaultOptions = new SdcaMaximumEntropyOptions
-                {
-                    MaximumNumberOfIterations = 500,       // More passes for better convergence
-                    ConvergenceTolerance = 1e-5f,          // Stricter tolerance
-                    L1Regularization = 1e-4f,              // Small L1 penalty
-                    L2Regularization = 1e-4f,              // Small L2 penalty
-                    Shuffle = true
-                };
+                case ModelType.Classification:
+                    SdcaMaximumEntropyOptions defaultOptions = null;
 
-                Logger?.LogInformation($"Using default {nameof(SdcaMaximumEntropyOptions)}. {defaultOptions.ToString()}");
-            }
-            else
-            {
-                Logger?.LogInformation($"Using provided {nameof(SdcaMaximumEntropyOptions)}. {SdcaMaximumEntropyOptions.ToString()}");
-            }
+                    if (SdcaMaximumEntropyOptions == null)
+                    {
+                        Logger?.LogWarning($"{nameof(SdcaMaximumEntropyOptions)} not provided.");
+                        // Default options if none provided
+                        // For best accuracy and convergence
+                        // More iterations and stricter tolerance with small regularization to prevent overfitting
+                        // Shuffle enabled for better generalization
+                        defaultOptions = new SdcaMaximumEntropyOptions
+                        {
+                            MaximumNumberOfIterations = 500,       // More passes for better convergence
+                            ConvergenceTolerance = 1e-5f,          // Stricter tolerance
+                            L1Regularization = 1e-4f,              // Small L1 penalty
+                            L2Regularization = 1e-4f,              // Small L2 penalty
+                            Shuffle = true
+                        };
 
-            var actualOptions = defaultOptions ?? SdcaMaximumEntropyOptions;
+                        Logger?.LogInformation($"Using default {nameof(SdcaMaximumEntropyOptions)}. {defaultOptions.ToString()}");
+                    }
+                    else
+                    {
+                        Logger?.LogInformation($"Using provided {nameof(SdcaMaximumEntropyOptions)}. {SdcaMaximumEntropyOptions.ToString()}");
+                    }
 
-            var options = new SdcaMaximumEntropyMulticlassTrainer.Options
-            {
-                LabelColumnName = "LabelKey",
-                FeatureColumnName = "Features",
-                BiasLearningRate = actualOptions.BiasLearningRate,
-                ConvergenceCheckFrequency = actualOptions.ConvergenceCheckFrequency,
-                MaximumNumberOfIterations = actualOptions.MaximumNumberOfIterations,
-                ConvergenceTolerance = actualOptions.ConvergenceTolerance,
-                L1Regularization = actualOptions.L1Regularization,
-                L2Regularization = actualOptions.L2Regularization,
-                Shuffle = actualOptions.Shuffle,
-                NumberOfThreads = actualOptions.NumberOfThreads
-            };
+                    var actualOptions = defaultOptions ?? SdcaMaximumEntropyOptions;
 
-            Logger?.LogInformation("Training the model with SdcaMaximumEntropy trainer...");
-            var trainingPipeline = pipeline
-                                    .Append(mlContext.MulticlassClassification.Trainers.SdcaMaximumEntropy(options))
-                                    .Append(mlContext.Transforms.Conversion.MapKeyToValue(
-                                                        outputColumnName: nameof(Prediction.PredictedLabel),
-                                                        inputColumnName: nameof(Prediction.PredictedLabel)));
+                    var options = new SdcaMaximumEntropyMulticlassTrainer.Options
+                    {
+                        LabelColumnName = "LabelKey",
+                        FeatureColumnName = "Features",
+                        BiasLearningRate = actualOptions.BiasLearningRate,
+                        ConvergenceCheckFrequency = actualOptions.ConvergenceCheckFrequency,
+                        MaximumNumberOfIterations = actualOptions.MaximumNumberOfIterations,
+                        ConvergenceTolerance = actualOptions.ConvergenceTolerance,
+                        L1Regularization = actualOptions.L1Regularization,
+                        L2Regularization = actualOptions.L2Regularization,
+                        Shuffle = actualOptions.Shuffle,
+                        NumberOfThreads = actualOptions.NumberOfThreads
+                    };
 
-            Logger?.LogInformation("Fitting the model to the training data...");
-            var model = trainingPipeline.Fit(dataView);           
+                    Logger?.LogInformation("Training the model with SdcaMaximumEntropy trainer...");
+                    var trainingPipeline = pipeline
+                                            .Append(mlContext.MulticlassClassification.Trainers.SdcaMaximumEntropy(options))
+                                            .Append(mlContext.Transforms.Conversion.MapKeyToValue(
+                                                                outputColumnName: nameof(Prediction.PredictedLabel),
+                                                                inputColumnName: nameof(Prediction.PredictedLabel)));
 
-            // Save model with schema
-            Logger?.LogInformation("Saving the trained model to: {0}", modelPath);
-            mlContext.Model.Save(model, dataView.Schema, modelPath);
+                    Logger?.LogInformation("Fitting the model to the training data...");
+                    var model = trainingPipeline.Fit(dataView);
+
+                    // Save model with schema
+                    Logger?.LogInformation("Saving the trained model to: {0}", modelPath);
+                    mlContext.Model.Save(model, dataView.Schema, modelPath);
+
+                    break;
+
+                case ModelType.Forecasting:
+                    Logger?.LogInformation("Training the model with Regression Sdca trainer...");
+                    var trgPipeline = pipeline
+                                        .Append(mlContext.Transforms.Conversion.ConvertType(
+                                                        outputColumnName: "LabelSingle",
+                                                        inputColumnName: nameof(ModelInput.Label),
+                                                        outputKind: DataKind.Single // Single = float
+                                                    ))
+                                        //.Append(mlContext.Forecasting.ForecastBySsa(
+                                        //            outputColumnName: "ForecastedValues",
+                                        //            inputColumnName: "LabelSingle",
+                                        //            windowSize: 3,
+                                        //            seriesLength: 12,
+                                        //            trainSize: 12,
+                                        //            horizon: 3));
+                    .Append(mlContext.Regression.Trainers.Sdca(labelColumnName: $"LabelSingle", featureColumnName: "Features"));
+                    //.Append(mlContext.Transforms.Conversion.MapKeyToValue(
+                    //                    outputColumnName: nameof(Prediction.PredictedLabel),
+                    //                    inputColumnName: nameof(Prediction.PredictedLabel)));
+
+                    Logger?.LogInformation("Fitting the model to the training data...");
+                    var trgModel = trgPipeline.Fit(dataView);
+
+                    // Save model with schema
+                    Logger?.LogInformation("Saving the trained model to: {0}", modelPath);
+                    mlContext.Model.Save(trgModel, dataView.Schema, modelPath);
+
+                    break;
+                default:
+                    break;
+            }                                    
 
             Logger?.LogInformation("Model creation and saving process completed successfully.");
             await Task.CompletedTask;
@@ -250,7 +296,7 @@ namespace WebsiteAIAssistant
             var prediction = _predictionEngine.Predict(input);
             Logger?.LogInformation("Raw prediction: PredictedLabel={0}, Scores=[{1}]", prediction.PredictedLabel, string.Join(", ", prediction.Score));
 
-            if (prediction.PredictedLabel <= NegativeLabel)
+            if (float.Parse(prediction.PredictedLabel) <= float.Parse(NegativeLabel))
             {
                 Logger?.LogInformation("Negative prediction detected (PredictedLabel={0}). Checking confidence score...", prediction.PredictedLabel);
                 if (prediction.Score[0] < NegativeConfidenceThreshold)
@@ -262,7 +308,7 @@ namespace WebsiteAIAssistant
                                                         .First();
                     var index = Array.IndexOf(prediction.Score, secondHighestScore);
 
-                    prediction.PredictedLabel = index - 1;
+                    prediction.PredictedLabel = (index - 1).ToString();
                 }
                 Logger?.LogInformation("Final prediction after confidence check: PredictedLabel={0}", prediction.PredictedLabel);
             }

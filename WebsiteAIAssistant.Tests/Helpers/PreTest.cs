@@ -41,6 +41,26 @@ namespace WebsiteAIAssistant.Tests.Helpers
         }
     }
 
+    public class LoadSalesForecastingAIModel : IRunBeforeAsyncWithReturn
+    {
+        public Action RunBefore => async () =>
+        {
+            var sp = await BuildContainerAsync();
+
+            this.ReturnValue = sp;
+        };
+
+        public object? ReturnValue { get; set; }
+
+        private async Task<IServiceProvider> BuildContainerAsync()
+        {
+            // Build DI container for AI Assistant Service
+            var sp = Helpers.BuildSalesForecastingContainer();
+
+            return await Task.FromResult(sp);
+        }
+    }
+
     public class LoadAIListModel : IRunBeforeAsync, IRunAfterAsync
     {
         public Action RunBefore => async () =>
@@ -128,7 +148,7 @@ namespace WebsiteAIAssistant.Tests.Helpers
                 {
                     data.Add(new ModelInput
                     {
-                        Label = label,
+                        Label = label.ToString(),
                         Feature = parts[1]
                     });
                 }

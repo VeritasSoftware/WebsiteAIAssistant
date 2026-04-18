@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Data\SampleWebsite-AI-Model-SalesForecasting.zip" />
     <None Remove="SampleWebsite-AI-Model-CreateModel-List.zip" />
     <None Remove="SampleWebsite-AI-Model.zip" />
   </ItemGroup>
@@ -24,7 +25,13 @@
     <Content Include="Data\SampleWebsite-AI-Model-CarCategory.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\SampleWebsite-AI-Model-SalesForecasting.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\SampleWebsite-AI-Model.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\TrainingDataset-SalesForecasting.tsv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\TrainingDataset-CarCategory.tsv">

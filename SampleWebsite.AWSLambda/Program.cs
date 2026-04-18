@@ -17,7 +17,7 @@ builder.Services.AddWebsiteAIAssistant(settings =>
     settings.AIModelLoadFilePath = modelPath;
 
     settings.NegativeConfidenceThreshold = 0.70f;
-    settings.NegativeLabel = -1f;
+    settings.NegativeLabel = "-1";
 });
 
 builder.Services.AddHostedService<TestExecutor>(); // Register the test executor as a hosted service to run on startup

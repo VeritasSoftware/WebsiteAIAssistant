@@ -121,7 +121,7 @@ namespace WebsiteAIAssistant.Tests
 
             // Assert
             Assert.NotNull(prediction);
-            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+            Assert.Equal(expectedResult, (Scheme)float.Parse(prediction.PredictedLabel));
         }
 
         [MyBeforeAfterAsyncTest(typeof(SetAIModelPath), "d54e2920-ad42-4acc-a6e2-37aad8e9ac3f", 3)]
@@ -138,7 +138,7 @@ namespace WebsiteAIAssistant.Tests
 
             // Assert
             Assert.NotNull(prediction);
-            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+            Assert.Equal(expectedResult, (Scheme)float.Parse(prediction.PredictedLabel));
         }
 
         [MyBeforeAfterAsyncTest(typeof(LoadAIListModel), "1761b894-e972-4c2f-ab01-1c07b4867bd1", 3)]
@@ -155,7 +155,7 @@ namespace WebsiteAIAssistant.Tests
 
             // Assert
             Assert.NotNull(prediction);
-            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+            Assert.Equal(expectedResult, (Scheme)float.Parse(prediction.PredictedLabel));
         }
 
         [MyBeforeAfterAsyncTest(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
@@ -176,7 +176,7 @@ namespace WebsiteAIAssistant.Tests
 
             // Assert
             Assert.NotNull(prediction);
-            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+            Assert.Equal(expectedResult, (Scheme)float.Parse(prediction.PredictedLabel));
         }
 
         [MyBeforeAfterAsyncTest(typeof(BuildLoadPredictContainer), typeof(WebsiteAIAssistantTests),
@@ -197,7 +197,7 @@ namespace WebsiteAIAssistant.Tests
 
             // Assert
             Assert.NotNull(prediction);
-            Assert.Equal(expectedResult, (Scheme)prediction.PredictedLabel);
+            Assert.Equal(expectedResult, (Scheme)float.Parse(prediction.PredictedLabel));
         }
 
         [Fact]
@@ -249,7 +249,7 @@ namespace WebsiteAIAssistant.Tests
                 {
                     data.Add(new ModelInput
                     {
-                        Label = label,
+                        Label = label.ToString(),
                         Feature = parts[1]
                     });
                 }

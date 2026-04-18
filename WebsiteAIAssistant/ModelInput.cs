@@ -5,7 +5,7 @@ namespace WebsiteAIAssistant
     public class ModelInput
     {
         [LoadColumn(0)]
-        public float Label { get; set; }
+        public string Label { get; set; }
 
         [LoadColumn(1)]
         public string Feature { get; set; }

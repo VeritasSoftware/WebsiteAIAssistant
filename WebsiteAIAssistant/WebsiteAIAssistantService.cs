@@ -7,6 +7,49 @@ using System.Threading.Tasks;
 
 namespace WebsiteAIAssistant
 {
+    public class WebsiteAIAssistantForecastingService : IWebsiteAIAssistantForecastingService
+    {
+        private readonly WebsiteAIAssistantSettings _settings;
+        public readonly PredictionEnginePool<ModelInput, ForecastingPrediction> _predictionEngine;
+        private readonly IWebsiteAIAssistantLogger _logger;
+        private static bool _isInitialized = false;
+        private readonly string _modelKey = $"{nameof(ModelInput)}";
+        private readonly float _negativeConfidenceThreshold;
+        private readonly string _negativeLabel;
+
+        public WebsiteAIAssistantForecastingService(WebsiteAIAssistantSettings settings, PredictionEnginePool<ModelInput, ForecastingPrediction> predictionEnginePool, IWebsiteAIAssistantLogger logger = null)
+        {
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings), "Settings cannot be null.");
+            _predictionEngine = predictionEnginePool ?? throw new ArgumentNullException(nameof(predictionEnginePool), "PredictionEnginePool cannot be null.");
+            _logger = logger;
+            _negativeConfidenceThreshold = _settings.NegativeConfidenceThreshold;
+            _negativeLabel = _settings.NegativeLabel;
+        }
+
+        public bool IsPredictionEngineInitialized => _predictionEngine.GetPredictionEngine(_modelKey) != null;
+
+        [Obsolete("LoadModelAsync is obsolete. The model is now loaded automatically when the PredictionEnginePool is accessed. It will be removed in a future version.")]
+        public Task<bool> LoadModelAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ForecastingPrediction> PredictAsync(ModelInput modelInput)
+        {
+            _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);
+            var prediction = _predictionEngine.Predict(_modelKey, modelInput);
+
+            _logger?.LogInformation($"Prediction made. PredictedLabel: {prediction.PredictedLabel}.");
+
+            return await Task.FromResult(prediction);
+        }
+
+        public Task<bool> UnloadModelAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class WebsiteAIAssistantService : IWebsiteAIAssistantService
     {
         private readonly WebsiteAIAssistantSettings _settings;
@@ -15,7 +58,7 @@ namespace WebsiteAIAssistant
         private static bool _isInitialized = false;
         private readonly string _modelKey = $"{nameof(ModelInput)}";
         private readonly float _negativeConfidenceThreshold;
-        private readonly float _negativeLabel;
+        private readonly string _negativeLabel;
 
         public WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, PredictionEnginePool<ModelInput, Prediction> predictionEnginePool, IWebsiteAIAssistantLogger logger = null) 
         { 
@@ -87,7 +130,7 @@ namespace WebsiteAIAssistant
             _logger?.LogInformation("Making prediction for input: " + modelInput.Feature);
             var prediction = _predictionEngine.Predict(_modelKey, modelInput);
 
-            if (prediction.PredictedLabel <= _negativeLabel)
+            if (float.Parse(prediction.PredictedLabel) <= float.Parse(_negativeLabel))
             {
                 _logger?.LogInformation("Negative prediction detected (PredictedLabel={0}). Checking confidence score...", prediction.PredictedLabel);
                 if (prediction.Score[0] < _negativeConfidenceThreshold)
@@ -99,7 +142,7 @@ namespace WebsiteAIAssistant
                                                         .First();
                     var index = Array.IndexOf(prediction.Score, secondHighestScore);
 
-                    prediction.PredictedLabel = index - 1;
+                    prediction.PredictedLabel = (index - 1).ToString();
                 }
                 _logger?.LogInformation("Final prediction after confidence check: PredictedLabel={0}", prediction.PredictedLabel);
             }

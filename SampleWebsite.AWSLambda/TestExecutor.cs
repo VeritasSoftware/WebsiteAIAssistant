@@ -34,7 +34,7 @@ namespace SampleWebsite.AWSLambda
 
         private static void PrintPrediction(Prediction prediction)
         {
-            var predictedScheme = (Scheme)prediction.PredictedLabel;
+            var predictedScheme = (Scheme)float.Parse(prediction.PredictedLabel);
 
             Console.WriteLine($"Predicted Scheme: {predictedScheme.ToString()}");
 
