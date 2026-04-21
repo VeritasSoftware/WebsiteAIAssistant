@@ -1,5 +1,4 @@
 ﻿# Changelog (Release Notes)
 
-- added options to control training dataset text
-- provide custom stop words
-- other enhancements
+- Removed the `LoadModelAsync` method from `WebsiteAIAssistantService` as it is no longer needed. The model is now loaded automatically when the service is initialized.
+- Enhancemwents
