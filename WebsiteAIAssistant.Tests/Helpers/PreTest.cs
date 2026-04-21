@@ -157,6 +157,41 @@ namespace WebsiteAIAssistant.Tests.Helpers
         }
     }
 
+    public class BuildCreateModelMultipleFeatureColumnsContainer : IRunBeforeAsyncWithReturn
+    {
+        public Action RunBefore => async () =>
+        {
+            var sp = await BuildContainerAsync();
+
+            this.ReturnValue = sp;
+        };
+
+        public object? ReturnValue { get; set; }
+
+        private async Task<IServiceProvider> BuildContainerAsync()
+        {
+            // Build DI container for Create Model Service
+            var services = new ServiceCollection();
+            var createModelSettingsFile = new WebsiteAIAssistantCreateModelSettings
+            {
+                DataViewType = DataViewType.File,
+                DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset-CarCategory-MultipleFeatureColumns.tsv"),
+                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-MultipleFeatureColumns-File-Service-Test.zip"),
+                // Additional configuration for multiple feature columns
+                ExtendedColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
+                                                    $"{nameof(ModelInputExtended.Feature2)}",
+                                                    $"{nameof(ModelInputExtended.Feature3)}"}
+            };
+
+            services = new ServiceCollection();
+            services.AddKeyedSingleton("FileSettings", createModelSettingsFile);
+            services.AddKeyedSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>("File", (sp, x) => new WebsiteAIAssistantCreateModelService(createModelSettingsFile));
+            var sp = services.BuildServiceProvider();
+
+            return await Task.FromResult(sp);
+        }
+    }
+
 
     public class BuildLoadPredictContainer : IRunBeforeAsyncWithReturn
     {
