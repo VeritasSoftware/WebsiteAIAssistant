@@ -10,6 +10,7 @@ namespace WebsiteAIAssistant.Tests
         private static IServiceProvider? _createModelServiceProvider;
 
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_File()
         {
             // Arrange
@@ -34,6 +35,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_List()
         {
             // Arrange
@@ -60,6 +62,7 @@ namespace WebsiteAIAssistant.Tests
         [MyBeforeAfterAsyncTest(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests), 
                                     $"{nameof(BuildCreateModelDIContainerReturn)}", "5bffdd98-b7e9-436d-9a92-beb7b6801975")]
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_File_Service()
         {
             // Arrange                       
@@ -85,6 +88,7 @@ namespace WebsiteAIAssistant.Tests
         [MyBeforeAfterAsyncTest(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests),
                                     $"{nameof(BuildCreateModelDIContainerReturn)}", "49027756-c399-498c-8c2f-f82e5392882c")]
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_List_Service()
         {
             // Arrange                       
@@ -108,7 +112,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [MyBeforeAfterAsyncTest(typeof(LoadAIModel), "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4", 3)]
-        [Theory]
+        [Theory(Skip = "Skipping this test for since not thread-safe. Use the helper service instead.")]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]

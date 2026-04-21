@@ -13,11 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Data\SampleWebsite-AI-Model-CarCategory-MultipleFeatureColumns.zip" />
     <None Remove="SampleWebsite-AI-Model-CreateModel-List.zip" />
     <None Remove="SampleWebsite-AI-Model.zip" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\SampleWebsite-AI-Model-CarCategory-MultipleFeatureColumns.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\SampleWebsite-AI-Model-CreateModel-List.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -25,6 +29,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\SampleWebsite-AI-Model.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\TrainingDataset-CarCategory-MultipleFeatureColumns.tsv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\TrainingDataset-CarCategory.tsv">

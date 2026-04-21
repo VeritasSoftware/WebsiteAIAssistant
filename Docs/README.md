@@ -346,6 +346,61 @@ You can find the tests of a sample car category classification model created usi
 
 The training dataset used for this model [**here**](/WebsiteAIAssistant.Tests/Data/TrainingDataset-CarCategory.tsv).
 
+## Using multiple feature columns in the training dataset
+
+By default, the library supports only one feature column in the training dataset , which is used for training the model.
+
+But, you can add more feature columns by deriving from the `ModelInput` class and adding the additional feature properties.
+
+Then, you can set the `ExtendedFeatureColumnNames` property of the `PredictionEngine` or the settings of the `WebsiteAIAssistantCreateModelService`,
+
+to specify the names of the feature columns in the training dataset.
+
+Your training dataset should have the additional feature columns in the same order as specified in the `ExtendedFeatureColumnNames` property.
+
+Below is an example of a training dataset with 3 additional feature columns (Feature1, Feature2, Feature3).
+
+```csharp
+-1	
+0	2 door	basic	low	$ 20,000
+0	2 door	basic	mid	$ 25,000
+0	2 door	basic	high	$ 30,000
+1	2 door	luxury	low	$ 40,000
+1	2 door	luxury	mid	$ 45,000
+1	2 door	luxury	high	$ 50,000
+2	4 door	basic	low	$ 60,000
+2	4 door	basic	mid	$ 65,000
+2	4 door	basic	high	$ 70,000
+3	4 door	luxury	low	$ 80,000
+3	4 door	luxury	mid	$ 85,000
+3	4 door	luxury	high	$ 90,000
+```
+
+The derived `ModelInput` class with the additional feature properties can be like shown below.
+
+```csharp
+public class ModelInputExtended : ModelInput
+{
+    [LoadColumn(2)]
+    public string Feature1 { get; set; } = string.Empty;
+    [LoadColumn(3)]
+    public string Feature2 { get; set; } = string.Empty;
+    [LoadColumn(4)]
+    public string Feature3 { get; set; } = string.Empty;
+}
+```
+
+The `ExtendedFeatureColumnNames` property can be set as shown below.
+
+```csharp
+// Additional configuration for multiple feature columns
+PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
+                                                $"{nameof(ModelInputExtended.Feature2)}",
+                                                $"{nameof(ModelInputExtended.Feature3)}"};
+```
+
+The Unit tests for a sample model with multiple feature columns can be found [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
+
 ## Website AI Assistant Minimal API
 
 There is a Minimal API endpoint which you can directly use in your API project.
