@@ -61,7 +61,7 @@ namespace WebsiteAIAssistant
             PredictionEngine.StopWords = _settings.StopWords;
             PredictionEngine.TextFeaturizingEstimatorOptions = _settings.TextFeaturizingEstimatorOptions;
             PredictionEngine.SdcaMaximumEntropyOptions = _settings.SdcaMaximumEntropyOptions;
-            PredictionEngine.ExtendedColumnNames = _settings.ExtendedColumnNames;
+            PredictionEngine.ExtendedFeatureColumnNames = _settings.ExtendedFeatureColumnNames;
 
             _logger?.LogInformation("Creating model...");
             await PredictionEngine.CreateModelAsync<TModelInput>(_settings.AIModelFilePath);

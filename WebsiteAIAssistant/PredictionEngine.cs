@@ -29,7 +29,7 @@ namespace WebsiteAIAssistant
         public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public static string AIModelLoadFilePath { get; set; }
         public static bool IsPredictionEngineInitialized => _predictionEngine != null;
-        public static string[] ExtendedColumnNames { get; set; } = null;
+        public static string[] ExtendedFeatureColumnNames { get; set; } = null;
         private static float ValidateThreshold(float threshold)
         {
             Logger?.LogInformation($"{nameof(PredictionEngine)}: {threshold}");
@@ -46,6 +46,21 @@ namespace WebsiteAIAssistant
                 return threshold;
             }
             throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), $"{nameof(NegativeConfidenceThreshold)} must be between 0 and 1.");
+        }
+
+        public static async Task ResetAsync()
+        {
+            Logger?.LogInformation("Resetting PredictionEngine state...");
+            DataViewType = DataViewType.File;
+            DataViewFilePath = null;
+            DataViewList = null;
+            StopWords = null;
+            TextFeaturizingEstimatorOptions = null;
+            SdcaMaximumEntropyOptions = null;
+            AIModelLoadFilePath = null;
+            ExtendedFeatureColumnNames = null;
+            await UnloadModelAsync();
+            Logger?.LogInformation("PredictionEngine state reset successfully.");
         }
 
         public static async Task CreateModelAsync(string modelPath)
@@ -124,19 +139,19 @@ namespace WebsiteAIAssistant
 
             Logger?.LogInformation("Building data processing and training pipeline...");
 
-            if (ExtendedColumnNames != null && ExtendedColumnNames.Length > 0)
+            if (ExtendedFeatureColumnNames != null && ExtendedFeatureColumnNames.Length > 0)
             {
-                Logger?.LogInformation("Extended columns provided: {0}", string.Join(", ", ExtendedColumnNames));
+                Logger?.LogInformation("Extended columns provided: {0}", string.Join(", ", ExtendedFeatureColumnNames));
 
-                ExtendedColumnNames = ExtendedColumnNames.Concat(new[] { nameof(ModelInput.Feature) }).ToArray();
+                ExtendedFeatureColumnNames = ExtendedFeatureColumnNames.Concat(new[] { nameof(ModelInput.Feature) }).ToArray();
             }
             else
             {
                 Logger?.LogInformation("No extended columns provided. Using only the main feature column for training.");
-                ExtendedColumnNames = new[] { nameof(ModelInput.Feature) };
+                ExtendedFeatureColumnNames = new[] { nameof(ModelInput.Feature) };
             }
 
-            var combinedPipeline = mlContext.Transforms.Concatenate("CombinedFeatures", ExtendedColumnNames);
+            var combinedPipeline = mlContext.Transforms.Concatenate("CombinedFeatures", ExtendedFeatureColumnNames);
 
             var tokenPipeline = combinedPipeline.Append(mlContext.Transforms.Text.TokenizeIntoWords("Tokens", "CombinedFeatures"));
 

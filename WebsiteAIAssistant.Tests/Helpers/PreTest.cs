@@ -178,9 +178,9 @@ namespace WebsiteAIAssistant.Tests.Helpers
                 DataViewFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset-CarCategory-MultipleFeatureColumns.tsv"),
                 AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-MultipleFeatureColumns-File-Service-Test.zip"),
                 // Additional configuration for multiple feature columns
-                ExtendedColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
-                                                    $"{nameof(ModelInputExtended.Feature2)}",
-                                                    $"{nameof(ModelInputExtended.Feature3)}"}
+                ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
+                                                        $"{nameof(ModelInputExtended.Feature2)}",
+                                                        $"{nameof(ModelInputExtended.Feature3)}"}
             };
 
             services = new ServiceCollection();

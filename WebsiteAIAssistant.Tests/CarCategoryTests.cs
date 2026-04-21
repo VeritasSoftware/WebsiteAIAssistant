@@ -13,8 +13,9 @@ namespace WebsiteAIAssistant.Tests
         [Fact]
         [Trait("Category", "Create")]
         public async Task CreateModel_CarCategory_File()
-        {
+        {            
             // Arrange
+            await PredictionEngine.ResetAsync();
             PredictionEngine.DataViewType = DataViewType.File;
 
             PredictionEngine.TextFeaturizingEstimatorOptions = new TextFeaturizingEstimatorOptions
@@ -75,7 +76,7 @@ namespace WebsiteAIAssistant.Tests
             };
 
             // Additional configuration for multiple feature columns
-            PredictionEngine.ExtendedColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
+            PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
                                                             $"{nameof(ModelInputExtended.Feature2)}",
                                                             $"{nameof(ModelInputExtended.Feature3)}"};
 
