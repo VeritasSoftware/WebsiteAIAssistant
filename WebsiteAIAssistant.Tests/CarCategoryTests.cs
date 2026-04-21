@@ -156,7 +156,9 @@ namespace WebsiteAIAssistant.Tests
                             $"{nameof(BuildLoadPredictDIContainerReturn)}", "0887d522-535d-4b79-8f28-d5ede2c3ed76", 2)]
         [Theory]
         [InlineData("2 door", "", "", "$ 42,000", CarCategory.TwoDoorLuxury)]
-        [InlineData("", "", "luxury", "$ 100,000", CarCategory.FourDoorLuxury)]
+        [InlineData("", "luxury", "", "$ 100,000", CarCategory.FourDoorLuxury)]
+        [InlineData("2 door", "", "", "$ 27,000", CarCategory.TwoDoorBasic)]
+        [InlineData("", "basic", "", "$ 75,000", CarCategory.FourDoorBasic)]
         public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
         {
             // Arrange                      
