@@ -9,6 +9,34 @@ namespace WebsiteAIAssistant
     {
         public static IServiceCollection AddWebsiteAIAssistantCore(this IServiceCollection services, Action<WebsiteAIAssistantSettings> settings)
         {
+            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+
+            var mySettings = AddWebsiteAIAssistantCoreInternal<ModelInput>(services, settings);
+
+            // Register PredictionEnginePool with a pre-trained model
+            services.AddPredictionEnginePool<ModelInput, Prediction>()
+                .FromFile(modelName: $"{nameof(ModelInput)}", filePath: mySettings.AIModelLoadFilePath, watchForChanges: true);
+
+            return services;
+        }
+
+        public static IServiceCollection AddWebsiteAIAssistantCore<TModelInput>(this IServiceCollection services, Action<WebsiteAIAssistantSettings> settings)
+            where TModelInput : ModelInput
+        {
+            services.AddSingleton<IWebsiteAIAssistantService<TModelInput>, WebsiteAIAssistantService<TModelInput>>();
+
+            var mySettings = AddWebsiteAIAssistantCoreInternal<TModelInput>(services, settings);
+
+            // Register PredictionEnginePool with a pre-trained model
+            services.AddPredictionEnginePool<TModelInput, Prediction>()
+                .FromFile(modelName: $"{nameof(TModelInput)}", filePath: mySettings.AIModelLoadFilePath, watchForChanges: true);
+
+            return services;
+        }
+
+        private static WebsiteAIAssistantSettings AddWebsiteAIAssistantCoreInternal<TModelInput>(this IServiceCollection services, Action<WebsiteAIAssistantSettings> settings)
+            where TModelInput : ModelInput
+        {
             var assistantSettings = new WebsiteAIAssistantSettings();
             settings(assistantSettings);
 
@@ -27,15 +55,9 @@ namespace WebsiteAIAssistant
                 throw new ArgumentOutOfRangeException(nameof(assistantSettings.NegativeConfidenceThreshold), $"{nameof(assistantSettings.NegativeConfidenceThreshold)} must be between 0 and 1.");
             }
 
-            services.AddSingleton(assistantSettings);
+            services.AddSingleton(assistantSettings);                       
 
-            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
-
-            // Register PredictionEnginePool with a pre-trained model
-            services.AddPredictionEnginePool<ModelInput, Prediction>()
-                .FromFile(modelName: $"{nameof(ModelInput)}", filePath: assistantSettings.AIModelLoadFilePath, watchForChanges: true);
-
-            return services;
+            return assistantSettings;
         }
     }
 }

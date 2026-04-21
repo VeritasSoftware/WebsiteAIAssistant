@@ -25,6 +25,7 @@ namespace WebsiteAIAssistant
         public string[] StopWords { get; set; } = null;
         public TextFeaturizingEstimatorOptions TextFeaturizingEstimatorOptions { get; set; } = null;
         public SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
+        public string[] ExtendedFeatureColumnNames { get; set; } = null;
         public string AIModelFilePath { get; set; } = string.Empty;
     }
 }

@@ -18,6 +18,12 @@ namespace WebsiteAIAssistant
 
         public async Task<bool> CreateModelAsync()
         {
+            return await CreateModelAsync<ModelInput>();
+        }
+
+        public async Task<bool> CreateModelAsync<TModelInput>()
+            where TModelInput : ModelInput, new()
+        {
             _logger?.LogInformation("Starting model creation process...");
             _logger?.LogInformation($"Setting {nameof(DataViewType)}: {_settings.DataViewType}");
             PredictionEngine.DataViewType = _settings.DataViewType;
@@ -55,9 +61,10 @@ namespace WebsiteAIAssistant
             PredictionEngine.StopWords = _settings.StopWords;
             PredictionEngine.TextFeaturizingEstimatorOptions = _settings.TextFeaturizingEstimatorOptions;
             PredictionEngine.SdcaMaximumEntropyOptions = _settings.SdcaMaximumEntropyOptions;
+            PredictionEngine.ExtendedFeatureColumnNames = _settings.ExtendedFeatureColumnNames;
 
             _logger?.LogInformation("Creating model...");
-            await PredictionEngine.CreateModelAsync(_settings.AIModelFilePath);
+            await PredictionEngine.CreateModelAsync<TModelInput>(_settings.AIModelFilePath);
 
             var modelExists = File.Exists(_settings.AIModelFilePath);
             if (modelExists)
