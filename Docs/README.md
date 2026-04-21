@@ -86,6 +86,8 @@ Below is the class diagram of the `WebsiteAIAssistantService` service.
 
 ![WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantService.png)
 
+![Generic WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantServiceGeneric.png)
+
 The `WebsiteAIAssistantService` service can be used to load the model and make predictions.
 
 **Note:-** If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
@@ -100,6 +102,19 @@ The `WebsiteAIAssistantService` service & the `WebsiteAIAssistantSettings` have 
 
 ```csharp
 services.AddWebsiteAIAssistantCore(settings =>
+{
+    settings.AIModelLoadFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
+    settings.NegativeConfidenceThreshold = 0.70f;
+    settings.NegativeLabel = -1f;
+});
+```
+
+If you want to use the generic version of the `WebsiteAIAssistantService`, to support multiple feature columns,
+
+then you can wire it up as shown below.
+
+```csharp
+services.AddWebsiteAIAssistantCore<ModelInputExtended>(settings =>
 {
     settings.AIModelLoadFilePath = Path.Combine(Environment.CurrentDirectory, "SampleWebsite-AI-Model.zip");
     settings.NegativeConfidenceThreshold = 0.70f;
@@ -199,6 +214,10 @@ await PredictionEngine.LoadModelAsync(modelPath);
 **Step 4** : 
 
 Test the prediction engine with a sample input.
+
+This `PredictAsync` is not thread-safe. 
+
+You should use the helper service `WebsiteAIAssistantService` for making predictions in a multi-threaded environment.
 
 ```csharp
 var input = new ModelInput { Feature = "What are the requisites for carbon credits?" };
@@ -352,7 +371,7 @@ By default, the library supports only one feature column in the training dataset
 
 But, you can add more feature columns by deriving from the `ModelInput` class and adding the additional feature properties.
 
-Then, you can set the `ExtendedFeatureColumnNames` property of the `PredictionEngine` or the settings of the `WebsiteAIAssistantCreateModelService`,
+Then, you can set the `ExtendedFeatureColumnNames` property of the `PredictionEngine` or of the `WebsiteAIAssistantCreateModelSettings`,
 
 to specify the names of the feature columns in the training dataset.
 
