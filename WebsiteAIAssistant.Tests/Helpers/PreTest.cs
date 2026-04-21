@@ -8,6 +8,7 @@ namespace WebsiteAIAssistant.Tests.Helpers
         public Action RunBefore => async () =>
         {
             // Arrange
+            await PredictionEngine.ResetAsync();
             // Path to load model
             string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model.zip");
 
@@ -84,6 +85,7 @@ namespace WebsiteAIAssistant.Tests.Helpers
         public Action RunBefore => async () =>
         {
             // Arrange
+            await PredictionEngine.ResetAsync();
             // Path to load model
             string modelPath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model.zip");
             // Provide the path to the AI model

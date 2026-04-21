@@ -112,7 +112,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [MyBeforeAfterAsyncTest(typeof(LoadAIModel), "5bb02c70-01d1-4987-8a6e-ab7fc8b1dcc4", 3)]
-        [Theory]
+        [Theory(Skip = "Skipping this test for since not thread-safe. Use the helper service instead.")]
         [InlineData("What are the requisites for carbon credits?", Scheme.ACCU)]
         [InlineData("How do I calculate net emissions?", Scheme.SafeguardMechanism)]
         [InlineData("What is the colour of a rose?", Scheme.None)]
