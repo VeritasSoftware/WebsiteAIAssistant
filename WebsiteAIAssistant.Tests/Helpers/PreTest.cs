@@ -41,6 +41,26 @@ namespace WebsiteAIAssistant.Tests.Helpers
         }
     }
 
+    public class LoadCarCategoryMultipleFeatureColumnsAIModel : IRunBeforeAsyncWithReturn
+    {
+        public Action RunBefore => async () =>
+        {
+            var sp = await BuildContainerAsync();
+
+            this.ReturnValue = sp;
+        };
+
+        public object? ReturnValue { get; set; }
+
+        private async Task<IServiceProvider> BuildContainerAsync()
+        {
+            // Build DI container for AI Assistant Service
+            var sp = Helpers.BuildCarCategoryMultipleFeatureColumnsContainer();
+
+            return await Task.FromResult(sp);
+        }
+    }
+
     public class LoadAIListModel : IRunBeforeAsync, IRunAfterAsync
     {
         public Action RunBefore => async () =>

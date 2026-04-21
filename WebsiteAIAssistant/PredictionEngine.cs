@@ -29,6 +29,7 @@ namespace WebsiteAIAssistant
         public static SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public static string AIModelLoadFilePath { get; set; }
         public static bool IsPredictionEngineInitialized => _predictionEngine != null;
+        public static string[] ExtendedColumnNames { get; set; } = null;
         private static float ValidateThreshold(float threshold)
         {
             Logger?.LogInformation($"{nameof(PredictionEngine)}: {threshold}");
@@ -45,9 +46,15 @@ namespace WebsiteAIAssistant
                 return threshold;
             }
             throw new ArgumentOutOfRangeException(nameof(NegativeConfidenceThreshold), $"{nameof(NegativeConfidenceThreshold)} must be between 0 and 1.");
-        }        
+        }
 
         public static async Task CreateModelAsync(string modelPath)
+        {
+            await CreateModelAsync<ModelInput>(modelPath);
+        }
+
+        public static async Task CreateModelAsync<TModelInput>(string modelPath)
+            where TModelInput : ModelInput, new()
         {
             Logger?.LogInformation("Starting model creation process...");
             var mlContext = new MLContext();
@@ -65,12 +72,12 @@ namespace WebsiteAIAssistant
 
                 Logger?.LogInformation("Loading training data from file: {0}", DataViewFilePath);
 
-                dataView = mlContext.Data.LoadFromTextFile<ModelInput>(
+                dataView = mlContext.Data.LoadFromTextFile<TModelInput>(
                 path: DataViewFilePath,
                 hasHeader: false,
                 separatorChar: '\t');
 
-                Logger?.LogInformation("Training data loaded successfully from file with {0} records.", mlContext.Data.CreateEnumerable<ModelInput>(dataView, reuseRowObject: false).Count());
+                Logger?.LogInformation("Training data loaded successfully from file with {0} records.", mlContext.Data.CreateEnumerable<TModelInput>(dataView, reuseRowObject: false).Count());
             }
             else
             {
@@ -116,7 +123,24 @@ namespace WebsiteAIAssistant
             }
 
             Logger?.LogInformation("Building data processing and training pipeline...");
-            var pipeline = mlContext.Transforms.Text.TokenizeIntoWords("Tokens", nameof(ModelInput.Feature))
+
+            if (ExtendedColumnNames != null && ExtendedColumnNames.Length > 0)
+            {
+                Logger?.LogInformation("Extended columns provided: {0}", string.Join(", ", ExtendedColumnNames));
+
+                ExtendedColumnNames = ExtendedColumnNames.Concat(new[] { nameof(ModelInput.Feature) }).ToArray();
+            }
+            else
+            {
+                Logger?.LogInformation("No extended columns provided. Using only the main feature column for training.");
+                ExtendedColumnNames = new[] { nameof(ModelInput.Feature) };
+            }
+
+            var combinedPipeline = mlContext.Transforms.Concatenate("CombinedFeatures", ExtendedColumnNames);
+
+            var tokenPipeline = combinedPipeline.Append(mlContext.Transforms.Text.TokenizeIntoWords("Tokens", "CombinedFeatures"));
+
+            var pipeline = tokenPipeline
                             .Append(mlContext.Transforms.Text.RemoveDefaultStopWords("Tokens", "Tokens")) // Built-in stopwords
                             .Append(mlContext.Transforms.Text.RemoveStopWords("Tokens", stopwords: stopWords)) // Custom stopwords
                             .Append(mlContext.Transforms.Text.FeaturizeText("Features", textOptions, "Tokens"))                           

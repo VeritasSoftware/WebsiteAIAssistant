@@ -31,5 +31,19 @@ namespace WebsiteAIAssistant.Tests.Helpers
             var sp = services.BuildServiceProvider();
             return sp;
         }
+
+        public static IServiceProvider BuildCarCategoryMultipleFeatureColumnsContainer()
+        {
+            // Build DI container for AI Assistant Service
+            var services = new ServiceCollection();
+            services.AddWebsiteAIAssistantCore<ModelInputExtended>(settings =>
+            {
+                settings.AIModelLoadFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CarCategory-MultipleFeatureColumns.zip");
+                settings.NegativeConfidenceThreshold = 0.70f;
+                settings.NegativeLabel = -1f;
+            });
+            var sp = services.BuildServiceProvider();
+            return sp;
+        }
     }
 }

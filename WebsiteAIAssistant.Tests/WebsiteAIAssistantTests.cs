@@ -10,6 +10,7 @@ namespace WebsiteAIAssistant.Tests
         private static IServiceProvider? _createModelServiceProvider;
 
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_File()
         {
             // Arrange
@@ -34,6 +35,7 @@ namespace WebsiteAIAssistant.Tests
         }
 
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_List()
         {
             // Arrange
@@ -60,6 +62,7 @@ namespace WebsiteAIAssistant.Tests
         [MyBeforeAfterAsyncTest(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests), 
                                     $"{nameof(BuildCreateModelDIContainerReturn)}", "5bffdd98-b7e9-436d-9a92-beb7b6801975")]
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_File_Service()
         {
             // Arrange                       
@@ -85,6 +88,7 @@ namespace WebsiteAIAssistant.Tests
         [MyBeforeAfterAsyncTest(typeof(BuildCreateModelContainer), typeof(WebsiteAIAssistantTests),
                                     $"{nameof(BuildCreateModelDIContainerReturn)}", "49027756-c399-498c-8c2f-f82e5392882c")]
         [Fact]
+        [Trait("Category", "Create")]
         public async Task CreateModel_List_Service()
         {
             // Arrange                       
