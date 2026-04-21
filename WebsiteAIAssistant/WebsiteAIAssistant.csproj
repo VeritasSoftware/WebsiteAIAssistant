@@ -4,17 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
 	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-	  <Description>AI Assistant built using ML .NET, Microsoft's machine learning platform. Create and your own bespoke AI model and make predictions.</Description>
+	  <Description>AI Assistant built using ML .NET, Microsoft's machine learning platform. Create your own bespoke text classification AI model and make predictions.</Description>
 	  <PackageProjectUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</RepositoryUrl>
-	  <PackageTags></PackageTags>
+	  <PackageTags>AI Assistant AI model machine learning text classification ML .NET text natural language numeric classification</PackageTags>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <IsPackable>true</IsPackable>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 	  <Authors>Shantanu</Authors>
 	  <Company>Veritas Software</Company>
-	  <Version>3.1.0</Version>
+	  <Version>3.2.0</Version>
 	  <PackageReleaseNotes></PackageReleaseNotes>
 	  <Title>WebsiteAIAssistant</Title>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>	  
