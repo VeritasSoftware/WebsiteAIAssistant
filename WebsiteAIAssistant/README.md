@@ -57,6 +57,8 @@ It comprises of 2 tab-separated columns.
 
 First is the Label (ie category) column & second is the Feature (text) column.
 
+You can add additional feature columns too.
+
 ```
 -1	
 0	2 door
