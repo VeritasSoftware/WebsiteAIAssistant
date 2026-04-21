@@ -7,18 +7,21 @@ class WebsiteAIAssistantCreateModelSettings
   + StopWords: string[]
   + TextFeaturizingEstimatorOptions: TextFeaturizingEstimatorOptions
   + SdcaMaximumEntropyOptions: SdcaMaximumEntropyOptions
+  + ExtendedFeatureColumnNames: string[]
   + AIModelFilePath: string
 }
 
 interface IWebsiteAIAssistantCreateModelService
 {    
   + CreateModelAsync(): Task<bool>
+  + CreateModelAsync<TModelInput>(): Task<bool>
 }
 
 class WebsiteAIAssistantCreateModelService
 { 
   + WebsiteAIAssistantCreateModelService(WebsiteAIAssistantCreateModelSettings settings, \n \t \t \t \t \t  \t \t \t \t IWebsiteAIAssistantLogger logger = null)
   + CreateModelAsync(): Task<bool>
+  + CreateModelAsync<TModelInput>(): Task<bool>
 }
 
 WebsiteAIAssistantCreateModelService ..|> IWebsiteAIAssistantCreateModelService

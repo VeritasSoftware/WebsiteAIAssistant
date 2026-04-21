@@ -76,13 +76,16 @@ class PredictionEngine
   + StopWords: string[]
   + TextFeaturizingEstimatorOptions: TextFeaturizingEstimatorOptions
   + SdcaMaximumEntropyOptions: SdcaMaximumEntropyOptions
+  + ExtendedFeatureColumnNames: string[]
   + AIModelLoadFilePath: string
   + IsPredictionEngineInitialized: bool
   + Logger: IWebsiteAIAssistantLogger
   + CreateModelAsync(string modelPath): Task
+  + CreateModelAsync<TModelInput>(string modelPath): Task
   + LoadModelAsync(string modelPath): Task<bool>
   + LoadModelAsync(): Task<bool>
   + UnloadModelAsync(): Task<bool>
+  + ResetAsync(): Task
   + PredictAsync(ModelInput input): Task<Prediction>
 }
 
