@@ -399,6 +399,12 @@ PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtend
                                                 $"{nameof(ModelInputExtended.Feature3)}"};
 ```
 
+You create the model as shown below:
+
+```csharp
+await PredictionEngine.CreateModelAsync<ModelInputExtended>(modelPath);
+```
+
 The Unit tests for a sample model with multiple feature columns can be found [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
 
 ## Website AI Assistant Minimal API
