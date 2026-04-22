@@ -424,6 +424,39 @@ You create the model as shown below:
 await PredictionEngine.CreateModelAsync<ModelInputExtended>(modelPath);
 ```
 
+##### The Unit tests on the model
+
+You can see the inputs to the model along with the predicted category.
+
+```csharp
+[Theory]
+[InlineData("2 door", "", "", "$ 42,000", CarCategory.TwoDoorLuxury)]
+[InlineData("", "luxury", "", "$ 100,000", CarCategory.FourDoorLuxury)]
+[InlineData("2 door", "", "", "$ 27,000", CarCategory.TwoDoorBasic)]
+[InlineData("", "basic", "", "$ 75,000", CarCategory.FourDoorBasic)]
+[InlineData("What is the colour of a rose?", "", "", "", CarCategory.None)]
+public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
+{
+    // Arrange                      
+    var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService<ModelInputExtended>>();
+
+    var input = new ModelInputExtended 
+    { 
+        Feature = feature,
+        Feature1 = feature1,
+        Feature2 = feature2,
+        Feature3 = feature3,
+    };
+
+    // Act
+    var prediction = await aiAssistantService.PredictAsync(input);
+
+    // Assert
+    Assert.NotNull(prediction);
+    Assert.Equal(expectedResult, (CarCategory)prediction.PredictedLabel);
+}
+```
+
 The Unit tests for a sample model with multiple feature columns can be found [**here**](/WebsiteAIAssistant.Tests/CarCategoryTests.cs).
 
 ## Website AI Assistant Minimal API
