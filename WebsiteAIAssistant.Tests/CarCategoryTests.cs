@@ -160,6 +160,8 @@ namespace WebsiteAIAssistant.Tests
         [InlineData("", "luxury", "", "$ 100,000", CarCategory.FourDoorLuxury)]
         [InlineData("2 door", "", "", "$ 27,000", CarCategory.TwoDoorBasic)]
         [InlineData("", "basic", "", "$ 75,000", CarCategory.FourDoorBasic)]
+        [InlineData("", "", "low", "$ 50,000", CarCategory.TwoDoorLuxury)]
+        [InlineData("", "", "high", "$ 70,000", CarCategory.FourDoorBasic)]
         [InlineData("What is the colour of a rose?", "", "", "", CarCategory.None)]
         public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
         {
