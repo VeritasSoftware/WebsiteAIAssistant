@@ -26,6 +26,7 @@ namespace WebsiteAIAssistant
         public TextFeaturizingEstimatorOptions TextFeaturizingEstimatorOptions { get; set; } = null;
         public SdcaMaximumEntropyOptions SdcaMaximumEntropyOptions { get; set; } = null;
         public string[] ExtendedFeatureColumnNames { get; set; } = null;
+        public bool TrainingDatasetTextFileHasHeader { get; set; } = false;
         public string AIModelFilePath { get; set; } = string.Empty;
     }
 }

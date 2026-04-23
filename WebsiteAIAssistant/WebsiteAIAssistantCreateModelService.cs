@@ -62,6 +62,7 @@ namespace WebsiteAIAssistant
             PredictionEngine.TextFeaturizingEstimatorOptions = _settings.TextFeaturizingEstimatorOptions;
             PredictionEngine.SdcaMaximumEntropyOptions = _settings.SdcaMaximumEntropyOptions;
             PredictionEngine.ExtendedFeatureColumnNames = _settings.ExtendedFeatureColumnNames;
+            PredictionEngine.TrainingDatasetTextFileHasHeader = _settings.TrainingDatasetTextFileHasHeader;
 
             _logger?.LogInformation("Creating model...");
             await PredictionEngine.CreateModelAsync<TModelInput>(_settings.AIModelFilePath);

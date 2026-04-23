@@ -8,6 +8,7 @@ class WebsiteAIAssistantCreateModelSettings
   + TextFeaturizingEstimatorOptions: TextFeaturizingEstimatorOptions
   + SdcaMaximumEntropyOptions: SdcaMaximumEntropyOptions
   + ExtendedFeatureColumnNames: string[]
+  + TrainingDatasetTextFileHasHeader: bool
   + AIModelFilePath: string
 }
 

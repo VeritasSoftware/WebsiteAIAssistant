@@ -30,6 +30,7 @@ namespace WebsiteAIAssistant
         public static string AIModelLoadFilePath { get; set; }
         public static bool IsPredictionEngineInitialized => _predictionEngine != null;
         public static string[] ExtendedFeatureColumnNames { get; set; } = null;
+        public static bool TrainingDatasetTextFileHasHeader { get; set; } = false;
         private static float ValidateThreshold(float threshold)
         {
             Logger?.LogInformation($"{nameof(PredictionEngine)}: {threshold}");
@@ -89,7 +90,7 @@ namespace WebsiteAIAssistant
 
                 dataView = mlContext.Data.LoadFromTextFile<TModelInput>(
                 path: DataViewFilePath,
-                hasHeader: false,
+                hasHeader: TrainingDatasetTextFileHasHeader,
                 separatorChar: '\t');
 
                 Logger?.LogInformation("Training data loaded successfully from file with {0} records.", mlContext.Data.CreateEnumerable<TModelInput>(dataView, reuseRowObject: false).Count());

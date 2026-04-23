@@ -124,7 +124,9 @@ services.AddWebsiteAIAssistantCore<ModelInputExtended>(settings =>
 
 ## Usage
 
-If the AI model is trained using a text file, the file must be in a tab-separated format with two columns and no header.
+If the AI model is trained using a text file, the file must be in a tab-separated format with two columns and no header (by default). 
+
+If you want a header row, you must set the `TrainingDatasetTextFileHasHeader` property of the `PredictionEngine` or of the `WebsiteAIAssistantCreateModelSettings` to true.
 
 First column contains the category Label and the other column (Feature) contains the training text data.
 
@@ -425,6 +427,8 @@ await PredictionEngine.CreateModelAsync<ModelInputExtended>(modelPath);
 ```
 
 ##### The Unit tests on the model
+
+For making predictions in a multiple feature columns scenario, you must use the helper service `WebsiteAIAssistantService<TModelInput>`.
 
 You can see the inputs to the model along with the predicted category.
 
