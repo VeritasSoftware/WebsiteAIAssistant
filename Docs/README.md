@@ -379,7 +379,7 @@ to specify the names of the feature columns in the training dataset.
 
 Your training dataset should have the additional feature columns in the same order as specified in the `ExtendedFeatureColumnNames` property.
 
-Below is an example of a training dataset with 3 additional feature columns (Feature1, Feature2, Feature3).
+Below is an example of a training dataset with 3 additional feature columns (Doors, Class, Price).
 
 ```csharp
 Label Doors	Class	Range	Price
@@ -398,7 +398,7 @@ Label Doors	Class	Range	Price
 3	4 door	luxury	high	$ 90,000
 ```
 
-The derived `ModelInput` class with the additional feature properties can be like shown below.
+The derived `ModelInputExtended` class with the additional feature properties can be like shown below.
 
 ```csharp
 public class ModelInputExtended : ModelInput
@@ -417,8 +417,8 @@ The `ExtendedFeatureColumnNames` property can be set as shown below.
 ```csharp
 // Additional configuration for multiple feature columns
 PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Class)}",
-                                                $"{nameof(ModelInputExtended.Range)}",
-                                                $"{nameof(ModelInputExtended.Price)}"};
+                                                    $"{nameof(ModelInputExtended.Range)}",
+                                                    $"{nameof(ModelInputExtended.Price)}"};
 ```
 
 You create the model as shown below:
