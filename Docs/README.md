@@ -382,6 +382,7 @@ Your training dataset should have the additional feature columns in the same ord
 Below is an example of a training dataset with 3 additional feature columns (Feature1, Feature2, Feature3).
 
 ```csharp
+Label Doors	Class	Range	Price
 -1	
 0	2 door	basic	low	$ 20,000
 0	2 door	basic	mid	$ 25,000
@@ -403,11 +404,11 @@ The derived `ModelInput` class with the additional feature properties can be lik
 public class ModelInputExtended : ModelInput
 {
     [LoadColumn(2)]
-    public string Feature1 { get; set; } = string.Empty;
+    public string Class { get; set; } = string.Empty;
     [LoadColumn(3)]
-    public string Feature2 { get; set; } = string.Empty;
+    public string Range { get; set; } = string.Empty;
     [LoadColumn(4)]
-    public string Feature3 { get; set; } = string.Empty;
+    public string Price { get; set; } = string.Empty;
 }
 ```
 
@@ -415,9 +416,9 @@ The `ExtendedFeatureColumnNames` property can be set as shown below.
 
 ```csharp
 // Additional configuration for multiple feature columns
-PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
-                                                $"{nameof(ModelInputExtended.Feature2)}",
-                                                $"{nameof(ModelInputExtended.Feature3)}"};
+PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Class)}",
+                                                $"{nameof(ModelInputExtended.Range)}",
+                                                $"{nameof(ModelInputExtended.Price)}"};
 ```
 
 You create the model as shown below:
@@ -449,9 +450,9 @@ public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string
     var input = new ModelInputExtended 
     { 
         Feature = feature,
-        Feature1 = feature1,
-        Feature2 = feature2,
-        Feature3 = feature3,
+        Class = feature1,
+        Range = feature2,
+        Price = feature3,
     };
 
     // Act

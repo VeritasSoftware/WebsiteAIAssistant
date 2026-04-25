@@ -76,9 +76,11 @@ namespace WebsiteAIAssistant.Tests
             };
 
             // Additional configuration for multiple feature columns
-            PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Feature1)}",
-                                                            $"{nameof(ModelInputExtended.Feature2)}",
-                                                            $"{nameof(ModelInputExtended.Feature3)}"};
+            PredictionEngine.ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Class)}",
+                                                            $"{nameof(ModelInputExtended.Range)}",
+                                                            $"{nameof(ModelInputExtended.Price)}"};
+
+            PredictionEngine.TrainingDatasetTextFileHasHeader = true;
 
 
             string trainingDataPath = Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset-CarCategory-MultipleFeatureColumns.tsv");
@@ -171,9 +173,9 @@ namespace WebsiteAIAssistant.Tests
             var input = new ModelInputExtended 
             { 
                 Feature = feature,
-                Feature1 = feature1,
-                Feature2 = feature2,
-                Feature3 = feature3,
+                Class = feature1,
+                Range = feature2,
+                Price = feature3,
             };
 
             // Act

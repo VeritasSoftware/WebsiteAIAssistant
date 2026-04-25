@@ -163,7 +163,8 @@ namespace WebsiteAIAssistant
                             .Append(mlContext.Transforms.Conversion.MapValueToKey(
                                 outputColumnName: "LabelKey",
                                 inputColumnName: nameof(ModelInput.Label)))
-                            .Append(mlContext.Transforms.DropColumns("Tokens", nameof(ModelInput.Label), nameof(ModelInput.Feature)));
+                            .Append(mlContext.Transforms.DropColumns("Tokens", nameof(ModelInput.Label))
+                            .Append(mlContext.Transforms.DropColumns(ExtendedFeatureColumnNames)));
 
             SdcaMaximumEntropyOptions defaultOptions = null;
 
