@@ -60,27 +60,20 @@ First is the Label (ie category) column & second is the Feature (text) column.
 You can add additional feature columns too.
 
 ```
+Label Doors	Class	Range	Price
 -1	
-0	2 door
-0	basic
-0	low price $ 20,000
-0	mid price $ 25,000
-0	high price $ 30,000
-1	2 door
-1	luxury
-1	low price $ 40,000
-1	mid price $ 45,000
-1	high price $ 50,000
-2	4 door
-2	basic
-2	low price $ 60,000
-2	mid price $ 65,000
-2	high price $ 70,000
-3	4 door
-3	luxury
-3	low price $ 80,000
-3	mid price $ 85,000
-3	high price $ 90,000
+0	2 door	basic	low	$ 20,000
+0	2 door	basic	mid	$ 25,000
+0	2 door	basic	high	$ 30,000
+1	2 door	luxury	low	$ 40,000
+1	2 door	luxury	mid	$ 45,000
+1	2 door	luxury	high	$ 50,000
+2	4 door	basic	low	$ 60,000
+2	4 door	basic	mid	$ 65,000
+2	4 door	basic	high	$ 70,000
+3	4 door	luxury	low	$ 80,000
+3	4 door	luxury	mid	$ 85,000
+3	4 door	luxury	high	$ 90,000
 ```
 
 The bespoke AI model is built using this training data using API provided by the library.
@@ -95,22 +88,25 @@ You can see the inputs to the model along with the predicted category.
 
 ```csharp
 [Theory]
-[InlineData("price $ 42,000", CarCategory.TwoDoorLuxury)]
-[InlineData("price $ 39,000", CarCategory.TwoDoorBasic)]
-[InlineData("price $ 53,000", CarCategory.TwoDoorLuxury)]
-[InlineData("4 door price $ 67,000", CarCategory.FourDoorBasic)]
-[InlineData("luxury price $ 88,000", CarCategory.FourDoorLuxury)]
-[InlineData("luxury price $ 62,000", CarCategory.TwoDoorLuxury)]
-[InlineData("2 door price $ 29,000", CarCategory.TwoDoorBasic)]
-[InlineData("low price $ 55,000", CarCategory.TwoDoorLuxury)]
-[InlineData("high price $ 34,000", CarCategory.TwoDoorBasic)]
-[InlineData("What is the colour of a rose?", CarCategory.None)]
-public async Task Load_Predict_Service_CarCategory(string userInput, CarCategory expectedResult)
+[InlineData("2 door", "", "", "$ 42,000", CarCategory.TwoDoorLuxury)]
+[InlineData("", "luxury", "", "$ 100,000", CarCategory.FourDoorLuxury)]
+[InlineData("2 door", "", "", "$ 27,000", CarCategory.TwoDoorBasic)]
+[InlineData("", "basic", "", "$ 75,000", CarCategory.FourDoorBasic)]
+[InlineData("", "", "low", "$ 50,000", CarCategory.TwoDoorLuxury)]
+[InlineData("", "", "high", "$ 70,000", CarCategory.FourDoorBasic)]
+[InlineData("What is the colour of a rose?", "", "", "", CarCategory.None)]
+public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
 {
     // Arrange                      
-    var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
+    var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService<ModelInputExtended>>();
 
-    var input = new ModelInput { Feature = userInput };
+    var input = new ModelInputExtended 
+    { 
+        Feature = feature,
+        Class = feature1,
+        Range = feature2,
+        Price = feature3,
+    };
 
     // Act
     var prediction = await aiAssistantService.PredictAsync(input);
