@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.ML;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.ML;
 using System;
 
 namespace WebsiteAIAssistant
@@ -13,7 +14,7 @@ namespace WebsiteAIAssistant
         public PredictionEnginePool<TModelInput, Prediction> GetPredictionEnginePool<TModelInput>()
             where TModelInput : ModelInput
         {
-            return (PredictionEnginePool<TModelInput, Prediction>)_serviceProvider.GetService(typeof(PredictionEnginePool<TModelInput, Prediction>));
+            return _serviceProvider.GetRequiredService<PredictionEnginePool<TModelInput, Prediction>>();
         }
     }
 }
