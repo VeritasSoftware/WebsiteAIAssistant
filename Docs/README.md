@@ -86,8 +86,6 @@ Below is the class diagram of the `WebsiteAIAssistantService` service.
 
 ![WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantService.png)
 
-![Generic WebsiteAIAssistant Service](/Docs/WebsiteAIAssistantServiceGeneric.png)
-
 The `WebsiteAIAssistantService` service can be used to load the model and make predictions.
 
 **Note:-** If you do not explicitly load the model, the service will automatically load the model (from the specified path in the Settings) when the first prediction is made.
@@ -429,7 +427,7 @@ await PredictionEngine.CreateModelAsync<ModelInputExtended>(modelPath);
 
 ##### The Unit tests on the model
 
-For making predictions in a multiple feature columns scenario, you must use the helper service `WebsiteAIAssistantService<TModelInput>`.
+For making predictions in a multiple feature columns scenario, you must use the helper service `WebsiteAIAssistantService`.
 
 You can see the inputs to the model along with the predicted category.
 
@@ -445,7 +443,7 @@ You can see the inputs to the model along with the predicted category.
 public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
 {
     // Arrange                      
-    var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService<ModelInputExtended>>();
+    var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
 
     var input = new ModelInputExtended 
     { 

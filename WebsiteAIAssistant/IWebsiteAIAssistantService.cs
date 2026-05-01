@@ -4,16 +4,11 @@ namespace WebsiteAIAssistant
 {
     public interface IWebsiteAIAssistantService
     {
-        bool IsPredictionEngineInitialized { get; }
         Task<bool> UnloadModelAsync();
+        Task<bool> UnloadModelAsync<TModelInput>()
+            where TModelInput : ModelInput;
         Task<Prediction> PredictAsync(ModelInput modelInput);
-    }
-
-    public interface IWebsiteAIAssistantService<TModelInput>
-        where TModelInput : ModelInput
-    {
-        bool IsPredictionEngineInitialized { get; }
-        Task<bool> UnloadModelAsync();
-        Task<Prediction> PredictAsync(TModelInput modelInput);
+        Task<Prediction> PredictAsync<TModelInput>(TModelInput modelInput)
+            where TModelInput : ModelInput;
     }
 }

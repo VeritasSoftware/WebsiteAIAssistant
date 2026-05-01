@@ -10,12 +10,13 @@ namespace WebsiteAIAssistant
         public static IServiceCollection AddWebsiteAIAssistantCore(this IServiceCollection services, Action<WebsiteAIAssistantSettings> settings)
         {
             services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+            services.AddSingleton<IMyPredictionEnginePool, MyPredictionEnginePool>();
 
             var mySettings = AddWebsiteAIAssistantCoreInternal<ModelInput>(services, settings);
 
             // Register PredictionEnginePool with a pre-trained model
             services.AddPredictionEnginePool<ModelInput, Prediction>()
-                .FromFile(modelName: $"{nameof(ModelInput)}", filePath: mySettings.AIModelLoadFilePath, watchForChanges: true);
+                .FromFile(modelName: $"{typeof(ModelInput).Name}", filePath: mySettings.AIModelLoadFilePath, watchForChanges: true);
 
             return services;
         }
@@ -23,13 +24,14 @@ namespace WebsiteAIAssistant
         public static IServiceCollection AddWebsiteAIAssistantCore<TModelInput>(this IServiceCollection services, Action<WebsiteAIAssistantSettings> settings)
             where TModelInput : ModelInput
         {
-            services.AddSingleton<IWebsiteAIAssistantService<TModelInput>, WebsiteAIAssistantService<TModelInput>>();
+            services.AddSingleton<IWebsiteAIAssistantService, WebsiteAIAssistantService>();
+            services.AddSingleton<IMyPredictionEnginePool, MyPredictionEnginePool>();
 
             var mySettings = AddWebsiteAIAssistantCoreInternal<TModelInput>(services, settings);
 
             // Register PredictionEnginePool with a pre-trained model
             services.AddPredictionEnginePool<TModelInput, Prediction>()
-                .FromFile(modelName: $"{nameof(TModelInput)}", filePath: mySettings.AIModelLoadFilePath, watchForChanges: true);
+                .FromFile(modelName: $"{typeof(TModelInput).Name}", filePath: mySettings.AIModelLoadFilePath, watchForChanges: true);
 
             return services;
         }

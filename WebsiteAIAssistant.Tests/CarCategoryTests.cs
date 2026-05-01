@@ -168,7 +168,7 @@ namespace WebsiteAIAssistant.Tests
         public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
         {
             // Arrange                      
-            var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService<ModelInputExtended>>();
+            var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
 
             var input = new ModelInputExtended 
             { 
