@@ -41,11 +41,6 @@ namespace WebsiteAIAssistant
             return await Task.FromResult(true);
         }
 
-        public async Task<Prediction> PredictAsync(ModelInput modelInput)
-        {
-            return await PredictAsync<ModelInput>(modelInput);
-        }
-
         public async Task<Prediction> PredictAsync<TModelInput>(TModelInput modelInput)
             where TModelInput : ModelInput
         {     

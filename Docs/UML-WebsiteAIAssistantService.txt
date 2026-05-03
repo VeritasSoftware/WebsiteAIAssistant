@@ -11,16 +11,14 @@ interface IWebsiteAIAssistantService
   + UnloadModelAsync<TModelInput>(): Task<bool>
   + UnloadModelAsync(): Task<bool>
   + PredictAsync<TModelInput>(TModelInput modelInput): Task<Prediction>
-  + PredictAsync(ModelInput modelInput): Task<Prediction>
 }
 
 class WebsiteAIAssistantService
 { 
-  + WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, \n \t \t  \t \t \t \t PredictionEnginePool<ModelInput, Prediction> predictionEnginePool, \n \t \t  \t \t \t \t IWebsiteAIAssistantLogger logger = null)
+  + WebsiteAIAssistantService(WebsiteAIAssistantSettings settings, \n \t \t  \t \t \t \t IMyPredictionEnginePool predictionEnginePool, \n \t \t  \t \t \t \t IWebsiteAIAssistantLogger logger = null)
   + UnloadModelAsync<TModelInput>(): Task<bool>
   + UnloadModelAsync(): Task<bool>
   + PredictAsync<TModelInput>(TModelInput modelInput): Task<Prediction>
-  + PredictAsync(ModelInput modelInput): Task<Prediction>
 }
 
 WebsiteAIAssistantService ..|> IWebsiteAIAssistantService
