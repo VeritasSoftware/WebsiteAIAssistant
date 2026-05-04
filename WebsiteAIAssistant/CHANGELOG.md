@@ -1,3 +1,3 @@
 ﻿# Changelog (Release Notes)
 
-- Added support for multiple feature columns
+- Breaking change: Consolidated two WebsiteAIAssistant helper services into one service
