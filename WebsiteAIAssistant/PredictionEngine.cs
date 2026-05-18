@@ -105,7 +105,7 @@ namespace WebsiteAIAssistant
                 }
 
                 Logger?.LogInformation("Loading training data from in-memory list with {0} records.", DataViewList.Count());
-                dataView = mlContext.Data.LoadFromEnumerable(DataViewList);
+                dataView = mlContext.Data.LoadFromEnumerable(DataViewList as IEnumerable<TModelInput>);
                 Logger?.LogInformation("Training data loaded successfully from in-memory list.");
             }
 

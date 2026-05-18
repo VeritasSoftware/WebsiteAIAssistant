@@ -42,7 +42,7 @@ namespace WebsiteAIAssistant.Tests.Helpers
         }
     }
 
-    public class LoadCarCategoryMultipleFeatureColumnsAIModel : IRunBeforeAsyncWithReturn
+    public class LoadCarCategoryMultipleFeatureColumnsFileAIModel : IRunBeforeAsyncWithReturn
     {
         public Action RunBefore => async () =>
         {
@@ -56,7 +56,27 @@ namespace WebsiteAIAssistant.Tests.Helpers
         private async Task<IServiceProvider> BuildContainerAsync()
         {
             // Build DI container for AI Assistant Service
-            var sp = Helpers.BuildCarCategoryMultipleFeatureColumnsContainer();
+            var sp = Helpers.BuildCarCategoryMultipleFeatureColumnsFileContainer();
+
+            return await Task.FromResult(sp);
+        }
+    }
+
+    public class LoadCarCategoryMultipleFeatureColumnsListAIModel : IRunBeforeAsyncWithReturn
+    {
+        public Action RunBefore => async () =>
+        {
+            var sp = await BuildContainerAsync();
+
+            this.ReturnValue = sp;
+        };
+
+        public object? ReturnValue { get; set; }
+
+        private async Task<IServiceProvider> BuildContainerAsync()
+        {
+            // Build DI container for AI Assistant Service
+            var sp = Helpers.BuildCarCategoryMultipleFeatureColumnsListContainer();
 
             return await Task.FromResult(sp);
         }
@@ -185,12 +205,53 @@ namespace WebsiteAIAssistant.Tests.Helpers
                                                         $"{nameof(ModelInputExtended.Price)}"}
             };
 
+            var createModelSettingsList = new WebsiteAIAssistantCreateModelSettings
+            {
+                DataViewType = DataViewType.List,
+                DataViewList = LoadListFromFile(Path.Combine(Environment.CurrentDirectory, "Data", "TrainingDataset-CarCategory-MultipleFeatureColumns.tsv")),
+                AIModelFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "SampleWebsite-AI-Model-CreateModel-MultipleFeatureColumns-List-Service-Test.zip"),
+                // Additional configuration for multiple feature columns
+                ExtendedFeatureColumnNames = new[] { $"{nameof(ModelInputExtended.Class)}",
+                                                        $"{nameof(ModelInputExtended.Range)}",
+                                                        $"{nameof(ModelInputExtended.Price)}"}
+            };
+
             services = new ServiceCollection();
             services.AddKeyedSingleton("FileSettings", createModelSettingsFile);
+            services.AddKeyedSingleton("ListSettings", createModelSettingsList);
             services.AddKeyedSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>("File", (sp, x) => new WebsiteAIAssistantCreateModelService(createModelSettingsFile));
+            services.AddKeyedSingleton<IWebsiteAIAssistantCreateModelService, WebsiteAIAssistantCreateModelService>("List", (sp, x) => new WebsiteAIAssistantCreateModelService(createModelSettingsList));
             var sp = services.BuildServiceProvider();
 
             return await Task.FromResult(sp);
+        }
+
+        private static IEnumerable<ModelInputExtended> LoadListFromFile(string filePath)
+        {
+            var data = new List<ModelInputExtended>();
+            data.Add(new ModelInputExtended
+            {
+                Label = -1
+            });
+            using var reader = new StreamReader(filePath);
+            string? line;            
+
+            while ((line = reader.ReadLine()) is not null)
+            {
+                var parts = line.Split('\t');
+                if (parts.Length > 2 && float.TryParse(parts[0], out float label))
+                {
+                    data.Add(new ModelInputExtended
+                    {
+                        Label = label,
+                        Feature = parts[1],
+                        Class = parts[2],
+                        Range = parts[3],
+                        Price = parts[4]
+                    });
+                }
+            }
+            return data;
         }
     }
 

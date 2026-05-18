@@ -127,6 +127,32 @@ namespace WebsiteAIAssistant.Tests
             Assert.True(modelExists);
         }
 
+        [MyBeforeAfterAsyncTest(typeof(BuildCreateModelMultipleFeatureColumnsContainer), typeof(CarCategoryTests),
+                                    $"{nameof(BuildCreateModelDIContainerReturn)}", "006c7940-9889-4cae-8e49-11702e83f88e")]
+        [Fact]
+        [Trait("Category", "Create")]
+        public async Task CreateModel_CarCategory_MultipleFeatureColumns_List_Service()
+        {
+            // Arrange                       
+            var createModelSettings = _createModelServiceProvider!.GetRequiredKeyedService<WebsiteAIAssistantCreateModelSettings>("ListSettings");
+            var createModelService = _createModelServiceProvider!.GetRequiredKeyedService<IWebsiteAIAssistantCreateModelService>("List");
+
+            // Delete model file if it already exists to ensure a clean test environment
+            if (File.Exists(createModelSettings.AIModelFilePath))
+            {
+                File.Delete(createModelSettings.AIModelFilePath);
+            }
+
+            // Act
+            var modelCreated = await createModelService.CreateModelAsync<ModelInputExtended>();
+
+            var modelExists = File.Exists(createModelSettings.AIModelFilePath);
+
+            // Assert
+            Assert.True(modelCreated);
+            Assert.True(modelExists);
+        }
+
         [MyBeforeAfterAsyncTest(typeof(LoadCarCategoryAIModel), typeof(CarCategoryTests),
                             $"{nameof(BuildLoadPredictDIContainerReturn)}", "b9f2641b-d770-47d7-9565-77a64b3df2a4", 10)]
         [Theory]
@@ -155,7 +181,7 @@ namespace WebsiteAIAssistant.Tests
             Assert.Equal(expectedResult, (CarCategory)prediction.PredictedLabel);
         }
 
-        [MyBeforeAfterAsyncTest(typeof(LoadCarCategoryMultipleFeatureColumnsAIModel), typeof(CarCategoryTests),
+        [MyBeforeAfterAsyncTest(typeof(LoadCarCategoryMultipleFeatureColumnsFileAIModel), typeof(CarCategoryTests),
                             $"{nameof(BuildLoadPredictDIContainerReturn)}", "0887d522-535d-4b79-8f28-d5ede2c3ed76", 2)]
         [Theory]
         [InlineData("2 door", "", "", "$ 42,000", CarCategory.TwoDoorLuxury)]
@@ -165,13 +191,44 @@ namespace WebsiteAIAssistant.Tests
         [InlineData("", "", "low", "$ 50,000", CarCategory.TwoDoorLuxury)]
         [InlineData("", "", "high", "$ 70,000", CarCategory.FourDoorBasic)]
         [InlineData("What is the colour of a rose?", "", "", "", CarCategory.None)]
-        public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
+        public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns_File(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
         {
             // Arrange                      
             var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
 
             var input = new ModelInputExtended 
             { 
+                Feature = feature,
+                Class = feature1,
+                Range = feature2,
+                Price = feature3,
+            };
+
+            // Act
+            var prediction = await aiAssistantService.PredictAsync(input);
+
+            // Assert
+            Assert.NotNull(prediction);
+            Assert.Equal(expectedResult, (CarCategory)prediction.PredictedLabel);
+        }
+
+        [MyBeforeAfterAsyncTest(typeof(LoadCarCategoryMultipleFeatureColumnsListAIModel), typeof(CarCategoryTests),
+                            $"{nameof(BuildLoadPredictDIContainerReturn)}", "a3fc1317-7e71-4685-b155-deb23a06b5f5", 2)]
+        [Theory]
+        [InlineData("2 door", "", "", "$ 42,000", CarCategory.TwoDoorLuxury)]
+        [InlineData("", "luxury", "", "$ 100,000", CarCategory.FourDoorLuxury)]
+        [InlineData("2 door", "", "", "$ 27,000", CarCategory.TwoDoorBasic)]
+        [InlineData("", "basic", "", "$ 75,000", CarCategory.FourDoorBasic)]
+        [InlineData("", "", "low", "$ 50,000", CarCategory.TwoDoorLuxury)]
+        [InlineData("", "", "high", "$ 70,000", CarCategory.FourDoorBasic)]
+        [InlineData("What is the colour of a rose?", "", "", "", CarCategory.None)]
+        public async Task Load_Predict_Service_CarCategory_MultipleFeatureColumns_List(string feature, string feature1, string feature2, string feature3, CarCategory expectedResult)
+        {
+            // Arrange                      
+            var aiAssistantService = _aiAssistantServiceProvider!.GetRequiredService<IWebsiteAIAssistantService>();
+
+            var input = new ModelInputExtended
+            {
                 Feature = feature,
                 Class = feature1,
                 Range = feature2,
