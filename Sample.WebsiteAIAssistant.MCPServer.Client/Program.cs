@@ -9,7 +9,7 @@ var transport = new StdioClientTransport(new()
 {
     Command = "dotnet run",
     Arguments = ["--project", @"..\..\..\..\Sample.WebsiteAIAssistant.MCPServer"],
-    Name = "Minimal MCP Server",
+    Name = "Website AI Assistant MCP Server",
 });
 McpClient mcpClient = await McpClient.CreateAsync(transport);
 
@@ -19,7 +19,7 @@ Console.WriteLine(Environment.NewLine);
 IList<McpClientTool> tools = await mcpClient.ListToolsAsync();
 foreach (McpClientTool tool in tools)
 {
-    Console.WriteLine($"{tool}");
+    Console.WriteLine($"{tool}: {tool.JsonSchema}");
 }
 
 // Valid input
@@ -40,9 +40,9 @@ static async Task CallToolAsync(McpClient mcpClient, string input)
     {
         Name = "get_prediction",
         Arguments = new Dictionary<string, JsonElement>
-    {
-        { "input", JsonSerializer.SerializeToElement(input) }
-    }
+        {
+            { "input", JsonSerializer.SerializeToElement(input) }
+        }
     };
 
     var result = await mcpClient.CallToolAsync(param);
