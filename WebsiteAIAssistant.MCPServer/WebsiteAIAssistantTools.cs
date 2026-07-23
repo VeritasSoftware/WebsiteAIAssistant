@@ -9,8 +9,9 @@ namespace WebsiteAIAssistant.MCPServer
     public class WebsiteAIAssistantTools
     {
         [McpServerTool, Description("Get prediction.")]
-        public static async Task<Prediction> GetPrediction([Description("The user input")] string input, 
-                                                            IWebsiteAIAssistantService websiteAIAssistantService,                                                            
+        public static async Task<object> GetPrediction([Description("The user input")] string input, 
+                                                            IWebsiteAIAssistantService websiteAIAssistantService,
+                                                            IPostPredictionService? postPredictionService = null,
                                                             ILogger? logger = null)
         {
             logger?.LogInformation("Received input: {0}", input);
@@ -24,16 +25,27 @@ namespace WebsiteAIAssistant.MCPServer
 
             logger?.LogInformation("Processing input: {0}", input);
 
-            var model = new ModelInput
+            var modelInput = new ModelInput
             {
                 Feature = input.Trim()
             };
 
-            var prediction = await websiteAIAssistantService.PredictAsync(model);
+            var prediction = await websiteAIAssistantService.PredictAsync(modelInput);
 
-            logger?.LogInformation($"Prediction: {prediction}");
+            if (postPredictionService == null)
+            {
+                logger?.LogInformation("No post-prediction service configured. Returning raw prediction.");
 
-            return prediction;
+                return prediction;
+            }
+
+            logger?.LogInformation("Post-prediction service configured. Processing prediction with post-prediction service.");
+
+            var result = await postPredictionService.HandlePredictionAsync(modelInput, prediction);
+
+            logger?.LogInformation("Post-prediction service processed the prediction. Returning result.");
+
+            return result;
         }
     }
 }
