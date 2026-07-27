@@ -3,10 +3,34 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	<LangVersion>9.0</LangVersion>
+	  <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+	  <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+	  <Description>This is a Model Context Protocol (MCP) Server for a Website AI Assistant. It provides a tool for generating responses based on your website visitor's input.</Description>
+	  <PackageProjectUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/VeritasSoftware/WebsiteAIAssistant</RepositoryUrl>
+	  <PackageTags></PackageTags>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <IsPackable>true</IsPackable>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	  <Authors>Shantanu</Authors>
+	  <Company>Veritas Software</Company>
+	  <Version>1.0.0</Version>
+	  <PackageReleaseNotes>Initial release.</PackageReleaseNotes>
+	  <Title>WebsiteAIAssistant.MCPServer</Title>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>  
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="WebsiteAIAssistantContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="README.md">
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
