@@ -16,7 +16,8 @@
   <Folder Name="/src/">
     <Project Path="WebsiteAIAssistant.AWSLambda/WebsiteAIAssistant.AWSLambda.csproj" />
     <Project Path="WebsiteAIAssistant.AzureFunction/WebsiteAIAssistant.AzureFunction.csproj" Id="0ef50f19-19e1-4ac8-a79d-eb8a9fd5d9ad" />
-    <Project Path="WebsiteAIAssistant.MCPServer/WebsiteAIAssistant.MCPServer.csproj" Id="8b99e723-0c27-4024-850c-a5aba3b8dd8a" />
+    <Project Path="WebsiteAIAssistant.MCPServer.Client/WebsiteAIAssistant.MCPServer.Client.csproj" Id="a7d0c98b-1f73-42fb-814f-b4ee66510720" />
+    <Project Path="WebsiteAIAssistant.MCPServer/WebsiteAIAssistant.MCPServer.csproj" Id="871a02d8-4d3f-4dd2-94d5-800fb35ffa15" />
     <Project Path="WebsiteAIAssistant.MinimalAPI/WebsiteAIAssistant.MinimalAPI.csproj" Id="1f1d3828-1153-4ecf-9012-5de7824df2cd" />
     <Project Path="WebsiteAIAssistant/WebsiteAIAssistant.csproj" Id="79bd4cb3-99d4-4336-a906-88f2e94dc7e2" />
   </Folder>

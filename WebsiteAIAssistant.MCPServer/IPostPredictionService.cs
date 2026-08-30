@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-namespace WebsiteAIAssistant.MCPServer
+﻿namespace WebsiteAIAssistant.MCPServer
 {
     public interface IPostPredictionService
     {
