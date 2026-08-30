@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebsiteAIAssistant.MCPServer
 {
@@ -15,9 +15,24 @@ namespace WebsiteAIAssistant.MCPServer
             services
                 .AddMcpServer()
                 .WithStdioServerTransport()
-                .WithToolsFromAssembly();
+                .WithHttpTransport(options =>
+                {
+                    // Stateless mode is recommended for servers that don't need
+                    // server-to-client requests like sampling or elicitation.
+                    // See https://csharp.sdk.modelcontextprotocol.io/concepts/transports/transports.html for details.
+                    options.Stateless = true;
+                })
+                .WithTools<WebsiteAIAssistantTools>();
 
             return services;
+        }
+
+        public static WebApplication UseWebsiteAIAssistantMCPServer(this WebApplication app)
+        {
+            app.MapMcp("mcp");
+            app.UseHttpsRedirection();
+
+            return app;
         }
     }
 }

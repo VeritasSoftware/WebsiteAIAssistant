@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
-using WebsiteAIAssistant.MCPServer;
+﻿using WebsiteAIAssistant.MCPServer;
 
 Console.WriteLine("Website AI Assistant MCP Server...");
 
-var builder = Host.CreateApplicationBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddWebsiteAIAssistantMCPServer(settings =>
 {
@@ -15,4 +14,8 @@ builder.Services.AddWebsiteAIAssistantMCPServer(settings =>
     settings.NegativeLabel = -1f;
 });
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+
+app.UseWebsiteAIAssistantMCPServer();
+        
+await app.RunAsync();

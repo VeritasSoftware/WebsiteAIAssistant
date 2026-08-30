@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
 using System.ComponentModel;
-using System.Threading.Tasks;
 
 namespace WebsiteAIAssistant.MCPServer
 {
@@ -9,7 +8,7 @@ namespace WebsiteAIAssistant.MCPServer
     public class WebsiteAIAssistantTools
     {
         [McpServerTool, Description("Get prediction.")]
-        public static async Task<object> GetPrediction([Description("The user input")] string input, 
+        public static async Task<object?> GetPrediction([Description("The user input")] string input, 
                                                             IWebsiteAIAssistantService websiteAIAssistantService,
                                                             IPostPredictionService? postPredictionService = null,
                                                             ILogger? logger = null)

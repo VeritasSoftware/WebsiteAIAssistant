@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SampleWebsite.AzureFunction\SampleWebsite.AzureFunction.csproj" />
     <ProjectReference Include="..\SampleWebsite.MinimalAPI\SampleWebsite.MinimalAPI.csproj" />
+    <ProjectReference Include="..\WebsiteAIAssistant.MCPServer.Client\WebsiteAIAssistant.MCPServer.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>
